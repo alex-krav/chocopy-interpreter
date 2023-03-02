@@ -111,6 +111,17 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Object visitGetExpr(Expr.Get expr) {
+        Object object = evaluate(expr.object);
+        if (object instanceof ChocoPyInstance) {
+            return ((ChocoPyInstance) object).get(expr.name);
+        }
+
+        throw new RuntimeError(expr.name,
+                "Only instances have properties.");
+    }
+
+    @Override
     public Object visitGroupingExpr(Expr.Grouping expr) {
         return evaluate(expr.expression);
     }
@@ -131,6 +142,20 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
 
         return evaluate(expr.right);
+    }
+
+    @Override
+    public Object visitSetExpr(Expr.Set expr) {
+        Object object = evaluate(expr.object);
+
+        if (!(object instanceof ChocoPyInstance)) {
+            throw new RuntimeError(expr.name,
+                    "Only instances have fields.");
+        }
+
+        Object value = evaluate(expr.value);
+        ((ChocoPyInstance)object).set(expr.name, value);
+        return value;
     }
 
     @Override
