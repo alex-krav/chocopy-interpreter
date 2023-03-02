@@ -4,7 +4,10 @@ import java.util.List;
 
 class ChocoPyFunction implements ChocoPyCallable {
     private final Stmt.Function declaration;
-    ChocoPyFunction(Stmt.Function declaration) {
+    private final Environment closure;
+
+    ChocoPyFunction(Stmt.Function declaration, Environment closure) {
+        this.closure = closure;
         this.declaration = declaration;
     }
 
@@ -15,13 +18,17 @@ class ChocoPyFunction implements ChocoPyCallable {
 
     @Override
     public Object call(Interpreter interpreter, List<Object> arguments) {
-        Environment environment = new Environment(interpreter.globals);
+        Environment environment = new Environment(closure);
         for (int i = 0; i < declaration.params.size(); i++) {
             environment.define(declaration.params.get(i).lexeme,
                     arguments.get(i));
         }
 
-        interpreter.executeBlock(declaration.body, environment);
+        try {
+            interpreter.executeBlock(declaration.body, environment);
+        } catch (Return returnValue) {
+            return returnValue.value;
+        }
         return null;
     }
 

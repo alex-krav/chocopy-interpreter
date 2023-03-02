@@ -211,7 +211,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitFunctionStmt(Stmt.Function stmt) {
-        ChocoPyFunction function = new ChocoPyFunction(stmt);
+        ChocoPyFunction function = new ChocoPyFunction(stmt, environment);
         environment.define(stmt.name.lexeme, function);
         return null;
     }
@@ -231,6 +231,14 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         Object value = evaluate(stmt.expression);
         System.out.println(stringify(value));
         return null;
+    }
+
+    @Override
+    public Void visitReturnStmt(Stmt.Return stmt) {
+        Object value = null;
+        if (stmt.value != null) value = evaluate(stmt.value);
+
+        throw new Return(value);
     }
 
     @Override
