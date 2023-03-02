@@ -3,7 +3,7 @@ package org.chocopy;
 import java.util.List;
 import java.util.Map;
 
-class ChocoPyClass {
+class ChocoPyClass implements ChocoPyCallable {
     final String name;
 
     ChocoPyClass(String name) {
@@ -13,5 +13,16 @@ class ChocoPyClass {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public int arity() {
+        return 0;
+    }
+
+    @Override
+    public Object call(Interpreter interpreter, List<Object> arguments) {
+        ChocoPyInstance instance = new ChocoPyInstance(this);
+        return instance;
     }
 }
