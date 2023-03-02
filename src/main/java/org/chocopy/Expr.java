@@ -9,6 +9,7 @@ abstract class Expr {
         R visitLiteralExpr(Literal expr);
         R visitUnaryExpr(Unary expr);
     }
+
     static class Binary extends Expr  {
         Binary(Expr left, Token operator, Expr right) {
             this.left = left;
