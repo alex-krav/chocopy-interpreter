@@ -64,6 +64,11 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     @Override
+    public String visitSuperExpr(Expr.Super expr) {
+        return parenthesize2("super", expr.method);
+    }
+
+    @Override
     public String visitThisExpr(Expr.This expr) {
         return "this";
     }
@@ -135,7 +140,23 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
     @Override
     public String visitClassStmt(Stmt.Class stmt) {
-        return null; //todo
+        StringBuilder builder = new StringBuilder();
+        builder.append("(class " + stmt.name.lexeme);
+
+        if (stmt.superclass != null) {
+            builder.append(" < " + print(stmt.superclass));
+        }
+
+        for (Stmt.Function method : stmt.methods) {
+            builder.append(" " + print(method));
+        }
+
+        builder.append(")");
+        return builder.toString();
+    }
+
+    String print(Stmt stmt) {
+        return stmt.accept(this);
     }
 
     @Override
