@@ -5,9 +5,11 @@ import java.util.Map;
 
 class ChocoPyClass implements ChocoPyCallable {
     final String name;
+    private final Map<String, ChocoPyFunction> methods;
 
-    ChocoPyClass(String name) {
+    ChocoPyClass(String name, Map<String, ChocoPyFunction> methods) {
         this.name = name;
+        this.methods = methods;
     }
 
     @Override
@@ -24,5 +26,13 @@ class ChocoPyClass implements ChocoPyCallable {
     public Object call(Interpreter interpreter, List<Object> arguments) {
         ChocoPyInstance instance = new ChocoPyInstance(this);
         return instance;
+    }
+
+    ChocoPyFunction findMethod(String name) {
+        if (methods.containsKey(name)) {
+            return methods.get(name);
+        }
+
+        return null;
     }
 }
