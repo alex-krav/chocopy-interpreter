@@ -46,6 +46,8 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         Object right = evaluate(expr.right);
 
         switch (expr.operator.type) {
+            case BANG_EQUAL: return !isEqual(left, right);
+            case EQUAL_EQUAL: return isEqual(left, right);
             case GREATER:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left > (double)right;
@@ -78,8 +80,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             case STAR:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left * (double)right;
-            case BANG_EQUAL: return !isEqual(left, right);
-            case EQUAL_EQUAL: return isEqual(left, right);
         }
 
         // Unreachable.
@@ -237,6 +237,15 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             for (Stmt statement : statements) {
                 execute(statement);
             }
+        } catch (RuntimeError error) {
+            ChocoPy.runtimeError(error);
+        }
+    }
+
+    void interpret(Expr expression) {
+        try {
+            Object value = evaluate(expression);
+            System.out.println(stringify(value));
         } catch (RuntimeError error) {
             ChocoPy.runtimeError(error);
         }

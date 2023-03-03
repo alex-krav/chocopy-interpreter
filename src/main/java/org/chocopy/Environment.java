@@ -61,4 +61,14 @@ class Environment {
     Object getAt(int distance, String name) {
         return ancestor(distance).values.get(name);
     }
+
+    @Override
+    public String toString() {
+        String result = values.toString();
+        if (enclosing != null) {
+            result += " -> " + enclosing;
+        }
+
+        return result;
+    }
 }

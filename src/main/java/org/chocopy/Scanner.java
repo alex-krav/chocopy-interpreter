@@ -99,7 +99,7 @@ class Scanner {
             case '"': string(); break;
             case 'o':
                 if (match('r')) {
-                    addToken(OR);
+                    addToken(OR); //todo: AND
                 }
                 break;
 
