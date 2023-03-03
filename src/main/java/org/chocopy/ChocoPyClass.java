@@ -5,9 +5,12 @@ import java.util.Map;
 
 class ChocoPyClass implements ChocoPyCallable {
     final String name;
+    final ChocoPyClass superclass;
     private final Map<String, ChocoPyFunction> methods;
 
-    ChocoPyClass(String name, Map<String, ChocoPyFunction> methods) {
+    ChocoPyClass(String name, ChocoPyClass superclass,
+                 Map<String, ChocoPyFunction> methods) {
+        this.superclass = superclass;
         this.name = name;
         this.methods = methods;
     }
@@ -38,6 +41,10 @@ class ChocoPyClass implements ChocoPyCallable {
     ChocoPyFunction findMethod(String name) {
         if (methods.containsKey(name)) {
             return methods.get(name);
+        }
+
+        if (superclass != null) {
+            return superclass.findMethod(name);
         }
 
         return null;
