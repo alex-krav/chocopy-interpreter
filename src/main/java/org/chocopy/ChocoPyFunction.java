@@ -36,4 +36,10 @@ class ChocoPyFunction implements ChocoPyCallable {
     public String toString() {
         return "<fn " + declaration.name.lexeme + ">";
     }
+
+    ChocoPyFunction bind(ChocoPyInstance instance) {
+        Environment environment = new Environment(closure);
+        environment.define("this", instance);
+        return new ChocoPyFunction(declaration, environment, isInitializer);
+    }
 }
