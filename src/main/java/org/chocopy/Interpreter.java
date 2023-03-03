@@ -249,7 +249,8 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         Map<String, ChocoPyFunction> methods = new HashMap<>();
         for (Stmt.Function method : stmt.methods) {
-            ChocoPyFunction function = new ChocoPyFunction(method, environment);
+            ChocoPyFunction function = new ChocoPyFunction(method, environment,
+                    method.name.lexeme.equals("init"));
             methods.put(method.name.lexeme, function);
         }
 
@@ -267,7 +268,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitFunctionStmt(Stmt.Function stmt) {
-        ChocoPyFunction function = new ChocoPyFunction(stmt, environment);
+        ChocoPyFunction function = new ChocoPyFunction(stmt, environment, false);
         environment.define(stmt.name.lexeme, function);
         return null;
     }

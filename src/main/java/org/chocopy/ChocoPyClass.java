@@ -19,12 +19,19 @@ class ChocoPyClass implements ChocoPyCallable {
 
     @Override
     public int arity() {
-        return 0;
+        ChocoPyFunction initializer = findMethod("init");
+        if (initializer == null) return 0;
+        return initializer.arity();
     }
 
     @Override
     public Object call(Interpreter interpreter, List<Object> arguments) {
         ChocoPyInstance instance = new ChocoPyInstance(this);
+        ChocoPyFunction initializer = findMethod("init");
+        if (initializer != null) {
+            initializer.bind(instance).call(interpreter, arguments);
+        }
+
         return instance;
     }
 
