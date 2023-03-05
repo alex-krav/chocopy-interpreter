@@ -1,43 +1,70 @@
 package org.chocopy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.chocopy.TokenType.*;
 
 class Scanner {
     private static final Map<String, TokenType> keywords;
+    private static final String[] reserved_keywords = new String[] {
+            "as", "assert", "async", "await", "break", "continue",
+            "del", "except", "finally", "from", "import",
+            "lambda", "raise", "try", "with", "yield"
+    };
+    private static final String[] builtin_types = new String[] {
+            "object", "bool", "str", "int"
+    };
+    private static final String[] native_functions = new String[] {
+            "print", "input", "len"
+    };
 
     static {
         keywords = new HashMap<>();
         keywords.put("and",    AND);
         keywords.put("class",  CLASS);
         keywords.put("else",   ELSE);
-        keywords.put("false",  FALSE);
+        keywords.put("False",  FALSE);
         keywords.put("for",    FOR);
-        keywords.put("fun",    FUN);
+        keywords.put("def", DEF);
         keywords.put("if",     IF);
-        keywords.put("nil",    NIL);
+        keywords.put("None",   NONE);
         keywords.put("or",     OR);
-        keywords.put("print",  PRINT);
+        keywords.put("print", PRINT_NATIVE_FUN);
         keywords.put("return", RETURN);
         keywords.put("super",  SUPER);
-        keywords.put("this",   THIS);
-        keywords.put("true",   TRUE);
+        keywords.put("self",   SELF);
+        keywords.put("True",   TRUE);
         keywords.put("var",    VAR);
         keywords.put("while",  WHILE);
+        keywords.put("not",    NOT);
+        keywords.put("elif",   ELIF);
+        keywords.put("pass",   PASS);
+        keywords.put("input", INPUT_NATIVE_FUN);
+        keywords.put("len", LEN_NATIVE_FUN);
+        keywords.put("Empty",  EMPTY);
+        keywords.put("object", OBJECT_TYPE);
+        keywords.put("int", INT_TYPE);
+        keywords.put("bool", BOOL_TYPE);
+        keywords.put("str", STR_TYPE);
+        keywords.put("global", GLOBAL);
+        keywords.put("nonlocal",NONLOCAL);
+        keywords.put("in",IN);
+        keywords.put("is",IS);
     }
 
-    private final String source;
+    String source;
     private final List<Token> tokens = new ArrayList<>();
     private int start = 0;
     private int current = 0;
-    private int line = 1;
+    int line = 1;
+    int spaces = 0;
+    int tabs = 0;
+    private final Stack<Integer> indentation = new Stack<>();
+    private boolean lineStart = true;
 
     Scanner(String source) {
         this.source = source;
+        this.indentation.push(0);
     }
 
     List<Token> scanTokens() {
@@ -47,6 +74,7 @@ class Scanner {
             scanToken();
         }
 
+        dedentLine();
         tokens.add(new Token(EOF, "", null, line));
         return tokens;
     }
@@ -58,52 +86,95 @@ class Scanner {
     private void scanToken() {
         char c = advance();
         switch (c) {
-            case '(': addToken(LEFT_PAREN); break;
-            case ')': addToken(RIGHT_PAREN); break;
-            case '{': addToken(LEFT_BRACE); break;
-            case '}': addToken(RIGHT_BRACE); break;
-            case ',': addToken(COMMA); break;
-            case '.': addToken(DOT); break;
-            case '-': addToken(MINUS); break;
-            case '+': addToken(PLUS); break;
-            case ';': addToken(SEMICOLON); break;
-            case '*': addToken(STAR); break;
-            case '!':
-                addToken(match('=') ? BANG_EQUAL : BANG);
+            case '(': addToken(LEFT_PAREN); indentLine(); break;
+            case ')': addToken(RIGHT_PAREN); indentLine(); break;
+            case '[': addToken(LEFT_BRACKET); indentLine(); break;
+            case ']': addToken(RIGHT_BRACKET); indentLine(); break;
+            case ',': addToken(COMMA); indentLine(); break;
+            case '.': addToken(DOT); indentLine(); break;
+            case '+': addToken(PLUS); indentLine(); break;
+            case ':': addToken(COLON); indentLine(); break;
+            case '*': addToken(STAR); indentLine(); break;
+            case '%': addToken(PERCENT); indentLine(); break;
+            case '#':
+                while (peek() != '\n' && peek() != '\r' && !isAtEnd())
+                    advance();
+                break;
+
+            case '-':
+                indentLine();
+                addToken(match('>') ? ARROW : MINUS);
                 break;
             case '=':
+                indentLine();
                 addToken(match('=') ? EQUAL_EQUAL : EQUAL);
                 break;
             case '<':
+                indentLine();
                 addToken(match('=') ? LESS_EQUAL : LESS);
                 break;
             case '>':
+                indentLine();
                 addToken(match('=') ? GREATER_EQUAL : GREATER);
                 break;
-            case '/':
-                if (match('/')) {
-                    // A comment goes until the end of the line.
-                    while (peek() != '\n' && !isAtEnd()) advance();
+
+            case '!':
+                indentLine();
+                if (match('=')) {
+                    addToken(BANG_EQUAL);
                 } else {
-                    addToken(SLASH);
+                    ChocoPy.error(line, "Unexpected character.");
                 }
                 break;
-            case ' ':
-            case '\r':
-            case '\t':
-                // Ignore whitespace.
-                break;
-            case '\n':
-                line++;
-                break;
-            case '"': string(); break;
-            case 'o':
-                if (match('r')) {
-                    addToken(OR); //todo: AND
+            case '/':
+                indentLine();
+                if (match('/')) {
+                    addToken(DOUBLE_SLASH);
+                } else {
+                    ChocoPy.error(line, "Unexpected character.");
                 }
                 break;
 
+            case '\r':
+                if (match('\n')) {
+                    addToken(NEWLINE);
+                } else {
+                    addToken(NEWLINE);
+                }
+                incrementLine();
+                break;
+            case '\n':
+                addToken(NEWLINE);
+                incrementLine();
+                break;
+            case ' ':
+            case '\t':
+                if (!lineStart) {
+                    // ignore not leading spaces
+                    break;
+                }
+                if (c == ' ') {
+                    spaces++;
+                } else {
+                    tabs++;
+                }
+                while ((peek() == ' ' || peek() == '\t') && !isAtEnd()) {
+                    if (peek() == ' ') {
+                        spaces++;
+                    } else if (peek() == '\t') {
+                        tabs++;
+                    }
+                    advance();
+                }
+                if (peek() == '#') {
+                    break;
+                }
+                replaceTabs();
+                break;
+            case '"': indentLine(); string(); break;
+
             default:
+                indentLine();
                 if (isDigit(c)) {
                     number();
                 } else if (isAlpha(c)) {
@@ -112,6 +183,47 @@ class Scanner {
                     ChocoPy.error(line, "Unexpected character.");
                 }
                 break;
+        }
+    }
+
+    private void incrementLine() {
+        line++;
+        lineStart = true;
+        spaces = 0;
+    }
+
+    void replaceTabs() {
+        if (tabs > 0) {
+            spaces += (8 - (spaces % 8));
+            spaces += 8 * (tabs - 1);
+        }
+        tabs = 0;
+    }
+
+    private void indentLine() {
+        if (!lineStart) {
+            return;
+        } else {
+            lineStart = false;
+        }
+
+        if (spaces > indentation.peek()) {
+            indentation.push(spaces);
+            tokens.add(new Token(INDENT, "", null, line));
+            spaces = 0;
+        } else if (spaces < indentation.peek()) {
+            while (indentation.peek() > spaces) {
+                indentation.pop();
+                tokens.add(new Token(DEDENT, "", null, line));
+            }
+            spaces = 0;
+        }
+    }
+
+    private void dedentLine() {
+        while (indentation.peek() > 0) {
+            indentation.pop();
+            tokens.add(new Token(DEDENT, "", null, line));
         }
     }
 
@@ -124,6 +236,11 @@ class Scanner {
     }
 
     private void addToken(TokenType type, Object literal) {
+//        if (type == NEWLINE
+//                && tokens.get(tokens.size()-1).type == NEWLINE) {
+//            // skip emtpy lines
+//            return;
+//        }
         String text = source.substring(start, current);
         tokens.add(new Token(type, text, literal, line));
     }
@@ -141,8 +258,8 @@ class Scanner {
         return source.charAt(current);
     }
 
-    private void string() {
-        while (peek() != '"' && !isAtEnd()) {
+    void string() {
+        while (!(peek() == '"' && source.charAt(current-1) != '\\') && !isAtEnd()) {
             if (peek() == '\n') line++;
             advance();
         }
@@ -152,11 +269,15 @@ class Scanner {
             return;
         }
 
-        // The closing ".
+        // The closing \".
         advance();
 
         // Trim the surrounding quotes.
         String value = source.substring(start + 1, current - 1);
+        value = value.replace("\\\\", "\\");
+        value = value.replace("\\\n", "\n");
+        value = value.replace("\\\t", "\t");
+        value = value.replace("\\\"", "\"");
         addToken(STRING, value);
     }
 

@@ -15,7 +15,7 @@ public class TestUtils {
 
     public static Stream<Arguments> testFiles(String dir, String resExt) {
         List<Path> inputData;
-        final Path resourcesPath = Paths.get("src",dir.split(","));
+        final Path resourcesPath = Paths.get("src",dir.split("/"));
         try (Stream<Path> walk = Files.walk(resourcesPath)) {
             inputData = walk
                     .filter(Files::isRegularFile)
