@@ -123,7 +123,7 @@ class Scanner {
                 if (match('=')) {
                     addToken(BANG_EQUAL);
                 } else {
-                    ChocoPy.error(line, "Unexpected character.");
+                    ChocoPy.error(line, String.valueOf(source.charAt(current-1)), "Unexpected character.");
                 }
                 break;
             case '/':
@@ -131,7 +131,7 @@ class Scanner {
                 if (match('/')) {
                     addToken(DOUBLE_SLASH);
                 } else {
-                    ChocoPy.error(line, "Unexpected character.");
+                    ChocoPy.error(line, String.valueOf(source.charAt(current-1)), "Unexpected character.");
                 }
                 break;
 
@@ -180,7 +180,7 @@ class Scanner {
                 } else if (isAlpha(c)) {
                     identifier();
                 } else {
-                    ChocoPy.error(line, "Unexpected character.");
+                    ChocoPy.error(line, String.valueOf(source.charAt(current-1)), "Unexpected character.");
                 }
                 break;
         }
@@ -190,6 +190,7 @@ class Scanner {
         line++;
         lineStart = true;
         spaces = 0;
+        tabs = 0;
     }
 
     void replaceTabs() {
@@ -208,6 +209,9 @@ class Scanner {
         }
 
         if (spaces > indentation.peek()) {
+            if (line == 1) {
+                ChocoPy.error(line, "First line indented");
+            }
             indentation.push(spaces);
             tokens.add(new Token(INDENT, "", null, line));
             spaces = 0;
@@ -215,6 +219,9 @@ class Scanner {
             while (indentation.peek() > spaces) {
                 indentation.pop();
                 tokens.add(new Token(DEDENT, "", null, line));
+            }
+            if (indentation.peek() != spaces) {
+                ChocoPy.error(line, "Inconsistent dedent");
             }
             spaces = 0;
         }
@@ -232,15 +239,17 @@ class Scanner {
     }
 
     private void addToken(TokenType type) {
+        if (type.equals(NEWLINE)) {
+            if (tokens.isEmpty()) {
+                return;
+            } else if(tokens.get(tokens.size()-1).type.equals(NEWLINE)) {
+                return;
+            }
+        }
         addToken(type, null);
     }
 
     private void addToken(TokenType type, Object literal) {
-//        if (type == NEWLINE
-//                && tokens.get(tokens.size()-1).type == NEWLINE) {
-//            // skip emtpy lines
-//            return;
-//        }
         String text = source.substring(start, current);
         tokens.add(new Token(type, text, literal, line));
     }
@@ -288,16 +297,13 @@ class Scanner {
     private void number() {
         while (isDigit(peek())) advance();
 
-        // Look for a fractional part.
-        if (peek() == '.' && isDigit(peekNext())) {
-            // Consume the "."
-            advance();
-
-            while (isDigit(peek())) advance();
-        }
-
         addToken(NUMBER,
-                Double.parseDouble(source.substring(start, current)));
+                Integer.parseInt(source.substring(start, current)));
+
+        if (isAlpha(peek())) {
+            ChocoPy.error(line, String.valueOf(source.charAt(current-1)) + source.charAt(current) + "...",
+                    "Identifier cannot start with number");
+        }
     }
 
     private char peekNext() {
@@ -310,7 +316,14 @@ class Scanner {
 
         String text = source.substring(start, current);
         TokenType type = keywords.get(text);
-        if (type == null) type = IDENTIFIER;
+        if (type == null) {
+            for (String reserved : reserved_keywords) {
+                if (reserved.equals(text)) {
+                    ChocoPy.error(line, text, "keyword is reserved");
+                }
+            }
+            type = IDENTIFIER;
+        }
         addToken(type);
     }
 

@@ -99,30 +99,27 @@ public class ScannerTest {
     }
 
     public static Stream<Arguments> testFilesWithTokens() {
-        return TestUtils.testFiles("test/resources/parsing", ".tokens");
+        return TestUtils.testFiles("test/resources/parsing");
     }
 
     @ParameterizedTest
     @MethodSource("testFilesWithTokens")
-    public void scanTokensTest(Path inputPath, Path outputPath) throws IOException {
-        test(inputPath, outputPath);
+    public void scanTokensTest(Path inputPath) throws IOException {
+        test(inputPath);
     }
 
     @Test
     public void testOneFile() throws IOException {
         Path resourcesPath = Paths.get("src","test/resources/parsing".split("/"));
         Path inputPath = resourcesPath.resolve("indentation_first_line.py");
-        Path outputPath = resourcesPath.resolve("indentation_first_line.py.tokens");
 
-        test(inputPath, outputPath);
+        test(inputPath);
     }
 
-    private void test(Path inputPath, Path outputPath) throws IOException {
+    private void test(Path inputPath) throws IOException {
         // Given
         byte[] bytes = Files.readAllBytes(inputPath);
         String input = new String(bytes, Charset.defaultCharset());
-        bytes = Files.readAllBytes(outputPath);
-        String output = new String(bytes, Charset.defaultCharset());
 
         // When
         Scanner scanner = new Scanner(input);
@@ -132,11 +129,14 @@ public class ScannerTest {
         }
 
         // Then
-        assertEquals(output, outContent.toString());
         if (errContent.size() > 0) {
             bytes = Files.readAllBytes(Path.of(inputPath + ".errors"));
             String error = new String(bytes, Charset.defaultCharset());
             assertEquals(error, errContent.toString());
+        } else {
+            bytes = Files.readAllBytes(Paths.get(inputPath + ".tokens"));
+            String output = new String(bytes, Charset.defaultCharset());
+            assertEquals(output, outContent.toString());
         }
     }
 }

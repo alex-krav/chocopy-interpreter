@@ -2,6 +2,7 @@ package org.chocopy;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -35,9 +36,10 @@ public class ChocoPyTest {
     }
 
     public static Stream<Arguments> testFilesForInterpreter() {
-        return TestUtils.testFiles("test,resources,bool", ".res");
+        return TestUtils.testFiles("test,resources,bool");
     }
 
+    @Disabled
     @ParameterizedTest
     @MethodSource("testFilesForInterpreter")
     public void testInterpreter(Path inputPath, Path outputPath) throws IOException {

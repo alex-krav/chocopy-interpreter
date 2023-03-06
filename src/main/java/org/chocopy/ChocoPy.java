@@ -91,6 +91,10 @@ public class ChocoPy {
         }
     }
 
+    static void error(int line, String text, String message) {
+        report(line, " at '" + text + "'", message);
+    }
+
     static void runtimeError(RuntimeError error) {
         System.err.println(error.getMessage() +
                 "\n[line " + error.token.line + "]");
