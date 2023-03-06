@@ -309,8 +309,23 @@ class Scanner {
     private void number() {
         while (isDigit(peek())) advance();
 
-        addToken(NUMBER,
-                Integer.parseInt(source.substring(start, current)));
+        String literal = source.substring(start, current);
+        Integer value = null;
+        try {
+            value = Integer.valueOf(literal);
+
+            if (value < (-Math.pow(2, 31)) || value > (Math.pow(2, 31) - 1)) {
+                ChocoPy.error(line, literal, "Number value exceeds allowed range of 32 bit signed int");
+            } else if (value > 0 && literal.charAt(0) == '0') {
+                ChocoPy.error(line, literal, "Non-zero values cannot start with leading zeros");
+            } else if (value < 0 && literal.charAt(1) == '0') {
+                ChocoPy.error(line, literal, "Non-zero values cannot start with leading zeros");
+            }
+        } catch (NumberFormatException e) {
+            ChocoPy.error(line, literal, "NumberFormatException: " + e.getMessage());
+        }
+        
+        addToken(NUMBER, value);
 
         if (isAlpha(peek())) {
             ChocoPy.error(line, String.valueOf(source.charAt(current-1)) + source.charAt(current) + "...",

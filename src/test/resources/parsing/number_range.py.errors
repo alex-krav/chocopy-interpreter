@@ -1,0 +1,3 @@
+[line 1] Error at '2147483648': NumberFormatException: For input string: "2147483648"
+[line 7] Error at '01': Non-zero values cannot start with leading zeros
+[line 8] Error at '01': Non-zero values cannot start with leading zeros
