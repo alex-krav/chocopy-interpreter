@@ -78,24 +78,42 @@ public class ScannerTest {
 
     public static Stream<Arguments> sourceStrings() {
         return Stream.of(
-                Arguments.of("", 1, new Token(TokenType.EOF, "", null, 1)),
-                Arguments.of("\"hello\"", 2, new Token(TokenType.STRING, "\"hello\"", "hello", 1)),
-                Arguments.of("\"Hello\\\t\\\"user\\\"\\\n\\\\bye!\"", 2, new Token(TokenType.STRING, "\"Hello\\\t\\\"user\\\"\\\n\\\\bye!\"", "Hello\t\"user\"\n\\bye!", 2))
-        );
+                Arguments.of("bad_escape_sequences.py", 8, 2, new Token(TokenType.STRING, "\"Hell\\o\"", "Hell\\o", 1),
+                        """
+                                [line 1] Error at '\\o': Unrecognized escape sequence
+                                [line 2] Error at '\\)': Unrecognized escape sequence
+                                [line 2] Error: Unterminated string.
+                                """),
+                Arguments.of("empty.py", 5, 2, new Token(TokenType.STRING, "\"\"", "", 1), null),
+                Arguments.of("non_ascii.py", 5, 2, new Token(TokenType.STRING, "\"\n\"", "\n", 2),
+                        """
+                                [line 1] Error at '
+                                ': Only 32-126 decimal range ASCII characters allowed in strings
+                                """),
+                Arguments.of("unterminated.py", 3, -1, null, "[line 1] Error: Unterminated string.\n"),
+                Arguments.of("valid_escape_sequences.py", 5, 2, new Token(TokenType.STRING, "\"Hello\\t\\\"user\\\"\\n\\\\bye!\"", 
+                        "Hello\t\"user\"\n\\bye!", 1), null)
+                );
     }
 
     @ParameterizedTest
     @MethodSource("sourceStrings")
-    public void scanStringTest(String source, int tokensNumber, Token firstToken) {
+    public void scanStringTest(Path sourcePath, int tokensNumber, int stringTokenIndex, Token stringToken, String errors) throws IOException {
         // Given
-        scanner.source = source;
+        Path resourcesPath = Paths.get("src","test/resources/strings".split("/"));
+        byte[] bytes = Files.readAllBytes(resourcesPath.resolve(sourcePath));
+        scanner.source = new String(bytes, Charset.defaultCharset());
 
         // When
         List<Token> tokens = scanner.scanTokens();
 
         // Then
-        assertEquals(tokensNumber, tokens.size());
-        assertEquals(firstToken, tokens.get(0));
+        if (errContent.size() > 0) {
+            assertEquals(errors, errContent.toString());
+        } else {
+            assertEquals(tokensNumber, tokens.size());
+            assertEquals(stringToken, tokens.get(stringTokenIndex));
+        }
     }
 
     public static Stream<Arguments> testFilesWithTokens() {

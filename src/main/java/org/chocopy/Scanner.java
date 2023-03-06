@@ -269,7 +269,19 @@ class Scanner {
 
     void string() {
         while (!(peek() == '"' && source.charAt(current-1) != '\\') && !isAtEnd()) {
-            if (peek() == '\n') line++;
+            if (peek() < ' ' || peek() > '~') {
+                ChocoPy.error(line, String.valueOf(source.charAt(current)), "Only 32-126 decimal range ASCII characters allowed in strings");
+            }
+            if (peek() == '\n') 
+                line++;
+            if (peek() == '\\') {
+                char next = peekNext();
+                if (next != '"' && next != '\\' && next != 't' && next != 'n') {
+                    ChocoPy.error(line, String.valueOf(source.charAt(current))+source.charAt(current+1), "Unrecognized escape sequence");
+                } else {
+                    advance();
+                }
+            }
             advance();
         }
 
@@ -284,8 +296,8 @@ class Scanner {
         // Trim the surrounding quotes.
         String value = source.substring(start + 1, current - 1);
         value = value.replace("\\\\", "\\");
-        value = value.replace("\\\n", "\n");
-        value = value.replace("\\\t", "\t");
+        value = value.replace("\\n", "\n");
+        value = value.replace("\\t", "\t");
         value = value.replace("\\\"", "\"");
         addToken(STRING, value);
     }
