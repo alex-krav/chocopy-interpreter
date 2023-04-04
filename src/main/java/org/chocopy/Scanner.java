@@ -34,7 +34,6 @@ class Scanner {
         keywords.put("super",  SUPER);
         keywords.put("self",   SELF);
         keywords.put("True",   TRUE);
-        keywords.put("var",    VAR);
         keywords.put("while",  WHILE);
         keywords.put("not",    NOT);
         keywords.put("elif",   ELIF);

@@ -58,6 +58,31 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     @Override
+    public String visitTernaryExpr(Expr.Ternary expr) {
+        return null;
+    }
+
+    @Override
+    public String visitListingExpr(Expr.Listing expr) {
+        return null;
+    }
+
+    @Override
+    public String visitIndexExpr(Expr.Index expr) {
+        return null;
+    }
+
+    @Override
+    public String visitListSetExpr(Expr.ListSet expr) {
+        return null;
+    }
+
+    @Override
+    public String visitLenExpr(Expr.Len expr) {
+        return null;
+    }
+
+    @Override
     public String visitSetExpr(Expr.Set expr) {
         return parenthesize2("=",
                 expr.object, expr.name.lexeme, expr.value);
@@ -144,11 +169,11 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         builder.append("(class " + stmt.name.lexeme);
 
         if (stmt.superclass != null) {
-            builder.append(" < " + print(stmt.superclass));
+            builder.append("( " + stmt.superclass.lexeme + " )");
         }
 
-        for (Stmt.Function method : stmt.methods) {
-            builder.append(" " + print(method));
+        for (Stmt member : stmt.members) {
+            builder.append(" " + print(member));
         }
 
         builder.append(")");
@@ -169,9 +194,9 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         StringBuilder builder = new StringBuilder();
         builder.append("(fun " + stmt.name.lexeme + "(");
 
-        for (Token param : stmt.params) {
+        for (Stmt.Var param : stmt.params) {
             if (param != stmt.params.get(0)) builder.append(" ");
-            builder.append(param.lexeme);
+            builder.append(print(param));
         }
 
         builder.append(") ");
@@ -200,6 +225,11 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     @Override
+    public String visitInputStmt(Stmt.Input stmt) {
+        return null;
+    }
+
+    @Override
     public String visitReturnStmt(Stmt.Return stmt) {
         if (stmt.value == null) return "(return)";
         return parenthesize("return", stmt.value);
@@ -217,5 +247,20 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     @Override
     public String visitWhileStmt(Stmt.While stmt) {
         return parenthesize2("while", stmt.condition, stmt.body);
+    }
+
+    @Override
+    public String visitPassStmt(Stmt.Pass stmt) {
+        return null;
+    }
+
+    @Override
+    public String visitGlobalStmt(Stmt.Global stmt) {
+        return null;
+    }
+
+    @Override
+    public String visitNonlocalStmt(Stmt.Nonlocal stmt) {
+        return null;
     }
 }

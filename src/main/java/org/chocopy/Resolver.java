@@ -1,9 +1,7 @@
 package org.chocopy;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import java.lang.reflect.Field;
+import java.util.*;
 
 class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private final Stack<Map<String, Boolean>> scopes = new Stack<>();
@@ -76,6 +74,31 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitLogicalExpr(Expr.Logical expr) {
         resolve(expr.left);
         resolve(expr.right);
+        return null;
+    }
+
+    @Override
+    public Void visitTernaryExpr(Expr.Ternary expr) {
+        return null;
+    }
+
+    @Override
+    public Void visitListingExpr(Expr.Listing expr) {
+        return null;
+    }
+
+    @Override
+    public Void visitIndexExpr(Expr.Index expr) {
+        return null;
+    }
+
+    @Override
+    public Void visitListSetExpr(Expr.ListSet expr) {
+        return null;
+    }
+
+    @Override
+    public Void visitLenExpr(Expr.Len expr) {
         return null;
     }
 
@@ -156,14 +179,14 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         define(stmt.name);
 
         if (stmt.superclass != null &&
-                stmt.name.lexeme.equals(stmt.superclass.name.lexeme)) {
-            ChocoPy.error(stmt.superclass.name,
+                stmt.name.lexeme.equals(stmt.superclass.lexeme)) {
+            ChocoPy.error(stmt.superclass,
                     "A class can't inherit from itself.");
         }
 
         if (stmt.superclass != null) {
             currentClass = ClassType.SUBCLASS;
-            resolve(stmt.superclass);
+            resolve(new Expr.Variable(stmt.superclass));
         }
 
         if (stmt.superclass != null) {
@@ -174,13 +197,25 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         beginScope();
         scopes.peek().put("this", true);
 
-        for (Stmt.Function method : stmt.methods) {
-            FunctionType declaration = FunctionType.METHOD;
-            if (method.name.lexeme.equals("init")) {
-                declaration = FunctionType.INITIALIZER;
+        for (Stmt member : stmt.members) {
+            if (member instanceof Stmt.Function) {
+                Stmt.Function stmtFun = (Stmt.Function) member;
+                FunctionType declaration = FunctionType.METHOD;
+                if (stmtFun.name.lexeme.equals("init")) {
+                    declaration = FunctionType.INITIALIZER;
+                }
+                resolveFunction(stmtFun, declaration);
+            } else {
+                try {
+                    Field[] allFields = member.getClass().getDeclaredFields();
+                    Field tokenField = Arrays.stream(allFields).filter(f ->
+                            f.getType().equals(Token.class)).findFirst().get();
+                    Token tokenFieldValue = (Token) tokenField.get(member);
+                    throw new RuntimeError(tokenFieldValue, "Not implemented");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
-
-            resolveFunction(method, declaration);
         }
 
         endScope();
@@ -232,9 +267,9 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         currentFunction = type;
 
         beginScope();
-        for (Token param : function.params) {
-            declare(param);
-            define(param);
+        for (Stmt.Var param : function.params) {
+            declare(param.name);
+            define(param.name);
         }
         resolve(function.body);
         endScope();
@@ -252,6 +287,11 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     @Override
     public Void visitPrintStmt(Stmt.Print stmt) {
         resolve(stmt.expression);
+        return null;
+    }
+
+    @Override
+    public Void visitInputStmt(Stmt.Input stmt) {
         return null;
     }
 
@@ -304,6 +344,21 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitWhileStmt(Stmt.While stmt) {
         resolve(stmt.condition);
         resolve(stmt.body);
+        return null;
+    }
+
+    @Override
+    public Void visitPassStmt(Stmt.Pass stmt) {
+        return null;
+    }
+
+    @Override
+    public Void visitGlobalStmt(Stmt.Global stmt) {
+        return null;
+    }
+
+    @Override
+    public Void visitNonlocalStmt(Stmt.Nonlocal stmt) {
         return null;
     }
 }

@@ -23,7 +23,7 @@ class ChocoPyFunction implements ChocoPyCallable {
     public Object call(Interpreter interpreter, List<Object> arguments) {
         Environment environment = new Environment(closure);
         for (int i = 0; i < declaration.params.size(); i++) {
-            environment.define(declaration.params.get(i).lexeme,
+            environment.define(declaration.params.get(i).name.lexeme,
                     arguments.get(i));
         }
 

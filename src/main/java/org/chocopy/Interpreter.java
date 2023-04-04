@@ -1,9 +1,7 @@
 package org.chocopy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Field;
+import java.util.*;
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     final Environment globals = new Environment();
@@ -74,9 +72,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
                 throw new RuntimeError(expr.operator,
                         "Operands must be two numbers or two strings.");
-            case SLASH:
+            case DOUBLE_SLASH:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left / (double)right;
+                return (int)left / (int)right;
             case STAR:
                 checkNumberOperands(expr.operator, left, right);
                 return (double)left * (double)right;
@@ -145,6 +143,31 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Object visitTernaryExpr(Expr.Ternary expr) {
+        return null;
+    }
+
+    @Override
+    public Object visitListingExpr(Expr.Listing expr) {
+        return null;
+    }
+
+    @Override
+    public Object visitIndexExpr(Expr.Index expr) {
+        return null;
+    }
+
+    @Override
+    public Object visitListSetExpr(Expr.ListSet expr) {
+        return null;
+    }
+
+    @Override
+    public Object visitLenExpr(Expr.Len expr) {
+        return null;
+    }
+
+    @Override
     public Object visitSetExpr(Expr.Set expr) {
         Object object = evaluate(expr.object);
 
@@ -186,12 +209,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Object visitUnaryExpr(Expr.Unary expr) {
         Object right = evaluate(expr.right);
 
-        switch (expr.operator.type) {
-            case BANG:
-                return !isTruthy(right);
-            case MINUS:
-                checkNumberOperand(expr.operator, right);
-                return -(double)right;
+        if (expr.operator.type == TokenType.MINUS) {
+            checkNumberOperand(expr.operator, right);
+            return -(double)right;
         }
 
         // Unreachable.
@@ -275,9 +295,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Void visitClassStmt(Stmt.Class stmt) {
         Object superclass = null;
         if (stmt.superclass != null) {
-            superclass = evaluate(stmt.superclass);
+            superclass = evaluate(new Expr.Variable(stmt.superclass));
             if (!(superclass instanceof ChocoPyClass)) {
-                throw new RuntimeError(stmt.superclass.name,
+                throw new RuntimeError(stmt.superclass,
                         "Superclass must be a class.");
             }
         }
@@ -290,10 +310,23 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
 
         Map<String, ChocoPyFunction> methods = new HashMap<>();
-        for (Stmt.Function method : stmt.methods) {
-            ChocoPyFunction function = new ChocoPyFunction(method, environment,
-                    method.name.lexeme.equals("init"));
-            methods.put(method.name.lexeme, function);
+        for (Stmt member : stmt.members) {
+            if (member instanceof Stmt.Function) {
+                Stmt.Function stmtFun = (Stmt.Function) member;
+                ChocoPyFunction function = new ChocoPyFunction(stmtFun, environment,
+                        stmtFun.name.lexeme.equals("init"));
+                methods.put(stmtFun.name.lexeme, function);
+            } else {
+                try {
+                    Field[] allFields = member.getClass().getDeclaredFields();
+                    Field tokenField = Arrays.stream(allFields).filter(f ->
+                            f.getType().equals(Token.class)).findFirst().get();
+                    Token tokenFieldValue = (Token) tokenField.get(member);
+                    throw new RuntimeError(tokenFieldValue, "Not implemented");
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
 
         ChocoPyClass klass = new ChocoPyClass(stmt.name.lexeme, (ChocoPyClass)superclass,
@@ -338,6 +371,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitInputStmt(Stmt.Input stmt) {
+        return null;
+    }
+
+    @Override
     public Void visitReturnStmt(Stmt.Return stmt) {
         Object value = null;
         if (stmt.value != null) value = evaluate(stmt.value);
@@ -361,6 +399,21 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         while (isTruthy(evaluate(stmt.condition))) {
             execute(stmt.body);
         }
+        return null;
+    }
+
+    @Override
+    public Void visitPassStmt(Stmt.Pass stmt) {
+        return null;
+    }
+
+    @Override
+    public Void visitGlobalStmt(Stmt.Global stmt) {
+        return null;
+    }
+
+    @Override
+    public Void visitNonlocalStmt(Stmt.Nonlocal stmt) {
         return null;
     }
 

@@ -25,21 +25,29 @@ public class GenerateAst {
                 "Super    : Token keyword, Token method",
                 "This     : Token keyword",
                 "Unary    : Token operator, Expr right",
-                "Variable : Token name"
+                "Variable : Token name",
+                "Ternary  : Expr onTrue, Expr condition, Expr onFalse",
+                "Listing  : List<Expr> elements",
+                "Index    : Expr listing, Expr id",
+                "ListSet  : Expr listing, Expr id, Expr value",
+                "Len      : Expr expression"
         ));
 
         defineAst(outputDir, "Stmt", Arrays.asList(
                 "Block      : List<Stmt> statements",
-                "Class      : Token name, Expr.Variable superclass, " +
-                        "List<Stmt.Function> methods",
+                "Class      : Token name, Token superclass, List<Stmt> members",
                 "Expression : Expr expression",
-                "Function   : Token name, List<Token> params, List<Stmt> body",
+                "Function   : Token name, List<Stmt.Var> params, Token returnType, List<Stmt> body",
                 "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
                 "Print      : Expr expression",
+                "Input      : Token keyword",
                 "Return     : Token keyword, Expr value",
-                "Var        : Token name, Expr initializer",
-                "While      : Expr condition, Stmt body"
-        ));
+                "Var        : Token name, Token type, Expr initializer",
+                "While      : Expr condition, Stmt body",
+                "Pass       : Token keyword",
+                "Global     : Token name",
+                "Nonlocal   : Token name"
+                ));
     }
 
     private static void defineAst(
