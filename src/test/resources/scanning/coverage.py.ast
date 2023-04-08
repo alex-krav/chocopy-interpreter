@@ -1,0 +1,490 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: count
+      type: int
+      initializer:
+        class: Expr.Literal
+        type: java.lang.Integer
+        value: 0
+
+
+  - statement:
+      class: Stmt.Function
+      name: foo
+      params:
+        - param:
+            class: Stmt.Var
+            name: s
+            type: str
+            initializer: null
+
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Len
+              expr:
+                class: Expr.Variable
+                name: s
+
+
+
+
+  - statement:
+      class: Stmt.Class
+      name: bar
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: p
+            type: bool
+            initializer:
+              class: Expr.Literal
+              type: java.lang.Boolean
+              value: true
+
+
+        - member:
+            class: Stmt.Function
+            name: baz
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: "bar"
+                  initializer: null
+
+              - param:
+                  class: Stmt.Var
+                  name: xx
+                  type: int
+                  initializer: null
+
+            returnType: str
+            body:
+              - statement:
+                  class: Stmt.Global
+                  name: count
+
+              - statement:
+                  class: Stmt.Var
+                  name: x
+                  type: int
+                  initializer:
+                    class: Expr.Literal
+                    type: java.lang.Integer
+                    value: 0
+
+
+              - statement:
+                  class: Stmt.Var
+                  name: y
+                  type: int
+                  initializer:
+                    class: Expr.Literal
+                    type: java.lang.Integer
+                    value: 1
+
+
+              - statement:
+                  class: Stmt.Function
+                  name: qux
+                  params:
+                    - param:
+                        class: Stmt.Var
+                        name: y
+                        type: int
+                        initializer: null
+
+                  returnType: object
+                  body:
+                    - statement:
+                        class: Stmt.Nonlocal
+                        name: x
+
+                    - statement:
+                        class: Stmt.If
+                        condition:
+                          class: Expr.Binary
+                          left:
+                            class: Expr.Variable
+                            name: x
+
+                          operator: ">"
+                          right:
+                            class: Expr.Variable
+                            name: y
+
+
+                        thenBranch:
+                          - statement:
+                              class: Stmt.Expression
+                              expr:
+                                class: Expr.Assign
+                                name: x
+                                value:
+                                  class: Expr.Unary
+                                  operator: "-"
+                                  operand:
+                                    class: Expr.Literal
+                                    type: java.lang.Integer
+                                    value: 1
+
+
+
+
+
+                        elseBranch: null
+
+
+              - statement:
+                  class: Stmt.Function
+                  name: __forLoop0
+                  params: null
+                  returnType: None
+                  body:
+                    - statement:
+                        class: Stmt.Var
+                        name: i
+                        type: int
+                        initializer:
+                          class: Expr.Literal
+                          type: java.lang.Integer
+                          value: 0
+
+
+                    - statement:
+                        class: Stmt.Var
+                        name: x
+                        type: object
+                        initializer:
+                          class: Expr.Literal
+                          type: None
+                          value: null
+
+
+                    - statement:
+                        class: Stmt.While
+                        condition:
+                          class: Expr.Binary
+                          left:
+                            class: Expr.Variable
+                            name: i
+
+                          operator: "<"
+                          right:
+                            class: Expr.Len
+                            expr:
+                              class: Expr.Variable
+                              name: xx
+
+
+
+                        body:
+                          - statement:
+                              class: Stmt.Expression
+                              expr:
+                                class: Expr.Assign
+                                name: x
+                                value:
+                                  class: Expr.Index
+                                  list:
+                                    class: Expr.Variable
+                                    name: xx
+
+                                  index:
+                                    class: Expr.Variable
+                                    name: i
+
+
+
+
+                          - statement:
+                              class: Stmt.Expression
+                              expr:
+                                class: Expr.Set
+                                object:
+                                  self
+
+                                name: p
+                                value:
+                                  class: Expr.Binary
+                                  left:
+                                    class: Expr.Variable
+                                    name: x
+
+                                  operator: "=="
+                                  right:
+                                    class: Expr.Literal
+                                    type: java.lang.Integer
+                                    value: 2
+
+
+
+
+                          - statement:
+                              class: Stmt.Expression
+                              expr:
+                                class: Expr.Assign
+                                name: i
+                                value:
+                                  class: Expr.Binary
+                                  left:
+                                    class: Expr.Variable
+                                    name: i
+
+                                  operator: "+"
+                                  right:
+                                    class: Expr.Literal
+                                    type: java.lang.Integer
+                                    value: 1
+
+
+
+
+
+
+
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Call
+                    callee:
+                      class: Expr.Variable
+                      name: __forLoop0
+
+                    arguments: null
+
+
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Call
+                    callee:
+                      class: Expr.Variable
+                      name: qux
+
+                    arguments:
+                      - argument:
+                          class: Expr.Literal
+                          type: java.lang.Integer
+                          value: 0
+
+
+
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    name: count
+                    value:
+                      class: Expr.Binary
+                      left:
+                        class: Expr.Variable
+                        name: count
+
+                      operator: "+"
+                      right:
+                        class: Expr.Literal
+                        type: java.lang.Integer
+                        value: 1
+
+
+
+
+              - statement:
+                  class: Stmt.While
+                  condition:
+                    class: Expr.Binary
+                    left:
+                      class: Expr.Variable
+                      name: x
+
+                    operator: "<="
+                    right:
+                      class: Expr.Literal
+                      type: java.lang.Integer
+                      value: 0
+
+
+                  body:
+                    - statement:
+                        class: Stmt.If
+                        condition:
+                          class: Expr.Get
+                          object:
+                            self
+
+                          name: p
+
+                        thenBranch:
+                          - statement:
+                              class: Stmt.Expression
+                              expr:
+                                class: Expr.ListSet
+                                list:
+                                  class: Expr.Variable
+                                  name: xx
+
+                                index:
+                                  class: Expr.Literal
+                                  type: java.lang.Integer
+                                  value: 0
+
+                                value:
+                                  class: Expr.Index
+                                  list:
+                                    class: Expr.Variable
+                                    name: xx
+
+                                  index:
+                                    class: Expr.Literal
+                                    type: java.lang.Integer
+                                    value: 1
+
+
+
+
+                          - statement:
+                              class: Stmt.Expression
+                              expr:
+                                class: Expr.Set
+                                object:
+                                  self
+
+                                name: p
+                                value:
+                                  class: Expr.Unary
+                                  operator: "not"
+                                  operand:
+                                    class: Expr.Get
+                                    object:
+                                      self
+
+                                    name: p
+
+
+
+
+                          - statement:
+                              class: Stmt.Expression
+                              expr:
+                                class: Expr.Assign
+                                name: x
+                                value:
+                                  class: Expr.Binary
+                                  left:
+                                    class: Expr.Variable
+                                    name: x
+
+                                  operator: "+"
+                                  right:
+                                    class: Expr.Literal
+                                    type: java.lang.Integer
+                                    value: 1
+
+
+
+
+
+                        elseBranch:
+                          - statement:
+                              class: Stmt.If
+                              condition:
+                                class: Expr.Binary
+                                left:
+                                  class: Expr.Call
+                                  callee:
+                                    class: Expr.Variable
+                                    name: foo
+
+                                  arguments:
+                                    - argument:
+                                        class: Expr.Index
+                                        list:
+                                          class: Expr.Literal
+                                          type: java.lang.String
+                                          value: Long
+
+                                        index:
+                                          class: Expr.Literal
+                                          type: java.lang.Integer
+                                          value: 0
+
+
+
+                                operator: "=="
+                                right:
+                                  class: Expr.Literal
+                                  type: java.lang.Integer
+                                  value: 1
+
+
+                              thenBranch:
+                                - statement:
+                                    class: Stmt.Return
+                                    value:
+                                      class: Expr.Binary
+                                      left:
+                                        self
+
+                                      operator: "is"
+                                      right:
+                                        class: Expr.Literal
+                                        type: None
+                                        value: null
+
+
+
+
+                              elseBranch: null
+
+
+
+
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Literal
+                    type: java.lang.String
+                    value: Nope
+
+
+
+
+  - statement:
+      class: Stmt.Print
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Get
+          object:
+            class: Expr.Call
+            callee:
+              class: Expr.Variable
+              name: bar
+
+            arguments: null
+
+          name: baz
+
+        arguments:
+          - argument:
+              class: Expr.Listing
+              elements:
+                - element:
+                    class: Expr.Literal
+                    type: java.lang.Integer
+                    value: 1
+
+                - element:
+                    class: Expr.Literal
+                    type: java.lang.Integer
+                    value: 2
+
+
+
+

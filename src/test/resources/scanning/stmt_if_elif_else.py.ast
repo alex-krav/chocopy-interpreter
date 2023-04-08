@@ -1,0 +1,85 @@
+statements:
+  - statement:
+      class: Stmt.If
+      condition:
+        class: Expr.Binary
+        left:
+          class: Expr.Literal
+          type: java.lang.Integer
+          value: 1
+
+        operator: ">"
+        right:
+          class: Expr.Literal
+          type: java.lang.Integer
+          value: 2
+
+
+      thenBranch:
+        - statement:
+            class: Stmt.Print
+            expr:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 1
+
+
+
+      elseBranch:
+        - statement:
+            class: Stmt.If
+            condition:
+              class: Expr.Binary
+              left:
+                class: Expr.Literal
+                type: java.lang.Integer
+                value: 3
+
+              operator: "=="
+              right:
+                class: Expr.Literal
+                type: java.lang.Integer
+                value: 4
+
+
+            thenBranch:
+              - statement:
+                  class: Stmt.Print
+                  expr:
+                    class: Expr.Literal
+                    type: java.lang.Integer
+                    value: 2
+
+
+
+            elseBranch:
+              - statement:
+                  class: Stmt.If
+                  condition:
+                    class: Expr.Literal
+                    type: java.lang.Boolean
+                    value: true
+
+                  thenBranch:
+                    - statement:
+                        class: Stmt.Print
+                        expr:
+                          class: Expr.Literal
+                          type: java.lang.Integer
+                          value: 3
+
+
+
+                  elseBranch:
+                    - statement:
+                        class: Stmt.Print
+                        expr:
+                          class: Expr.Literal
+                          type: java.lang.Integer
+                          value: 4
+
+
+
+
+
+

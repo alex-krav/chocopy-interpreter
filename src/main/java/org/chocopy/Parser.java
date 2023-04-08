@@ -1,7 +1,6 @@
 package org.chocopy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.chocopy.TokenType.*;
@@ -11,6 +10,7 @@ class Parser {
 
     private final List<Token> tokens;
     private int current = 0;
+    private int forLoopsCounter = 0;
 
     Parser(List<Token> tokens) {
         this.tokens = tokens;
@@ -54,9 +54,29 @@ class Parser {
         return false;
     }
 
-    private boolean check(TokenType type) {
+    private boolean checkTwo(TokenType first, TokenType second) {
+        if (check(first)) {
+            return checkNext(second);
+        }
+
+        return false;
+    }
+
+    private boolean check(TokenType... types) {
         if (isAtEnd()) return false;
-        return peek().type == type;
+
+        for (TokenType type : types) {
+            if (peek().type == type) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean checkNext(TokenType type) {
+        if (isAtEnd()) return false;
+        return peekNext().type == type;
     }
 
     private Token advance() {
@@ -69,6 +89,11 @@ class Parser {
     }
 
     private Token peek() {
+        return tokens.get(current);
+    }
+
+    private Token peekNext() {
+        if (!isAtEnd()) return tokens.get(current + 1);
         return tokens.get(current);
     }
 
@@ -122,7 +147,7 @@ class Parser {
         if (expected) {
             throw error(peek(), "Expect literal.");
         } else {
-            throw new RuntimeError(previous(), "Non-literal token. Continue parsing.");
+            throw new RuntimeError(peek(), "Non-literal token. Continue parsing.");
         }
     }
 
@@ -250,7 +275,7 @@ class Parser {
 
     private Stmt declaration() {
         try {
-            if (match(IDENTIFIER)) return varDefinition("global variable");
+            if (checkTwo(IDENTIFIER, COLON)) return varDefinition("global variable");
             if (match(DEF)) return function("function");
             if (match(CLASS)) return classDefinition();
 
@@ -264,7 +289,7 @@ class Parser {
     private Stmt classDefinition() {
         Token name = consume(IDENTIFIER, "Expect class name.");
         consume(LEFT_PAREN, "Expect '(' after " + name + " class name.");
-        Token superclass = consume(IDENTIFIER, "Expect superclass name of " + name + "class.");
+        Token superclass = consume(peek().type, "Expect superclass name of " + name + "class.");
         consume(RIGHT_PAREN, "Expect ')' after superclass name of " + name + "class.");
 
         consume(COLON, "Expect ':' after " + name + " declaration.");
@@ -287,7 +312,7 @@ class Parser {
             consume(NEWLINE, "Expect 'newline' after pass statement.");
             return new Stmt.Pass(new Token(PASS, "pass", null, previous().line));
         }
-        if (match(IDENTIFIER)) return varDefinition("class field");
+        if (check(IDENTIFIER)) return varDefinition("class field");
         if (match(DEF)) return function("method");
 
         throw error(peek(), "Unexpected token in " + className + " class body.");
@@ -304,22 +329,28 @@ class Parser {
     }
     
     private Stmt.Var typedVarDeclaration(String kind) {
-        Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
-        consume(COLON, "Expect ':' after " + kind + " name.");
-        Token type = varType(kind);
-        return new Stmt.Var(name, type, null);
+        if (check(IDENTIFIER, SELF)) {
+            Token name = consume(peek().type, "Expect " + kind + " name.");
+            consume(COLON, "Expect ':' after " + kind + " name.");
+            Token type = varType(kind);
+            return new Stmt.Var(name, type, null);
+        }
+
+        throw error(peek(), "Unexpected token for " + kind + " identifier.");
     }
     
     private Token varType(String kind) {
-        if (match(IDENTIFIER)) {
-            return consume(IDENTIFIER, "Expect " + kind + " type name.");
-        } else if (match(STRING)) {
-            Token name = consume(STRING, "Expect " + kind + " type name.");
+        if (check(IDENTIFIER, BOOL_TYPE, STR_TYPE, INT_TYPE, OBJECT_TYPE)) {
+            return consume(peek().type, "Expect " + kind + " type name.");
+        } else if (check(STRING)) {
+            Token name = consume(peek().type, "Expect " + kind + " type name.");
             return new Token(IDSTRING, name.lexeme, name.literal, name.line);
         } else if (match(LEFT_BRACKET)) {
-            Token name = consume(IDENTIFIER, "Expect " + kind + " type name.");
-            consume(RIGHT_BRACKET, "Expect ']' after " + kind + " type name.");
-            return new Token(LIST_TYPE, name.lexeme, name.literal, name.line);
+            if (check(IDENTIFIER, BOOL_TYPE, STR_TYPE, INT_TYPE, OBJECT_TYPE)) {
+                Token name = consume(peek().type, "Expect " + kind + " type name.");
+                consume(RIGHT_BRACKET, "Expect ']' after " + kind + " type name.");
+                return new Token(LIST_TYPE, name.lexeme, name.literal, name.line);
+            }
         }
 
         throw error(peek(), "Unexpected token for " + kind + " type.");
@@ -355,7 +386,7 @@ class Parser {
         if (match(IF)) {
             Expr condition = or();
             consume(ELSE, "Expected 'else' after condition expression.");
-            Expr onFalse = or();
+            Expr onFalse = ternary();
             onTrue = new Expr.Ternary(onTrue, condition, onFalse);
         }
 
@@ -390,7 +421,7 @@ class Parser {
         try {
             if (match(GLOBAL)) return globalDeclaration();
             if (match(NONLOCAL)) return nonlocalDeclaration();
-            if (match(IDENTIFIER)) return varDefinition("function local variable");
+            if (checkTwo(IDENTIFIER, COLON)) return varDefinition("function local variable");
             if (match(DEF)) return function("inner function");
 
             return statement();
@@ -479,6 +510,7 @@ class Parser {
     }
 
     // syntactic desugaring of FOR stmt into WHILE stmt
+    // todo: after implementing interpreter update function to block (local scope vars)?
     private Stmt forStatement() {
         Token element = consume(IDENTIFIER, "Expect element name.");
         consume(IN, "Expect 'in' after " + element + " identifier.");
@@ -487,15 +519,19 @@ class Parser {
         Stmt.Block body = block();
 
         Token i = new Token(IDENTIFIER, "i", null,-1);
-        Stmt initializer = new Stmt.Var(
+        Stmt init_i = new Stmt.Var(
                                         i, 
-                                        new Token(IDENTIFIER, "int", null, -1), 
+                                        new Token(INT_TYPE, "int", null, -1), 
                                         new Expr.Literal(0));
+        Stmt init_elem = new Stmt.Var(
+                                        element, 
+                                        new Token(OBJECT_TYPE, "object", null, -1), 
+                                        new Expr.Literal(null));
         Expr condition = new Expr.Binary(
                                         new Expr.Variable(i),
                                         new Token(LESS, "<", null,-1),
                                         new Expr.Len(iterable));
-        Expr localAssignment = new Expr.Assign(
+        Expr assignNextElem = new Expr.Assign(
                                         element,
                                         new Expr.Index(iterable, new Expr.Variable(i)));
         Expr increment = new Expr.Assign(
@@ -505,17 +541,27 @@ class Parser {
                                             new Token(PLUS, "+", null,-1),
                                             new Expr.Literal(1)
                                         ));
+        List<Stmt> statements = body.statements;
+        statements.add(0, new Stmt.Expression(assignNextElem));
+        statements.add(new Stmt.Expression(increment));
+        Stmt.While whileLoop = new Stmt.While(condition, new Stmt.Block(statements));
         
-        return new Stmt.Block(
-                Arrays.asList(
-                    initializer,
-                    new Stmt.While(
-                            condition,
-                            new Stmt.Block(
-                                    Arrays.asList(
-                                            new Stmt.Expression(localAssignment),
-                                            body,
-                                            new Stmt.Expression(increment))))));
+        Stmt.Function fun = new Stmt.Function(
+                new Token(IDENTIFIER, "__forLoop"+forLoopsCounter, null, -1),
+                new ArrayList<>(),
+                null,
+                List.of(init_i, init_elem, whileLoop)
+        );
+        Expr.Call call = new Expr.Call(
+                new Expr.Variable(
+                        new Token(IDENTIFIER, "__forLoop"+forLoopsCounter, null, -1)
+                ),
+                new Token(RIGHT_PAREN, ")", null, -1),
+                new ArrayList<>()
+        );
+        forLoopsCounter++;
+        
+        return new Stmt.Block(List.of(fun, new Stmt.Expression(call)));
     }
 
     private Expr call() {

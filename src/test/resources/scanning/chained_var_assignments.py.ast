@@ -1,0 +1,21 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        name: x
+        value:
+          class: Expr.Assign
+          name: y
+          value:
+            class: Expr.Assign
+            name: z
+            value:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 1
+
+
+
+
+

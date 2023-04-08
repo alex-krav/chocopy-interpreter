@@ -1,0 +1,27 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Binary
+        left:
+          class: Expr.Binary
+          left:
+            class: Expr.Literal
+            type: java.lang.Integer
+            value: 1
+
+          operator: "+"
+          right:
+            class: Expr.Literal
+            type: java.lang.Integer
+            value: 2
+
+
+        operator: "+"
+        right:
+          class: Expr.Literal
+          type: java.lang.Integer
+          value: 3
+
+
+

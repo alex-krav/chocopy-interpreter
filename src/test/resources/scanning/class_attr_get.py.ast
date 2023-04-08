@@ -1,0 +1,43 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: Foo
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        name: f
+        value:
+          class: Expr.Call
+          callee:
+            class: Expr.Variable
+            name: Foo
+
+          arguments: null
+
+
+
+  - statement:
+      class: Stmt.Print
+      expr:
+        class: Expr.Get
+        object:
+          class: Expr.Variable
+          name: f
+
+        name: x
+
+

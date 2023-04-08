@@ -1,0 +1,64 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        type: None
+        value: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        name: x
+        value:
+          class: Expr.Listing
+          elements:
+            - element:
+                class: Expr.Literal
+                type: java.lang.Integer
+                value: 1
+
+            - element:
+                class: Expr.Literal
+                type: java.lang.Integer
+                value: 2
+
+            - element:
+                class: Expr.Literal
+                type: java.lang.Integer
+                value: 3
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.ListSet
+        list:
+          class: Expr.Variable
+          name: x
+
+        index:
+          class: Expr.Literal
+          type: java.lang.Integer
+          value: 0
+
+        value:
+          class: Expr.Index
+          list:
+            class: Expr.Variable
+            name: x
+
+          index:
+            class: Expr.Literal
+            type: java.lang.Integer
+            value: 1
+
+
+
+

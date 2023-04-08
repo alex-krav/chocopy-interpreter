@@ -4,6 +4,9 @@ import java.util.List;
 
 class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
+    private final String TAB = "  ";
+    private int level = 0;
+
     public static void main(String[] args) {
         Expr expression = new Expr.Binary(
                 new Expr.Unary(
@@ -22,34 +25,92 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
     @Override
     public String visitAssignExpr(Expr.Assign expr) {
-        return parenthesize2("=", expr.name.lexeme, expr.value);
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Assign");
+        line(builder, "name", expr.name.lexeme);
+        lineSeparate(builder, "value", expr.value.accept(this));
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
     public String visitBinaryExpr(Expr.Binary expr) {
-        return parenthesize(expr.operator.lexeme,
-                expr.left, expr.right);
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Binary");
+        lineSeparate(builder, "left", expr.left.accept(this));
+        lineQuotes(builder, "operator", expr.operator.lexeme);
+        lineSeparate(builder, "right", expr.right.accept(this));
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
     public String visitCallExpr(Expr.Call expr) {
-        return parenthesize2("call", expr.callee, expr.arguments);
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Call");
+        lineSeparate(builder, "callee", expr.callee.accept(this));
+        if (expr.arguments.isEmpty()) {
+            line(builder, "arguments", "null");
+        } else {
+            builder.append(tabs()); builder.append("arguments:\n");
+            level += 1;
+            for (Expr argument : expr.arguments) {
+                builder.append(tabs()); builder.append("- argument:\n");
+                level += 1;
+                builder.append(argument.accept(this)); builder.append("\n");
+                level -= 1;
+            }
+            level -= 1;
+        }
+        level -= 1;
+        
+        return builder.toString();
     }
 
     @Override
     public String visitGetExpr(Expr.Get expr) {
-        return parenthesize2(".", expr.object, expr.name.lexeme);
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Get");
+        lineSeparate(builder, "object", expr.object.accept(this));
+        line(builder, "name", expr.name.lexeme);
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
     public String visitGroupingExpr(Expr.Grouping expr) {
-        return parenthesize("group", expr.expression);
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Grouping");
+        lineSeparate(builder, "expr", expr.expression.accept(this));
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
     public String visitLiteralExpr(Expr.Literal expr) {
-        if (expr.value == null) return "nil";
-        return expr.value.toString();
+        StringBuilder builder = new StringBuilder();
+        
+        level += 1;
+        line(builder, "class", "Expr.Literal");
+        line(builder, "type", expr.value == null ? "None" : expr.value.getClass().getName());
+        line(builder, "value", expr.value == null ? "null" : expr.value.toString());
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
@@ -59,33 +120,91 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
     @Override
     public String visitTernaryExpr(Expr.Ternary expr) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Ternary");
+        lineSeparate(builder, "onTrue", expr.onTrue.accept((this)));
+        lineSeparate(builder, "condition", expr.condition.accept((this)));
+        lineSeparate(builder, "onFalse", expr.onFalse.accept((this)));
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
     public String visitListingExpr(Expr.Listing expr) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Listing");
+        builder.append(tabs()); builder.append("elements:\n"); 
+        level += 1;
+        for(int i = 0; i < expr.elements.size(); i++) {
+            Expr element = expr.elements.get(i);
+            builder.append(tabs()); builder.append("- element:\n");
+            level += 1;
+            builder.append(element.accept(this));
+            level -= 1;
+            builder.append("\n");
+        } 
+        level -= 1;
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
     public String visitIndexExpr(Expr.Index expr) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+        
+        level += 1;
+        line(builder, "class", "Expr.Index");
+        lineSeparate(builder, "list", expr.listing.accept(this));
+        lineSeparate(builder, "index", expr.id.accept(this));
+        level -= 1;
+        
+        return builder.toString();
     }
 
     @Override
     public String visitListSetExpr(Expr.ListSet expr) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.ListSet");
+        lineSeparate(builder, "list", expr.listing.accept(this));
+        lineSeparate(builder, "index", expr.id.accept(this));
+        lineSeparate(builder, "value", expr.value.accept(this));
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
     public String visitLenExpr(Expr.Len expr) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Len");
+        lineSeparate(builder, "expr", expr.expression.accept(this));
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
     public String visitSetExpr(Expr.Set expr) {
-        return parenthesize2("=",
-                expr.object, expr.name.lexeme, expr.value);
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Set");
+        lineSeparate(builder, "object", expr.object.accept(this));
+        line(builder, "name", expr.name.lexeme);
+        lineSeparate(builder, "value", expr.value.accept(this));
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
@@ -95,17 +214,38 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
     @Override
     public String visitThisExpr(Expr.This expr) {
-        return "this";
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        builder.append(tabs()); builder.append("self\n");
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
     public String visitUnaryExpr(Expr.Unary expr) {
-        return parenthesize(expr.operator.lexeme, expr.right);
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Unary");
+        lineQuotes(builder, "operator", expr.operator.lexeme);
+        lineSeparate(builder, "operand", expr.right.accept(this)); 
+        level -= 1;
+        
+        return builder.toString();
     }
 
     @Override
     public String visitVariableExpr(Expr.Variable expr) {
-        return expr.name.lexeme;
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Variable");
+        line(builder, "name", expr.name.lexeme);
+        level -= 1;
+        
+        return builder.toString();
     }
 
     private String parenthesize(String name, Expr... exprs) {
@@ -153,75 +293,142 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     @Override
     public String visitBlockStmt(Stmt.Block stmt) {
         StringBuilder builder = new StringBuilder();
-        builder.append("(block ");
 
+        level += 1;
         for (Stmt statement : stmt.statements) {
-            builder.append(statement.accept(this));
+            builder.append(print(statement));
+//            builder.append(tabs()); builder.append(statement.accept(this)); builder.append("\n");
         }
+        level -= 1;
 
-        builder.append(")");
         return builder.toString();
     }
 
     @Override
     public String visitClassStmt(Stmt.Class stmt) {
         StringBuilder builder = new StringBuilder();
-        builder.append("(class " + stmt.name.lexeme);
 
-        if (stmt.superclass != null) {
-            builder.append("( " + stmt.superclass.lexeme + " )");
+        level += 2;
+        line(builder, "class", "Stmt.Class");
+        line(builder, "name", stmt.name.lexeme);
+        line(builder, "superClass", stmt.superclass.lexeme);
+        
+        if (stmt.members.isEmpty()) {
+            line(builder, "members", "null");
+        } else {
+            builder.append(tabs()); builder.append("members:\n");
+            for (Stmt member : stmt.members) {
+                level += 1;
+                lineSeparate(builder, "- member", member.accept(this));
+                level -= 1;
+            }
         }
-
-        for (Stmt member : stmt.members) {
-            builder.append(" " + print(member));
-        }
-
-        builder.append(")");
+        level -= 2;
+        
         return builder.toString();
     }
 
     String print(Stmt stmt) {
-        return stmt.accept(this);
+        StringBuilder builder = new StringBuilder();
+        
+        if (level == 0) {
+            builder.append(tabs()); builder.append("statements:\n");
+            level += 1;
+        }
+
+//        level += 2;
+        if (stmt instanceof Stmt.Block) {
+            for (Stmt statement : ((Stmt.Block) stmt).statements) {
+                builder.append(print(statement));
+            }
+        } else {
+            lineSeparate(builder, "- statement", stmt.accept(this));
+        }
+
+        return builder.toString();
     }
 
     @Override
     public String visitExpressionStmt(Stmt.Expression stmt) {
-        return parenthesize(";", stmt.expression);
+        StringBuilder builder = new StringBuilder();
+
+        level += 2;
+        line(builder, "class", "Stmt.Expression");
+        lineSeparate(builder, "expr", stmt.expression.accept(this));
+        level -= 2;
+
+        return builder.toString();
     }
 
     @Override
     public String visitFunctionStmt(Stmt.Function stmt) {
         StringBuilder builder = new StringBuilder();
-        builder.append("(fun " + stmt.name.lexeme + "(");
 
-        for (Stmt.Var param : stmt.params) {
-            if (param != stmt.params.get(0)) builder.append(" ");
-            builder.append(print(param));
+        level += 2;
+        line(builder, "class", "Stmt.Function");
+        line(builder, "name", stmt.name.lexeme);
+        
+        if (stmt.params.isEmpty()) {
+            line(builder, "params", "null");
+        } else {
+            builder.append(tabs()); builder.append("params:\n");
+            level += 1;
+            for (Stmt.Var param : stmt.params) {
+                lineSeparate(builder, "- param", param.accept(this));
+            }
+            level -= 1;
         }
 
-        builder.append(") ");
+        if (stmt.returnType == null) {
+            line(builder, "returnType", "None");
+        } else {
+            line(builder, "returnType", stmt.returnType.lexeme);
+        }
 
+        builder.append(tabs()); builder.append("body:\n");
+        level += 1;
         for (Stmt body : stmt.body) {
-            builder.append(body.accept(this));
+            builder.append(print(body));
         }
+        level -= 1;
+        level -= 2;
 
-        builder.append(")");
         return builder.toString();
     }
 
     @Override
     public String visitIfStmt(Stmt.If stmt) {
-        if (stmt.elseBranch == null) {
-            return parenthesize2("if", stmt.condition, stmt.thenBranch);
-        }
+        StringBuilder builder = new StringBuilder();
 
-        return parenthesize2("if-else", stmt.condition, stmt.thenBranch,
-                stmt.elseBranch);
+        level += 2;
+        line(builder, "class", "Stmt.If");
+        lineSeparate(builder, "condition", stmt.condition.accept(this));
+        lineSeparate(builder, "thenBranch", stmt.thenBranch.accept(this));
+        if (stmt.elseBranch == null) {
+            line(builder, "elseBranch", "null");
+        } else if (stmt.elseBranch instanceof Stmt.Block) {
+            lineSeparate(builder, "elseBranch", stmt.elseBranch.accept(this));
+        } else {
+            builder.append(tabs()); builder.append("elseBranch:\n");
+            level += 1;
+            builder.append(print(stmt.elseBranch));
+            level -= 1;
+        }
+        level -= 2;
+
+        return builder.toString();
     }
 
     @Override
     public String visitPrintStmt(Stmt.Print stmt) {
-        return parenthesize("print", stmt.expression);
+        StringBuilder builder = new StringBuilder();
+
+        level += 2;
+        line(builder,"class", "Stmt.Print");
+        lineSeparate(builder, "expr", stmt.expression.accept(this));
+        level -= 2;
+
+        return builder.toString();
     }
 
     @Override
@@ -231,36 +438,111 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
     @Override
     public String visitReturnStmt(Stmt.Return stmt) {
-        if (stmt.value == null) return "(return)";
-        return parenthesize("return", stmt.value);
+        StringBuilder builder = new StringBuilder();
+
+        level += 2;
+        line(builder, "class", "Stmt.Return");
+        if (stmt.value == null) {
+            line(builder, "value", "null");
+        } else {
+            lineSeparate(builder, "value", stmt.value.accept(this));
+        }
+        level -= 2;
+        
+        return builder.toString();
     }
 
     @Override
     public String visitVarStmt(Stmt.Var stmt) {
+        StringBuilder builder = new StringBuilder();
+        
+        level += 2;
+        line(builder, "class", "Stmt.Var");
+        line(builder, "name", stmt.name.lexeme);
+        line(builder, "type", stmt.type.lexeme);
         if (stmt.initializer == null) {
-            return parenthesize2("var", stmt.name);
+            line(builder, "initializer", "null");
+        } else {
+            lineSeparate(builder, "initializer", stmt.initializer.accept(this));
         }
-
-        return parenthesize2("var", stmt.name, "=", stmt.initializer);
+        level -= 2;
+        
+        return builder.toString();
     }
 
     @Override
     public String visitWhileStmt(Stmt.While stmt) {
-        return parenthesize2("while", stmt.condition, stmt.body);
+        StringBuilder builder = new StringBuilder();
+
+        level += 2;
+        line(builder, "class", "Stmt.While");
+        lineSeparate(builder, "condition", stmt.condition.accept(this));
+        lineSeparate(builder, "body", stmt.body.accept(this));
+        level -= 2;
+
+        return builder.toString();
     }
 
     @Override
     public String visitPassStmt(Stmt.Pass stmt) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        level += 2;
+        line(builder, "class", "Stmt.Pass");
+        level -= 2;
+
+        return builder.toString();
     }
 
     @Override
     public String visitGlobalStmt(Stmt.Global stmt) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        level += 2;
+        line(builder, "class", "Stmt.Global");
+        line(builder, "name", stmt.name.lexeme);
+        level -= 2;
+
+        return builder.toString();
     }
 
     @Override
     public String visitNonlocalStmt(Stmt.Nonlocal stmt) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        level += 2;
+        line(builder, "class", "Stmt.Nonlocal");
+        line(builder, "name", stmt.name.lexeme);
+        level -= 2;
+
+        return builder.toString();
+    }
+    
+    private String tabs() {
+        return TAB.repeat(level);
+    }
+    
+    private void line(StringBuilder builder, String key, String value) {
+        _line(builder, key, ": ", value, false);
+    }
+    
+    private void lineQuotes(StringBuilder builder, String key, String value) {
+        _line(builder, key, ": ", value, true);
+    }
+    
+    private void lineSeparate(StringBuilder builder, String key, String value) {
+        _line(builder, key, ":\n", value, false);
+    }
+    
+    private void _line(StringBuilder builder, String key, String sep, String value, boolean quotes) {
+        builder.append(tabs());
+        builder.append(key);
+        builder.append(sep);
+        if (quotes) {
+            builder.append("\"").append(value).append("\"");
+        } else {
+            builder.append(value);
+        }
+        builder.append("\n");
     }
 }

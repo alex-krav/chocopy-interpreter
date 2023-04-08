@@ -1,0 +1,4 @@
+[line 1] Error at ',': Expect ':' after function parameter name.
+[line 2] Error at '': Expect expression.
+[line 5] Error at '': Expect expression.
+[line 6] Error at '*': Expect expression.

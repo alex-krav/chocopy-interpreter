@@ -1,0 +1,63 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Literal
+        type: java.lang.Boolean
+        value: true
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Literal
+        type: java.lang.Boolean
+        value: false
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Literal
+        type: java.lang.Integer
+        value: 1
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Literal
+        type: None
+        value: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Literal
+        type: java.lang.String
+        value: This is a string
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Listing
+        elements:
+          - element:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 1
+
+          - element:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 2
+
+          - element:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 3
+
+
+

@@ -1,0 +1,27 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: foo
+      params: null
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Variable
+          name: foo
+
+        arguments: null
+
+

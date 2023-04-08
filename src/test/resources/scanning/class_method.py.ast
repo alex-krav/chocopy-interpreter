@@ -1,0 +1,96 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: Foo
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 0
+
+
+        - member:
+            class: Stmt.Function
+            name: set
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: "Foo"
+                  initializer: null
+
+              - param:
+                  class: Stmt.Var
+                  name: x
+                  type: int
+                  initializer: null
+
+            returnType: object
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Set
+                    object:
+                      self
+
+                    name: x
+                    value:
+                      class: Expr.Variable
+                      name: x
+
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        name: f
+        value:
+          class: Expr.Call
+          callee:
+            class: Expr.Variable
+            name: Foo
+
+          arguments: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Get
+          object:
+            class: Expr.Variable
+            name: f
+
+          name: set
+
+        arguments:
+          - argument:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Print
+      expr:
+        class: Expr.Get
+        object:
+          class: Expr.Variable
+          name: f
+
+        name: x
+
+

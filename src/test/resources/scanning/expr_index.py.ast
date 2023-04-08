@@ -1,0 +1,30 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Binary
+        left:
+          class: Expr.Variable
+          name: a
+
+        operator: "+"
+        right:
+          class: Expr.Index
+          list:
+            class: Expr.Index
+            list:
+              class: Expr.Variable
+              name: b
+
+            index:
+              class: Expr.Variable
+              name: i
+
+
+          index:
+            class: Expr.Variable
+            name: j
+
+
+
+

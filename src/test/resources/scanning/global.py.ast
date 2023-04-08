@@ -1,0 +1,30 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        type: java.lang.Integer
+        value: 1
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        name: x
+        value:
+          class: Expr.Literal
+          type: java.lang.Integer
+          value: 2
+
+
+
+  - statement:
+      class: Stmt.Print
+      expr:
+        class: Expr.Variable
+        name: x
+
+

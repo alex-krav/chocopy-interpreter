@@ -1,0 +1,56 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: foo
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer: null
+
+        - param:
+            class: Stmt.Var
+            name: y
+            type: int
+            initializer: null
+
+      returnType: bool
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Binary
+              left:
+                class: Expr.Variable
+                name: x
+
+              operator: ">"
+              right:
+                class: Expr.Variable
+                name: y
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Variable
+          name: foo
+
+        arguments:
+          - argument:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 1
+
+          - argument:
+              class: Expr.Literal
+              type: java.lang.Integer
+              value: 2
+
+
+

@@ -1,0 +1,20 @@
+statements:
+  - statement:
+      class: Stmt.If
+      condition:
+        class: Expr.Literal
+        type: java.lang.Boolean
+        value: true
+
+      thenBranch:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Literal
+              type: java.lang.Boolean
+              value: false
+
+
+
+      elseBranch: null
+
