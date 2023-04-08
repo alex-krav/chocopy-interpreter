@@ -36,7 +36,7 @@ public class ChocoPyTest {
     }
 
     public static Stream<Arguments> testFilesForInterpreter() {
-        return TestUtils.testFiles("test,resources,bool");
+        return TestUtils.testFiles("test,resources,interpreter");
     }
 
     @Disabled

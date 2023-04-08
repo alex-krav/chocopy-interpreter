@@ -100,7 +100,7 @@ public class ScannerTest {
     @MethodSource("sourceStrings")
     public void scanStringTest(Path sourcePath, int tokensNumber, int stringTokenIndex, Token stringToken, String errors) throws IOException {
         // Given
-        Path resourcesPath = Paths.get("src","test/resources/strings".split("/"));
+        Path resourcesPath = Paths.get("src","test/resources/scanner/strings".split("/"));
         byte[] bytes = Files.readAllBytes(resourcesPath.resolve(sourcePath));
         scanner.source = new String(bytes, Charset.defaultCharset());
 
@@ -117,7 +117,7 @@ public class ScannerTest {
     }
 
     public static Stream<Arguments> testFilesWithTokens() {
-        return TestUtils.testFiles("test/resources/parsing");
+        return TestUtils.testFiles("test/resources/scanner");
     }
 
     @ParameterizedTest
@@ -128,7 +128,7 @@ public class ScannerTest {
 
     @Test
     public void testOneFile() throws IOException {
-        Path resourcesPath = Paths.get("src","test/resources/parsing".split("/"));
+        Path resourcesPath = Paths.get("src","test/resources/scanner".split("/"));
         Path inputPath = resourcesPath.resolve("indentation_first_line.py");
 
         test(inputPath);

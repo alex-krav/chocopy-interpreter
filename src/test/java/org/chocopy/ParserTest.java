@@ -41,7 +41,7 @@ public class ParserTest {
     }
 
     public static Stream<Arguments> testFilesWithAST() {
-        return TestUtils.testFiles("test/resources/scanning");
+        return TestUtils.testFiles("test/resources/parser");
     }
 
     @ParameterizedTest
@@ -52,7 +52,7 @@ public class ParserTest {
 
     @Test
     public void testOneFile() throws IOException {
-        Path resourcesPath = Paths.get("src","test/resources/scanning".split("/"));
+        Path resourcesPath = Paths.get("src","test/resources/parser".split("/"));
         Path inputPath = resourcesPath.resolve("bad_stmt.py");
 
         test(inputPath);

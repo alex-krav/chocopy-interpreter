@@ -15,7 +15,7 @@ public class TestUtils {
     public static Stream<Arguments> testFiles(String dir) {
         List<Path> inputData;
         final Path resourcesPath = Paths.get("src",dir.split("/"));
-        try (Stream<Path> walk = Files.walk(resourcesPath)) {
+        try (Stream<Path> walk = Files.walk(resourcesPath, 1)) {
             inputData = walk
                     .filter(Files::isRegularFile)
                     .filter(p -> p.getFileName().toString().endsWith(".py"))
