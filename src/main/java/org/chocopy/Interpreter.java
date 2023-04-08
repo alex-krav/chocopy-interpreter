@@ -201,7 +201,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Object visitThisExpr(Expr.This expr) {
+    public Object visitSelfExpr(Expr.Self expr) {
         return lookUpVariable(expr.keyword, expr);
     }
 

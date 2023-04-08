@@ -166,7 +166,7 @@ class Parser {
             return new Expr.Super(keyword, method);
         }
 
-        if (match(SELF)) return new Expr.This(previous());
+        if (match(SELF)) return new Expr.Self(previous());
 
         if (match(IDENTIFIER)) {
             return new Expr.Variable(previous());

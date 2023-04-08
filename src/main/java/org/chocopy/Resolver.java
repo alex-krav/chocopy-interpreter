@@ -124,7 +124,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitThisExpr(Expr.This expr) {
+    public Void visitSelfExpr(Expr.Self expr) {
         if (currentClass == ClassType.NONE) {
             ChocoPy.error(expr.keyword,
                     "Can't use 'this' outside of a class.");

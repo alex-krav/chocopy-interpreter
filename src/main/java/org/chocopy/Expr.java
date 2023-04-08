@@ -18,7 +18,7 @@ abstract class Expr {
         R visitLenExpr(Len expr);
         R visitSetExpr(Set expr);
         R visitSuperExpr(Super expr);
-        R visitThisExpr(This expr);
+        R visitSelfExpr(Self expr);
         R visitUnaryExpr(Unary expr);
         R visitVariableExpr(Variable expr);
     }
@@ -237,14 +237,14 @@ abstract class Expr {
         final Token method;
     }
 
-    static class This extends Expr {
-        This(Token keyword) {
+    static class Self extends Expr {
+        Self(Token keyword) {
             this.keyword = keyword;
         }
 
         @Override
         <R> R accept(Visitor<R> visitor) {
-            return visitor.visitThisExpr(this);
+            return visitor.visitSelfExpr(this);
         }
 
         final Token keyword;

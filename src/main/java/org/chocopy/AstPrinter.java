@@ -213,7 +213,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     @Override
-    public String visitThisExpr(Expr.This expr) {
+    public String visitSelfExpr(Expr.Self expr) {
         StringBuilder builder = new StringBuilder();
 
         level += 1;
