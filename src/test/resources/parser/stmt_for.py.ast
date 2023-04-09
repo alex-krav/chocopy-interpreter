@@ -13,7 +13,7 @@ statements:
       class: Stmt.Function
       name: __forLoop0
       params: null
-      returnType: None
+      returnType: <None>
       body:
         - statement:
             class: Stmt.Var
@@ -31,7 +31,7 @@ statements:
             type: object
             initializer:
               class: Expr.Literal
-              type: None
+              type: <None>
               value: null
 
 

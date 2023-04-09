@@ -5,7 +5,7 @@ statements:
       type: int
       initializer:
         class: Expr.Literal
-        type: None
+        type: <None>
         value: null
 
 

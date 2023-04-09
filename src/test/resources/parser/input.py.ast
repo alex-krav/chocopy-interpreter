@@ -1,0 +1,83 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: s
+      type: str
+      initializer:
+        class: Expr.Literal
+        type: java.lang.String
+        value: ""
+
+
+  - statement:
+      class: Stmt.Var
+      name: l
+      type: int
+      initializer:
+        class: Expr.Literal
+        type: java.lang.Integer
+        value: 0
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        name: s
+        value:
+          class: Expr.Input
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        name: l
+        value:
+          class: Expr.Len
+          expr:
+            class: Expr.Variable
+            name: s
+
+
+
+
+  - statement:
+      class: Stmt.While
+      condition:
+        class: Expr.Binary
+        left:
+          class: Expr.Len
+          expr:
+            class: Expr.Variable
+            name: s
+
+
+        operator: ">"
+        right:
+          class: Expr.Literal
+          type: java.lang.Integer
+          value: 0
+
+
+      body:
+        - statement:
+            class: Stmt.Print
+            expr:
+              class: Expr.Variable
+              name: s
+
+
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              name: s
+              value:
+                class: Expr.Input
+
+
+
+
+

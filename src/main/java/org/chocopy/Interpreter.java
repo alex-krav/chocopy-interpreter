@@ -168,6 +168,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Object visitInputExpr(Expr.Input expr) {
+        return null;
+    }
+
+    @Override
     public Object visitSetExpr(Expr.Set expr) {
         Object object = evaluate(expr.object);
 
@@ -367,11 +372,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Void visitPrintStmt(Stmt.Print stmt) {
         Object value = evaluate(stmt.expression);
         System.out.println(stringify(value));
-        return null;
-    }
-
-    @Override
-    public Void visitInputStmt(Stmt.Input stmt) {
         return null;
     }
 

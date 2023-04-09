@@ -16,6 +16,7 @@ abstract class Expr {
         R visitIndexExpr(Index expr);
         R visitListSetExpr(ListSet expr);
         R visitLenExpr(Len expr);
+        R visitInputExpr(Input expr);
         R visitSetExpr(Set expr);
         R visitSuperExpr(Super expr);
         R visitSelfExpr(Self expr);
@@ -203,6 +204,19 @@ abstract class Expr {
         }
 
         final Expr expression;
+    }
+
+    static class Input extends Expr {
+        Input(Token keyword) {
+            this.keyword = keyword;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitInputExpr(this);
+        }
+
+        final Token keyword;
     }
 
     static class Set extends Expr {

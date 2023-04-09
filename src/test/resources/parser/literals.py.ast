@@ -27,7 +27,7 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
-        type: None
+        type: <None>
         value: null
 
 
@@ -36,7 +36,7 @@ statements:
       expr:
         class: Expr.Literal
         type: java.lang.String
-        value: This is a string
+        value: "This is a string"
 
 
   - statement:

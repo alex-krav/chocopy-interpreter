@@ -30,7 +30,8 @@ public class GenerateAst {
                 "Listing  : List<Expr> elements",
                 "Index    : Expr listing, Expr id",
                 "ListSet  : Expr listing, Expr id, Expr value",
-                "Len      : Expr expression"
+                "Len      : Expr expression",
+                "Input    : Token keyword"
         ));
 
         defineAst(outputDir, "Stmt", Arrays.asList(
@@ -40,7 +41,6 @@ public class GenerateAst {
                 "Function   : Token name, List<Stmt.Var> params, Token returnType, List<Stmt> body",
                 "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
                 "Print      : Expr expression",
-                "Input      : Token keyword",
                 "Return     : Token keyword, Expr value",
                 "Var        : Token name, Token type, Expr initializer",
                 "While      : Expr condition, Stmt body",

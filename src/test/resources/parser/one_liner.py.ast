@@ -1,0 +1,9 @@
+statements:
+  - statement:
+      class: Stmt.Print
+      expr:
+        class: Expr.Literal
+        type: java.lang.String
+        value: "hello"
+
+

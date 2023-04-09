@@ -10,7 +10,6 @@ abstract class Stmt {
         R visitFunctionStmt(Function stmt);
         R visitIfStmt(If stmt);
         R visitPrintStmt(Print stmt);
-        R visitInputStmt(Input stmt);
         R visitReturnStmt(Return stmt);
         R visitVarStmt(Var stmt);
         R visitWhileStmt(While stmt);
@@ -109,19 +108,6 @@ abstract class Stmt {
         }
 
         final Expr expression;
-    }
-
-    static class Input extends Stmt {
-        Input(Token keyword) {
-            this.keyword = keyword;
-        }
-
-        @Override
-        <R> R accept(Visitor<R> visitor) {
-            return visitor.visitInputStmt(this);
-        }
-
-        final Token keyword;
     }
 
     static class Return extends Stmt {

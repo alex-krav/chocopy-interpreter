@@ -41,7 +41,7 @@ class Token {
             case ARROW -> ARROW + " ->";
             case IDENTIFIER -> IDENTIFIER + " " + lexeme;
             case NUMBER -> NUMBER + " " + lexeme;
-            case STRING -> STRING + " " + literal;
+            case STRING -> STRING + " \"" + literal + "\"";
             default -> type.toString(); // type + "~" + lexeme + "~" + literal;
         };
     }

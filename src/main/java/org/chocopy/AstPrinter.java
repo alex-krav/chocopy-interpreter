@@ -106,8 +106,16 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         
         level += 1;
         line(builder, "class", "Expr.Literal");
-        line(builder, "type", expr.value == null ? "None" : expr.value.getClass().getName());
-        line(builder, "value", expr.value == null ? "null" : expr.value.toString());
+        line(builder, "type", expr.value == null ? "<None>" : expr.value.getClass().getName());
+        String value;
+        if (expr.value == null) {
+            value = "null";
+        } else if (expr.value instanceof String) {
+            value = "\"" + expr.value + "\"";
+        } else {
+            value = expr.value.toString();
+        }
+        line(builder, "value", value);
         level -= 1;
 
         return builder.toString();
@@ -115,7 +123,16 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
     @Override
     public String visitLogicalExpr(Expr.Logical expr) {
-        return parenthesize(expr.operator.lexeme, expr.left, expr.right);
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Logical");
+        lineSeparate(builder, "left", expr.left.accept(this));
+        lineQuotes(builder, "operator", expr.operator.lexeme);
+        lineSeparate(builder, "right", expr.right.accept(this));
+        level -= 1;
+
+        return builder.toString();
     }
 
     @Override
@@ -138,17 +155,21 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
         level += 1;
         line(builder, "class", "Expr.Listing");
-        builder.append(tabs()); builder.append("elements:\n"); 
-        level += 1;
-        for(int i = 0; i < expr.elements.size(); i++) {
-            Expr element = expr.elements.get(i);
-            builder.append(tabs()); builder.append("- element:\n");
+        if (expr.elements.isEmpty()) {
+            line(builder, "elements", "null");
+        } else {
+            builder.append(tabs()); builder.append("elements:\n");
             level += 1;
-            builder.append(element.accept(this));
+            for(int i = 0; i < expr.elements.size(); i++) {
+                Expr element = expr.elements.get(i);
+                builder.append(tabs()); builder.append("- element:\n");
+                level += 1;
+                builder.append(element.accept(this));
+                level -= 1;
+                builder.append("\n");
+            }
             level -= 1;
-            builder.append("\n");
-        } 
-        level -= 1;
+        }
         level -= 1;
 
         return builder.toString();
@@ -188,6 +209,17 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         level += 1;
         line(builder, "class", "Expr.Len");
         lineSeparate(builder, "expr", expr.expression.accept(this));
+        level -= 1;
+
+        return builder.toString();
+    }
+
+    @Override
+    public String visitInputExpr(Expr.Input expr) {
+        StringBuilder builder = new StringBuilder();
+
+        level += 1;
+        line(builder, "class", "Expr.Input");
         level -= 1;
 
         return builder.toString();
@@ -380,7 +412,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         }
 
         if (stmt.returnType == null) {
-            line(builder, "returnType", "None");
+            line(builder, "returnType", "<None>");
         } else {
             line(builder, "returnType", stmt.returnType.lexeme);
         }
@@ -432,11 +464,6 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     @Override
-    public String visitInputStmt(Stmt.Input stmt) {
-        return null;
-    }
-
-    @Override
     public String visitReturnStmt(Stmt.Return stmt) {
         StringBuilder builder = new StringBuilder();
 
@@ -459,7 +486,12 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         level += 2;
         line(builder, "class", "Stmt.Var");
         line(builder, "name", stmt.name.lexeme);
-        line(builder, "type", stmt.type.lexeme);
+        if (stmt.type.type == TokenType.LIST_TYPE) {
+            String typeLexeme = "[" + stmt.type.lexeme + "]";
+            line(builder, "type", typeLexeme);
+        } else {
+            line(builder, "type", stmt.type.lexeme);
+        }
         if (stmt.initializer == null) {
             line(builder, "initializer", "null");
         } else {

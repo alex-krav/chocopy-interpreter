@@ -26,8 +26,6 @@ class Parser {
     }
 
     private Expr expression() {
-        if (match(LEN_NATIVE_FUN)) return lenExpression();
-        
         return assignment();
     }
 
@@ -172,6 +170,9 @@ class Parser {
             return new Expr.Variable(previous());
         }
 
+        if (match(LEN_NATIVE_FUN)) return lenExpression();
+        if (match(INPUT_NATIVE_FUN)) return inputExpression();
+
         if (match(LEFT_PAREN)) {
             Expr expr = expression();
             consume(RIGHT_PAREN, "Expect ')' after expression.");
@@ -234,13 +235,12 @@ class Parser {
         if (match(FOR)) return forStatement();
 
         Stmt stmt = simpleStatement();
-        consume(NEWLINE, "Expect 'newline' after simple statement.");
+        if (!isAtEnd()) consume(NEWLINE, "Expect 'newline' after simple statement.");
         return stmt;
     }
     
     private Stmt simpleStatement() {
         if (match(PRINT_NATIVE_FUN)) return printStatement();
-        if (match(INPUT_NATIVE_FUN)) return inputStatement();
         
         if (match(PASS)) return new Stmt.Pass(previous());
         if (match(RETURN)) return returnStatement();
@@ -255,10 +255,10 @@ class Parser {
         return new Stmt.Print(value);
     }
 
-    private Stmt inputStatement() { //todo: impl as anonymous function?
+    private Expr inputExpression() { //todo: impl as anonymous function?
         consume(LEFT_PAREN, "Expect '(' for function call.");
         consume(RIGHT_PAREN, "Expect ')' for function call.");
-        return new Stmt.Input(new Token(INPUT_NATIVE_FUN, "", null, previous().line));
+        return new Expr.Input(new Token(INPUT_NATIVE_FUN, "", null, previous().line));
     }
 
     private Expr lenExpression() {

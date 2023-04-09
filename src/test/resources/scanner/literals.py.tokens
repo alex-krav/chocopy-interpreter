@@ -6,7 +6,7 @@ NUMBER 1
 NEWLINE
 NONE
 NEWLINE
-STRING This is a string
+STRING "This is a string"
 NEWLINE
 LEFT_BRACKET [
 NUMBER 1

@@ -30,7 +30,7 @@ statements:
                   type: int
                   initializer: null
 
-            returnType: None
+            returnType: <None>
             body:
               - statement:
                   class: Stmt.Expression
