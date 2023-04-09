@@ -10,7 +10,6 @@ class Parser {
 
     private final List<Token> tokens;
     private int current = 0;
-    private int forLoopsCounter = 0;
 
     Parser(List<Token> tokens) {
         this.tokens = tokens;
@@ -502,7 +501,6 @@ class Parser {
     }
 
     // syntactic desugaring of FOR stmt into WHILE stmt
-    // todo: after implementing interpreter update function to block (local scope vars)?
     private Stmt forStatement() {
         Token element = consume(IDENTIFIER, "Expect element name.");
         consume(IN, "Expect 'in' after " + element + " identifier.");
@@ -510,26 +508,27 @@ class Parser {
         consume(COLON, "Expect ':' after iterable.");
         Stmt.Block body = block();
 
-        Token i = new Token(IDENTIFIER, "i", null,-1);
+        Token __i = new Token(IDENTIFIER, "__i", null,-1);
         Stmt init_i = new Stmt.Var(
-                                        i, 
+                                        __i, 
                                         new Token(INT_TYPE, "int", null, -1), 
                                         new Expr.Literal(0));
-        Stmt init_elem = new Stmt.Var(
-                                        element, 
-                                        new Token(OBJECT_TYPE, "object", null, -1), 
-                                        new Expr.Literal(null));
+        Token __iterable = new Token(IDENTIFIER, "__iterable", null,-1);
+        Stmt init_iterable = new Stmt.Var(
+                __iterable,
+                new Token(OBJECT_TYPE, "object", null, -1),
+                iterable);
         Expr condition = new Expr.Binary(
-                                        new Expr.Variable(i),
+                                        new Expr.Variable(__i),
                                         new Token(LESS, "<", null,-1),
-                                        new Expr.Len(iterable));
+                                        new Expr.Len(new Expr.Variable(__iterable)));
         Expr assignNextElem = new Expr.Assign(
                                         element,
-                                        new Expr.Index(iterable, new Expr.Variable(i)));
+                                        new Expr.Index(new Expr.Variable(__iterable), new Expr.Variable(__i)));
         Expr increment = new Expr.Assign(
-                                        i,
+                                        __i,
                                         new Expr.Binary(
-                                            new Expr.Variable(i),
+                                            new Expr.Variable(__i),
                                             new Token(PLUS, "+", null,-1),
                                             new Expr.Literal(1)
                                         ));
@@ -538,22 +537,7 @@ class Parser {
         statements.add(new Stmt.Expression(increment));
         Stmt.While whileLoop = new Stmt.While(condition, new Stmt.Block(statements));
         
-        Stmt.Function fun = new Stmt.Function(
-                new Token(IDENTIFIER, "__forLoop"+forLoopsCounter, null, -1),
-                new ArrayList<>(),
-                null,
-                List.of(init_i, init_elem, whileLoop)
-        );
-        Expr.Call call = new Expr.Call(
-                new Expr.Variable(
-                        new Token(IDENTIFIER, "__forLoop"+forLoopsCounter, null, -1)
-                ),
-                new Token(RIGHT_PAREN, ")", null, -1),
-                new ArrayList<>()
-        );
-        forLoopsCounter++;
-        
-        return new Stmt.Block(List.of(fun, new Stmt.Expression(call)));
+        return new Stmt.Block(List.of(init_i, init_iterable, whileLoop));
     }
 
     private Expr call() {

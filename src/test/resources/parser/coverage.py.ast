@@ -141,122 +141,103 @@ statements:
 
 
               - statement:
-                  class: Stmt.Function
-                  name: __forLoop0
-                  params: null
-                  returnType: <None>
-                  body:
-                    - statement:
-                        class: Stmt.Var
-                        name: i
-                        type: int
-                        initializer:
-                          class: Expr.Literal
-                          type: java.lang.Integer
-                          value: 0
-
-
-                    - statement:
-                        class: Stmt.Var
-                        name: x
-                        type: object
-                        initializer:
-                          class: Expr.Literal
-                          type: <None>
-                          value: null
-
-
-                    - statement:
-                        class: Stmt.While
-                        condition:
-                          class: Expr.Binary
-                          left:
-                            class: Expr.Variable
-                            name: i
-
-                          operator: "<"
-                          right:
-                            class: Expr.Len
-                            expr:
-                              class: Expr.Variable
-                              name: xx
-
-
-
-                        body:
-                          - statement:
-                              class: Stmt.Expression
-                              expr:
-                                class: Expr.Assign
-                                name: x
-                                value:
-                                  class: Expr.Index
-                                  list:
-                                    class: Expr.Variable
-                                    name: xx
-
-                                  index:
-                                    class: Expr.Variable
-                                    name: i
-
-
-
-
-                          - statement:
-                              class: Stmt.Expression
-                              expr:
-                                class: Expr.Set
-                                object:
-                                  self
-
-                                name: p
-                                value:
-                                  class: Expr.Binary
-                                  left:
-                                    class: Expr.Variable
-                                    name: x
-
-                                  operator: "=="
-                                  right:
-                                    class: Expr.Literal
-                                    type: java.lang.Integer
-                                    value: 2
-
-
-
-
-                          - statement:
-                              class: Stmt.Expression
-                              expr:
-                                class: Expr.Assign
-                                name: i
-                                value:
-                                  class: Expr.Binary
-                                  left:
-                                    class: Expr.Variable
-                                    name: i
-
-                                  operator: "+"
-                                  right:
-                                    class: Expr.Literal
-                                    type: java.lang.Integer
-                                    value: 1
-
-
-
-
-
+                  class: Stmt.Var
+                  name: __i
+                  type: int
+                  initializer:
+                    class: Expr.Literal
+                    type: java.lang.Integer
+                    value: 0
 
 
               - statement:
-                  class: Stmt.Expression
-                  expr:
-                    class: Expr.Call
-                    callee:
-                      class: Expr.Variable
-                      name: __forLoop0
+                  class: Stmt.Var
+                  name: __iterable
+                  type: object
+                  initializer:
+                    class: Expr.Variable
+                    name: xx
 
-                    arguments: null
+
+              - statement:
+                  class: Stmt.While
+                  condition:
+                    class: Expr.Binary
+                    left:
+                      class: Expr.Variable
+                      name: __i
+
+                    operator: "<"
+                    right:
+                      class: Expr.Len
+                      expr:
+                        class: Expr.Variable
+                        name: __iterable
+
+
+
+                  body:
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Assign
+                          name: x
+                          value:
+                            class: Expr.Index
+                            list:
+                              class: Expr.Variable
+                              name: __iterable
+
+                            index:
+                              class: Expr.Variable
+                              name: __i
+
+
+
+
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Set
+                          object:
+                            self
+
+                          name: p
+                          value:
+                            class: Expr.Binary
+                            left:
+                              class: Expr.Variable
+                              name: x
+
+                            operator: "=="
+                            right:
+                              class: Expr.Literal
+                              type: java.lang.Integer
+                              value: 2
+
+
+
+
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Assign
+                          name: __i
+                          value:
+                            class: Expr.Binary
+                            left:
+                              class: Expr.Variable
+                              name: __i
+
+                            operator: "+"
+                            right:
+                              class: Expr.Literal
+                              type: java.lang.Integer
+                              value: 1
+
+
+
+
 
 
               - statement:
