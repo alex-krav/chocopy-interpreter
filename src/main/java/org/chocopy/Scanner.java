@@ -31,7 +31,6 @@ class Scanner {
         keywords.put("or",     OR);
         keywords.put("print", PRINT_NATIVE_FUN);
         keywords.put("return", RETURN);
-        keywords.put("super",  SUPER);
         keywords.put("self",   SELF);
         keywords.put("True",   TRUE);
         keywords.put("while",  WHILE);

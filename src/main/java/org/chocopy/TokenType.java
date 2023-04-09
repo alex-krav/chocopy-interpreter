@@ -23,7 +23,7 @@ public enum TokenType {
 
     // Keywords.
     AND, CLASS, ELSE, FALSE, DEF, FOR, IF, NONE, OR,
-    RETURN, SUPER, SELF, TRUE, WHILE,
+    RETURN, SELF, TRUE, WHILE,
     NOT, ELIF, PASS, EMPTY, IS, IN, GLOBAL, NONLOCAL,
     NEWLINE, INDENT, DEDENT,
 

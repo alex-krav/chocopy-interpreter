@@ -240,11 +240,6 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     @Override
-    public String visitSuperExpr(Expr.Super expr) {
-        return parenthesize2("super", expr.method);
-    }
-
-    @Override
     public String visitSelfExpr(Expr.Self expr) {
         StringBuilder builder = new StringBuilder();
 
@@ -277,29 +272,6 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         line(builder, "name", expr.name.lexeme);
         level -= 1;
         
-        return builder.toString();
-    }
-
-    private String parenthesize(String name, Expr... exprs) {
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("(").append(name);
-        for (Expr expr : exprs) {
-            builder.append(" ");
-            builder.append(expr.accept(this));
-        }
-        builder.append(")");
-
-        return builder.toString();
-    }
-
-    private String parenthesize2(String name, Object... parts) {
-        StringBuilder builder = new StringBuilder();
-
-        builder.append("(").append(name);
-        transform(builder, parts);
-        builder.append(")");
-
         return builder.toString();
     }
 
