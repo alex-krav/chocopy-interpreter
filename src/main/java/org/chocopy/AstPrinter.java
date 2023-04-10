@@ -458,12 +458,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         level += 2;
         line(builder, "class", "Stmt.Var");
         line(builder, "name", stmt.name.lexeme);
-        if (stmt.type.type == TokenType.LIST_TYPE) {
-            String typeLexeme = "[" + stmt.type.lexeme + "]";
-            line(builder, "type", typeLexeme);
-        } else {
-            line(builder, "type", stmt.type.lexeme);
-        }
+        line(builder, "type", stmt.type.lexeme);
         if (stmt.initializer == null) {
             line(builder, "initializer", "null");
         } else {

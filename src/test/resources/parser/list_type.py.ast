@@ -1,0 +1,181 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: s
+      type: str
+      initializer:
+        class: Expr.Literal
+        type: java.lang.String
+        value: "asdf"
+
+
+  - statement:
+      class: Stmt.Var
+      name: b
+      type: bool
+      initializer:
+        class: Expr.Literal
+        type: java.lang.Boolean
+        value: false
+
+
+  - statement:
+      class: Stmt.Var
+      name: i
+      type: int
+      initializer:
+        class: Expr.Literal
+        type: java.lang.Integer
+        value: 4
+
+
+  - statement:
+      class: Stmt.Var
+      name: o
+      type: object
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: t
+      type: T
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: ids
+      type: "S"
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: s_list
+      type: [str]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: b_list
+      type: [bool]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: i_list
+      type: [int]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: o_list
+      type: [object]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: t_list
+      type: [T]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: ids_list
+      type: ["S"]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: s_list2
+      type: [[str]]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: b_list2
+      type: [[bool]]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: i_list2
+      type: [[int]]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: o_list2
+      type: [[object]]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: t_list2
+      type: [[T]]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: ids_list2
+      type: [["S"]]
+      initializer:
+        class: Expr.Literal
+        type: <None>
+        value: null
+
+

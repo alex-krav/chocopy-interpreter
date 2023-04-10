@@ -297,7 +297,26 @@ class Scanner {
         value = value.replace("\\n", "\n");
         value = value.replace("\\t", "\t");
         value = value.replace("\\\"", "\"");
-        addToken(STRING, value);
+        
+        if (isIdString(value)) {
+            addToken(IDSTRING, value);
+        } else {
+            addToken(STRING, value);
+        }
+    }
+    
+    private boolean isIdString(String value) {
+        if (value == null || value.isEmpty()) {
+            return false;
+        }
+
+        if (value.length() == 1) {
+            return isAlpha(value.charAt(0));
+        }
+        
+        char firstChar = value.charAt(0);
+        String other = value.substring(1);
+        return isAlpha(firstChar) && other.matches("[a-zA-Z0-9_]+");
     }
 
     private boolean isDigit(char c) {

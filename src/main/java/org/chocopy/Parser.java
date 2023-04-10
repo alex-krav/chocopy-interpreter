@@ -137,7 +137,7 @@ class Parser {
         if (match(TRUE)) return new Expr.Literal(true);
         if (match(FALSE)) return new Expr.Literal(false);
 
-        if (match(NUMBER, STRING)) { // todo: IDSTRING?
+        if (match(NUMBER, STRING, IDSTRING)) {
             return new Expr.Literal(previous().literal);
         }
         
@@ -280,7 +280,14 @@ class Parser {
     private Stmt classDefinition() {
         Token name = consume(IDENTIFIER, "Expect class name.");
         consume(LEFT_PAREN, "Expect '(' after " + name + " class name.");
-        Token superclass = consume(peek().type, "Expect superclass name of " + name + "class.");
+        Token superclass;
+
+        if (check(IDENTIFIER, OBJECT_TYPE)) {
+            superclass = consume(peek().type, "Expect superclass name of " + name + "class.");
+        } else {
+            throw error(peek(), "Expect superclass name of " + name + "class.");
+        }
+        
         consume(RIGHT_PAREN, "Expect ')' after superclass name of " + name + "class.");
 
         consume(COLON, "Expect ':' after " + name + " declaration.");
@@ -300,7 +307,7 @@ class Parser {
     
     private Stmt classMember(Token className) {
         if (match(PASS)) {
-            consume(NEWLINE, "Expect 'newline' after pass statement.");
+            if (!isAtEnd()) consume(NEWLINE, "Expect 'newline' after pass statement.");
             return new Stmt.Pass(new Token(PASS, "pass", null, previous().line));
         }
         if (check(IDENTIFIER)) return varDefinition("class field");
@@ -315,7 +322,7 @@ class Parser {
         consume(EQUAL, "Expect '=' after " + kind + " declaration.");
         var.setInitializer(literal(true));
 
-        consume(NEWLINE, "Expect 'newline' after " + kind + " definition.");
+        if (!isAtEnd()) consume(NEWLINE, "Expect 'newline' after " + kind + " definition.");
         return var;
     }
     
@@ -323,25 +330,24 @@ class Parser {
         if (check(IDENTIFIER, SELF)) {
             Token name = consume(peek().type, "Expect " + kind + " name.");
             consume(COLON, "Expect ':' after " + kind + " name.");
-            Token type = varType(kind);
+            Token type = varType(kind, 0);
             return new Stmt.Var(name, type, null);
         }
 
         throw error(peek(), "Unexpected token for " + kind + " identifier.");
     }
     
-    private Token varType(String kind) {
-        if (check(IDENTIFIER, BOOL_TYPE, STR_TYPE, INT_TYPE, OBJECT_TYPE)) {
+    private Token varType(String kind, Integer level) {
+        if (check(IDENTIFIER, BOOL_TYPE, STR_TYPE, INT_TYPE, OBJECT_TYPE, IDSTRING)) {
             return consume(peek().type, "Expect " + kind + " type name.");
-        } else if (check(STRING)) {
-            Token name = consume(peek().type, "Expect " + kind + " type name.");
-            return new Token(IDSTRING, name.lexeme, name.literal, name.line);
         } else if (match(LEFT_BRACKET)) {
-            if (check(IDENTIFIER, BOOL_TYPE, STR_TYPE, INT_TYPE, OBJECT_TYPE)) {
-                Token name = consume(peek().type, "Expect " + kind + " type name.");
-                consume(RIGHT_BRACKET, "Expect ']' after " + kind + " type name.");
-                return new Token(LIST_TYPE, name.lexeme, name.literal, name.line);
-            }
+            level += 1;
+            Token name = varType(kind, level);
+            consume(RIGHT_BRACKET, "Expect ']' after " + kind + " type name.");
+            String lexeme = name.lexeme.startsWith("[") 
+                                ? name.lexeme 
+                                : "[".repeat(level) + name.lexeme + "]".repeat(level);
+            return new Token(LIST_TYPE, lexeme, name.literal, name.line);
         }
 
         throw error(peek(), "Unexpected token for " + kind + " type.");
@@ -598,7 +604,7 @@ class Parser {
         Token returnType = null;
         if (!check(COLON)) {
             consume(ARROW, "Expect '->' before " + kind + " return type.");    
-            returnType = varType("return");
+            returnType = varType("return", 0);
         }
         
         consume(COLON, "Expect ':' after " + kind + " definition.");
