@@ -1,0 +1,3 @@
+def m():
+
+print(x)

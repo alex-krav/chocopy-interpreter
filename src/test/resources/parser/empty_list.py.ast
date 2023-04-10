@@ -1,0 +1,11 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Len
+        expr:
+          class: Expr.Listing
+          elements: null
+
+
+

@@ -1,0 +1,20 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: m
+      params: null
+      returnType: <None>
+      body:
+        - statement:
+            class: Stmt.Print
+            expr:
+              class: Expr.Literal
+              type: java.lang.String
+              value: "hello"
+
+
+        - statement:
+            class: Stmt.Return
+            value: null
+
+

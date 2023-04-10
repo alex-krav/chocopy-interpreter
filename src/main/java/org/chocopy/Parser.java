@@ -279,27 +279,27 @@ class Parser {
 
     private Stmt classDefinition() {
         Token name = consume(IDENTIFIER, "Expect class name.");
-        consume(LEFT_PAREN, "Expect '(' after " + name + " class name.");
+        consume(LEFT_PAREN, "Expect '(' after " + name.lexeme + " class name.");
         Token superclass;
 
         if (check(IDENTIFIER, OBJECT_TYPE)) {
-            superclass = consume(peek().type, "Expect superclass name of " + name + "class.");
+            superclass = consume(peek().type, "Expect superclass name of " + name.lexeme + "class.");
         } else {
-            throw error(peek(), "Expect superclass name of " + name + "class.");
+            throw error(peek(), "Expect superclass name of " + name.lexeme + "class.");
         }
         
-        consume(RIGHT_PAREN, "Expect ')' after superclass name of " + name + "class.");
+        consume(RIGHT_PAREN, "Expect ')' after superclass name of " + name.lexeme + "class.");
 
-        consume(COLON, "Expect ':' after " + name + " declaration.");
-        consume(NEWLINE, "Expect 'newline' after " + name + " declaration.");
-        consume(INDENT, "Expect 'indent' after before " + name + " body.");
+        consume(COLON, "Expect ':' after " + name.lexeme + " declaration.");
+        consume(NEWLINE, "Expect 'newline' after " + name.lexeme + " declaration.");
+        consume(INDENT, "Expect 'indent' before " + name.lexeme + " body.");
 
         List<Stmt> members = new ArrayList<>();
         while (!check(DEDENT) && !isAtEnd()) {
             members.add(classMember(name));
         }
 
-        consume(DEDENT, "Expect 'dedent' after class body.");
+        consume(DEDENT, "Expect 'dedent' after " + name.lexeme + " body.");
 
         //todo check: members must be: 1 pass OR 1+ (var_def OR func_def)
         return new Stmt.Class(name, superclass, members);
@@ -509,7 +509,7 @@ class Parser {
     // syntactic desugaring of FOR stmt into WHILE stmt
     private Stmt forStatement() {
         Token element = consume(IDENTIFIER, "Expect element name.");
-        consume(IN, "Expect 'in' after " + element + " identifier.");
+        consume(IN, "Expect 'in' after " + element.lexeme + " identifier.");
         Expr iterable = expression();
         consume(COLON, "Expect ':' after iterable.");
         Stmt.Block body = block();
