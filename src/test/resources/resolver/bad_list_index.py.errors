@@ -1,6 +1,5 @@
-[line 0] Error: Expected int index, got bool
-[line 0] Error: Cannot index into bool
-[line 0] Error: Cannot index into <Empty>
-[line 0] Error: Expected int index, got bool
-[line 0] Error: Expected int index, got bool
-[line 0] Error: Expected int, got [int]
+[line 4] Error: Expected int index, got bool
+[line 5] Error: Cannot index into bool
+[line 6] Error: Cannot index into <Empty>
+[line 7] Error: Expected int index, got bool
+[line 7] Error: Expected int index, got bool

@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     
-    private static List<Class> staticTypes = List.of(IntType.class, BoolType.class, StrType.class);
+    private static final List<Class> staticTypes = List.of(IntType.class, BoolType.class, StrType.class);
     private final Stack<Map<String, ValueType>> scopes = new Stack<>();
     private final Map<String, ClassInfo> classes = new HashMap<>();
     private FunctionType currentFunction = FunctionType.NONE;
@@ -812,7 +812,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(stmt.expression);
         
         if (!staticTypes.contains(stmt.expression.inferredType.getClass())) {
-            ChocoPy.error(stmt.line, "Expected str, int or bool, got " + stmt.expression.inferredType);
+            ChocoPy.error(stmt.expression.line, "Expected str, int or bool, got " + stmt.expression.inferredType);
         }
         
         stmt.inferredType = new NoneType();
@@ -933,16 +933,16 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (iterableType instanceof ListValueType) {
             ValueType elementType = ((ListValueType) iterableType).getElementType();
             if (!canAssign(elementType, stmt.identifier.inferredType)) {
-                ChocoPy.error(stmt.line, String.format("Expected %s, got %s", elementType, stmt.identifier.inferredType));
+                ChocoPy.error(stmt.identifier.line, String.format("Expected %s, got %s", elementType, stmt.identifier.inferredType));
                 return null;
             }
         } else if (iterableType instanceof StrType) {
             if (!canAssign(iterableType, stmt.identifier.inferredType)) {
-                ChocoPy.error(stmt.line, String.format("Expected str, got %s", stmt.identifier.inferredType));
+                ChocoPy.error(stmt.identifier.line, String.format("Expected str, got %s", stmt.identifier.inferredType));
                 return null;
             }
         } else {
-            ChocoPy.error(stmt.line, String.format("Expected iterable, got %s", stmt.iterable.inferredType));
+            ChocoPy.error(stmt.identifier.line, String.format("Expected iterable, got %s", stmt.iterable.inferredType));
             return null;
         }
         

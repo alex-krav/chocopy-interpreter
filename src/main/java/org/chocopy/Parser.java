@@ -35,6 +35,7 @@ class Parser {
             Token operator = previous();
             Expr right = term();
             expr = new Expr.Binary(expr, operator, right);
+            expr.line = operator.line;
         }
 
         return expr;
@@ -105,6 +106,7 @@ class Parser {
             Token operator = previous();
             Expr right = factor();
             expr = new Expr.Binary(expr, operator, right);
+            expr.line = operator.line;
         }
 
         return expr;
@@ -117,6 +119,7 @@ class Parser {
             Token operator = previous();
             Expr right = unary();
             expr = new Expr.Binary(expr, operator, right);
+            expr.line = operator.line;
         }
 
         return expr;
@@ -126,19 +129,35 @@ class Parser {
         if (match(MINUS)) {
             Token operator = previous();
             Expr right = unary();
-            return new Expr.Unary(operator, right);
+            Expr.Unary unary = new Expr.Unary(operator, right);
+            unary.line = operator.line;
+            return unary;
         }
 
         return call();
     }
     
     private Expr literal(boolean expected) {
-        if (match(NONE)) return new Expr.Literal(null);
-        if (match(TRUE)) return new Expr.Literal(true);
-        if (match(FALSE)) return new Expr.Literal(false);
+        if (match(NONE)) {
+            Expr.Literal literal = new Expr.Literal(null);
+            literal.line = previous().line;
+            return literal;
+        }
+        if (match(TRUE)) {
+            Expr.Literal literal = new Expr.Literal(true);
+            literal.line = previous().line;
+            return literal;
+        }
+        if (match(FALSE)) {
+            Expr.Literal literal = new Expr.Literal(false);
+            literal.line = previous().line;
+            return literal;
+        }
 
         if (match(NUMBER, STRING, IDSTRING)) {
-            return new Expr.Literal(previous().literal);
+            Expr.Literal literal = new Expr.Literal(previous().literal);
+            literal.line = previous().line;
+            return literal;
         }
         
         if (expected) {
@@ -155,10 +174,16 @@ class Parser {
             // keep parsing
         }
 
-        if (match(SELF)) return new Expr.Self(previous());
+        if (match(SELF)) {
+            Expr.Self self = new Expr.Self(previous());
+            self.line = previous().line;
+            return self;
+        }
 
         if (match(IDENTIFIER)) {
-            return new Expr.Variable(previous());
+            Expr.Variable variable = new Expr.Variable(previous());
+            variable.line = previous().line;
+            return variable;
         }
 
         if (match(LEN_NATIVE_FUN)) return lenExpression();
@@ -182,7 +207,9 @@ class Parser {
                 } while (match(COMMA));
             }
             consume(RIGHT_BRACKET, "Expect ']' after list definition.");
-            return new Expr.Listing(elements);
+            Expr.Listing listing = new Expr.Listing(elements);
+            listing.line = previous().line;
+            return listing;
         }
 
         throw error(peek(), "Expect expression.");
@@ -249,14 +276,18 @@ class Parser {
     private Expr inputExpression() { //todo: impl as anonymous function?
         consume(LEFT_PAREN, "Expect '(' for function call.");
         consume(RIGHT_PAREN, "Expect ')' for function call.");
-        return new Expr.Input(new Token(INPUT_NATIVE_FUN, "", null, previous().line));
+        Expr.Input input = new Expr.Input(new Token(INPUT_NATIVE_FUN, "", null, previous().line));
+        input.line = previous().line;
+        return input;
     }
 
     private Expr lenExpression() {
         consume(LEFT_PAREN, "Expect '(' before argument.");
         Expr value = expression();
         consume(RIGHT_PAREN, "Expect ')' after argument.");
-        return new Expr.Len(value);
+        Expr.Len len = new Expr.Len(value);
+        len.line = previous().line;
+        return len;
     }
 
     private Stmt expressionStatement() {
@@ -366,13 +397,19 @@ class Parser {
 
             if (expr instanceof Expr.Variable) {
                 Token name = ((Expr.Variable)expr).name;
-                return new Expr.Assign(new Expr.Variable(name), value);
+                Expr.Assign assign = new Expr.Assign(new Expr.Variable(name), value);
+                assign.line = equals.line;
+                return assign;
             } else if (expr instanceof Expr.Get) {
                 Expr.Get get = (Expr.Get) expr;
-                return new Expr.Set(get.object, get.name, value);
+                Expr.Set set = new Expr.Set(get.object, get.name, value);
+                set.line = equals.line;
+                return set;
             } else if (expr instanceof Expr.Index) {
                 Expr.Index index = (Expr.Index) expr;
-                return new Expr.ListSet(index.listing, index.id, value);
+                Expr.ListSet listSet = new Expr.ListSet(index.listing, index.id, value);
+                listSet.line = equals.line;
+                return listSet;
             }
 
             error(equals, "Invalid assignment target.");
@@ -389,6 +426,7 @@ class Parser {
             consume(ELSE, "Expected 'else' after condition expression.");
             Expr onFalse = ternary();
             onTrue = new Expr.Ternary(onTrue, condition, onFalse);
+            onTrue.line = previous().line;
         }
 
         return onTrue;
@@ -471,6 +509,7 @@ class Parser {
             Token operator = previous();
             Expr right = and();
             expr = new Expr.Logical(expr, operator, right);
+            expr.line = operator.line;
         }
 
         return expr;
@@ -483,6 +522,7 @@ class Parser {
             Token operator = previous();
             Expr right = not();
             expr = new Expr.Logical(expr, operator, right);
+            expr.line = operator.line;
         }
 
         return expr;
@@ -495,6 +535,7 @@ class Parser {
             Token operator = previous();
             Expr right = equality();
             expr = new Expr.Unary(operator, right);
+            expr.line = operator.line;
         } else {
             expr = equality();
         }
@@ -530,10 +571,12 @@ class Parser {
                 Token name = consume(IDENTIFIER,
                         "Expect property name after '.'.");
                 expr = new Expr.Get(expr, name);
+                expr.line = name.line;
             } else if (match(LEFT_BRACKET)) {
                 Expr index = expression();
                 consume(RIGHT_BRACKET, "Expect ']' after list index.");
                 expr = new Expr.Index(expr, index);
+                expr.line = previous().line;
             } else {
                 break;
             }
@@ -556,7 +599,9 @@ class Parser {
         Token paren = consume(RIGHT_PAREN,
                 "Expect ')' after arguments.");
 
-        return new Expr.Call(callee, paren, arguments);
+        Expr.Call call = new Expr.Call(callee, paren, arguments);
+        call.line = paren.line;
+        return call;
     }
 
     private Stmt.Function function(String kind) {
