@@ -336,16 +336,23 @@ statements:
 
                               thenBranch:
                                 - statement:
-                                    class: Stmt.Return
-                                    value:
-                                      class: Expr.Binary
-                                      left:
+                                    class: Stmt.Expression
+                                    expr:
+                                      class: Expr.Set
+                                      object:
                                         name: self
 
-                                      operator: "is"
-                                      right:
-                                        class: Expr.Literal
-                                        value: null
+                                      name: p
+                                      value:
+                                        class: Expr.Binary
+                                        left:
+                                          name: self
+
+                                        operator: "is"
+                                        right:
+                                          class: Expr.Literal
+                                          value: null
+
 
 
 

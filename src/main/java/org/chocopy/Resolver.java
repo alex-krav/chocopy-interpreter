@@ -924,6 +924,39 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitForStmt(Stmt.For stmt) {
+        resolve(stmt.identifier);
+        resolve(stmt.iterable);
+        resolve(stmt.body);
+        
+        ValueType iterableType = stmt.iterable.inferredType;
+        if (iterableType instanceof ListValueType) {
+            ValueType elementType = ((ListValueType) iterableType).getElementType();
+            if (!canAssign(elementType, stmt.identifier.inferredType)) {
+                ChocoPy.error(stmt.line, String.format("Expected %s, got %s", elementType, stmt.identifier.inferredType));
+                return null;
+            }
+        } else if (iterableType instanceof StrType) {
+            if (!canAssign(iterableType, stmt.identifier.inferredType)) {
+                ChocoPy.error(stmt.line, String.format("Expected str, got %s", stmt.identifier.inferredType));
+                return null;
+            }
+        } else {
+            ChocoPy.error(stmt.line, String.format("Expected iterable, got %s", stmt.iterable.inferredType));
+            return null;
+        }
+        
+        Stmt.Block body = (Stmt.Block) stmt.body;
+        for (Stmt statement : body.statements) {
+            if (statement.isReturn) {
+                stmt.isReturn = true;
+                break;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Void visitPassStmt(Stmt.Pass stmt) {
         return null;
     }

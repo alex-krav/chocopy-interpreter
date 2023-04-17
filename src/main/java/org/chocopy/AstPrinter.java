@@ -503,6 +503,20 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     @Override
+    public String visitForStmt(Stmt.For stmt) {
+        StringBuilder builder = new StringBuilder();
+
+        level += 2;
+        line(builder, "class", "Stmt.For");
+        lineSeparate(builder, "identifier", stmt.identifier.accept(this));
+        lineSeparate(builder, "iterable", stmt.iterable.accept(this));
+        lineSeparate(builder, "body", stmt.body.accept(this));
+        level -= 2;
+
+        return builder.toString();
+    }
+
+    @Override
     public String visitPassStmt(Stmt.Pass stmt) {
         StringBuilder builder = new StringBuilder();
 

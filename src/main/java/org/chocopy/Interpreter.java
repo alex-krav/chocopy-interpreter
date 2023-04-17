@@ -384,6 +384,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitForStmt(Stmt.For stmt) {
+        return null;
+    }
+
+    @Override
     public Void visitPassStmt(Stmt.Pass stmt) {
         return null;
     }

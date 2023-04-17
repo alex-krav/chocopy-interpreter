@@ -17,6 +17,7 @@ abstract class Stmt {
         R visitReturnStmt(Return stmt);
         R visitVarStmt(Var stmt);
         R visitWhileStmt(While stmt);
+        R visitForStmt(For stmt);
         R visitPassStmt(Pass stmt);
         R visitGlobalStmt(Global stmt);
         R visitNonlocalStmt(Nonlocal stmt);
@@ -165,6 +166,23 @@ abstract class Stmt {
         }
 
         final Expr condition;
+        final Stmt body;
+    }
+
+    static class For extends Stmt {
+        For(Expr.Variable identifier, Expr iterable, Stmt body) {
+            this.identifier = identifier;
+            this.iterable = iterable;
+            this.body = body;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitForStmt(this);
+        }
+
+        final Expr.Variable identifier;
+        final Expr iterable;
         final Stmt body;
     }
 

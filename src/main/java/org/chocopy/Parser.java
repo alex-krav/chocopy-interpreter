@@ -510,44 +510,14 @@ class Parser {
         return new Stmt.While(condition, body);
     }
 
-    // syntactic desugaring of FOR stmt into WHILE stmt
     private Stmt forStatement() {
-        Token element = consume(IDENTIFIER, "Expect element name.");
-        consume(IN, "Expect 'in' after " + element.lexeme + " identifier.");
+        Token identifier = consume(IDENTIFIER, "Expect element name.");
+        consume(IN, "Expect 'in' after " + identifier.lexeme + " identifier.");
         Expr iterable = expression();
         consume(COLON, "Expect ':' after iterable.");
         Stmt.Block body = block();
-
-        Token __i = new Token(IDENTIFIER, "__i", null,-1);
-        Stmt init_i = new Stmt.Var(
-                                        __i, 
-                                        new IntType(), 
-                                        new Expr.Literal(0));
-        Token __iterable = new Token(IDENTIFIER, "__iterable", null,-1);
-        Stmt init_iterable = new Stmt.Var( // todo interpreter: make copy, not reference to iterable (test:resolver/stmt_for_strings.py)
-                __iterable,
-                new ListValueType(new ObjectType()),
-                iterable);
-        Expr condition = new Expr.Binary(
-                                        new Expr.Variable(__i),
-                                        new Token(LESS, "<", null,-1),
-                                        new Expr.Len(new Expr.Variable(__iterable)));
-        Expr assignNextElem = new Expr.Assign(
-                                        new Expr.Variable(element),
-                                        new Expr.Index(new Expr.Variable(__iterable), new Expr.Variable(__i)));
-        Expr increment = new Expr.Assign(
-                                        new Expr.Variable(__i),
-                                        new Expr.Binary(
-                                            new Expr.Variable(__i),
-                                            new Token(PLUS, "+", null,-1),
-                                            new Expr.Literal(1)
-                                        ));
-        List<Stmt> statements = body.statements;
-        statements.add(0, new Stmt.Expression(assignNextElem));
-        statements.add(new Stmt.Expression(increment));
-        Stmt.While whileLoop = new Stmt.While(condition, new Stmt.Block(statements));
         
-        return new Stmt.Block(List.of(init_i, init_iterable, whileLoop));
+        return new Stmt.For(new Expr.Variable(identifier), iterable, body);
     }
 
     private Expr call() {

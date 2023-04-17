@@ -32,10 +32,18 @@ statements:
 
       body:
         - statement:
-            class: Stmt.Print
+            class: Stmt.Expression
             expr:
-              class: Expr.Variable
-              name: x
+              class: Expr.Binary
+              left:
+                class: Expr.Variable
+                name: x
+
+              operator: "+"
+              right:
+                class: Expr.Literal
+                value: 1
+
 
 
 

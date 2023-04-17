@@ -5,6 +5,7 @@ statements:
       type: int
       initializer:
         class: Expr.Literal
+        inferredType: int
         value: 0
 
 
@@ -12,30 +13,46 @@ statements:
       class: Stmt.For
       identifier:
         class: Expr.Variable
+        inferredType: int
         name: x
 
       iterable:
         class: Expr.Listing
+        inferredType: [int]
         elements:
           - element:
               class: Expr.Literal
+              inferredType: int
               value: 1
 
           - element:
               class: Expr.Literal
+              inferredType: int
               value: 2
 
           - element:
               class: Expr.Literal
+              inferredType: int
               value: 3
 
 
       body:
         - statement:
-            class: Stmt.Print
+            class: Stmt.Expression
             expr:
-              class: Expr.Variable
-              name: x
+              class: Expr.Binary
+              inferredType: int
+              left:
+                class: Expr.Variable
+                inferredType: int
+                name: x
+
+              operator: "+"
+              right:
+                class: Expr.Literal
+                inferredType: int
+                value: 1
+
 
 
 

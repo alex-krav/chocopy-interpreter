@@ -5,6 +5,7 @@ statements:
       type: int
       initializer:
         class: Expr.Literal
+        inferredType: int
         value: 0
 
 
@@ -26,6 +27,7 @@ statements:
               class: Expr.Len
               expr:
                 class: Expr.Variable
+                inferredType: str
                 name: s
 
 
@@ -42,6 +44,7 @@ statements:
             type: bool
             initializer:
               class: Expr.Literal
+              inferredType: bool
               value: true
 
 
@@ -73,6 +76,7 @@ statements:
                   type: int
                   initializer:
                     class: Expr.Literal
+                    inferredType: int
                     value: 0
 
 
@@ -82,6 +86,7 @@ statements:
                   type: int
                   initializer:
                     class: Expr.Literal
+                    inferredType: int
                     value: 1
 
 
@@ -105,13 +110,16 @@ statements:
                         class: Stmt.If
                         condition:
                           class: Expr.Binary
+                          inferredType: bool
                           left:
                             class: Expr.Variable
+                            inferredType: int
                             name: x
 
                           operator: ">"
                           right:
                             class: Expr.Variable
+                            inferredType: int
                             name: y
 
 
@@ -122,13 +130,16 @@ statements:
                                 class: Expr.Assign
                                 target:
                                   class: Expr.Variable
+                                  inferredType: int
                                   name: x
 
                                 value:
                                   class: Expr.Unary
+                                  inferredType: int
                                   operator: "-"
                                   operand:
                                     class: Expr.Literal
+                                    inferredType: int
                                     value: 1
 
 
@@ -142,10 +153,12 @@ statements:
                   class: Stmt.For
                   identifier:
                     class: Expr.Variable
+                    inferredType: int
                     name: x
 
                   iterable:
                     class: Expr.Variable
+                    inferredType: [int]
                     name: xx
 
                   body:
@@ -155,17 +168,21 @@ statements:
                           class: Expr.Set
                           object:
                             name: self
+                            inferredType: bar
 
                           name: p
                           value:
                             class: Expr.Binary
+                            inferredType: bool
                             left:
                               class: Expr.Variable
+                              inferredType: int
                               name: x
 
                             operator: "=="
                             right:
                               class: Expr.Literal
+                              inferredType: int
                               value: 2
 
 
@@ -177,13 +194,16 @@ statements:
                   class: Stmt.Expression
                   expr:
                     class: Expr.Call
+                    inferredType: object
                     callee:
                       class: Expr.Variable
+                      inferredType: [int] -> object
                       name: qux
 
                     arguments:
                       - argument:
                           class: Expr.Literal
+                          inferredType: int
                           value: 0
 
 
@@ -194,17 +214,21 @@ statements:
                     class: Expr.Assign
                     target:
                       class: Expr.Variable
+                      inferredType: int
                       name: count
 
                     value:
                       class: Expr.Binary
+                      inferredType: int
                       left:
                         class: Expr.Variable
+                        inferredType: int
                         name: count
 
                       operator: "+"
                       right:
                         class: Expr.Literal
+                        inferredType: int
                         value: 1
 
 
@@ -214,13 +238,16 @@ statements:
                   class: Stmt.While
                   condition:
                     class: Expr.Binary
+                    inferredType: bool
                     left:
                       class: Expr.Variable
+                      inferredType: int
                       name: x
 
                     operator: "<="
                     right:
                       class: Expr.Literal
+                      inferredType: int
                       value: 0
 
 
@@ -229,8 +256,10 @@ statements:
                         class: Stmt.If
                         condition:
                           class: Expr.Get
+                          inferredType: bool
                           object:
                             name: self
+                            inferredType: bar
 
                           name: p
 
@@ -239,22 +268,28 @@ statements:
                               class: Stmt.Expression
                               expr:
                                 class: Expr.ListSet
+                                inferredType: [int]
                                 list:
                                   class: Expr.Variable
+                                  inferredType: [int]
                                   name: xx
 
                                 index:
                                   class: Expr.Literal
+                                  inferredType: int
                                   value: 0
 
                                 value:
                                   class: Expr.Index
+                                  inferredType: int
                                   list:
                                     class: Expr.Variable
+                                    inferredType: [int]
                                     name: xx
 
                                   index:
                                     class: Expr.Literal
+                                    inferredType: int
                                     value: 1
 
 
@@ -266,15 +301,19 @@ statements:
                                 class: Expr.Set
                                 object:
                                   name: self
+                                  inferredType: bar
 
                                 name: p
                                 value:
                                   class: Expr.Unary
+                                  inferredType: bool
                                   operator: "not"
                                   operand:
                                     class: Expr.Get
+                                    inferredType: bool
                                     object:
                                       name: self
+                                      inferredType: bar
 
                                     name: p
 
@@ -287,17 +326,21 @@ statements:
                                 class: Expr.Assign
                                 target:
                                   class: Expr.Variable
+                                  inferredType: int
                                   name: x
 
                                 value:
                                   class: Expr.Binary
+                                  inferredType: int
                                   left:
                                     class: Expr.Variable
+                                    inferredType: int
                                     name: x
 
                                   operator: "+"
                                   right:
                                     class: Expr.Literal
+                                    inferredType: int
                                     value: 1
 
 
@@ -309,21 +352,27 @@ statements:
                               class: Stmt.If
                               condition:
                                 class: Expr.Binary
+                                inferredType: bool
                                 left:
                                   class: Expr.Call
+                                  inferredType: int
                                   callee:
                                     class: Expr.Variable
+                                    inferredType: [str] -> int
                                     name: foo
 
                                   arguments:
                                     - argument:
                                         class: Expr.Index
+                                        inferredType: str
                                         list:
                                           class: Expr.Literal
+                                          inferredType: str
                                           value: "Long"
 
                                         index:
                                           class: Expr.Literal
+                                          inferredType: int
                                           value: 0
 
 
@@ -331,21 +380,33 @@ statements:
                                 operator: "=="
                                 right:
                                   class: Expr.Literal
+                                  inferredType: int
                                   value: 1
 
 
                               thenBranch:
                                 - statement:
-                                    class: Stmt.Return
-                                    value:
-                                      class: Expr.Binary
-                                      left:
+                                    class: Stmt.Expression
+                                    expr:
+                                      class: Expr.Set
+                                      object:
                                         name: self
+                                        inferredType: bar
 
-                                      operator: "is"
-                                      right:
-                                        class: Expr.Literal
-                                        value: null
+                                      name: p
+                                      value:
+                                        class: Expr.Binary
+                                        inferredType: bool
+                                        left:
+                                          name: self
+                                          inferredType: bar
+
+                                        operator: "is"
+                                        right:
+                                          class: Expr.Literal
+                                          inferredType: <None>
+                                          value: null
+
 
 
 
@@ -359,6 +420,7 @@ statements:
                   class: Stmt.Return
                   value:
                     class: Expr.Literal
+                    inferredType: str
                     value: "Nope"
 
 
@@ -368,12 +430,16 @@ statements:
       class: Stmt.Print
       expr:
         class: Expr.Call
+        inferredType: str
         callee:
           class: Expr.Get
+          inferredType: [bar, [int]] -> str
           object:
             class: Expr.Call
+            inferredType: bar
             callee:
               class: Expr.Variable
+              inferredType: [object] -> <None>
               name: bar
 
             arguments: null
@@ -383,13 +449,16 @@ statements:
         arguments:
           - argument:
               class: Expr.Listing
+              inferredType: [int]
               elements:
                 - element:
                     class: Expr.Literal
+                    inferredType: int
                     value: 1
 
                 - element:
                     class: Expr.Literal
+                    inferredType: int
                     value: 2
 
 

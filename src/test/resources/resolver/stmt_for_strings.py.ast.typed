@@ -1,0 +1,43 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: s
+      type: str
+      initializer:
+        class: Expr.Literal
+        inferredType: str
+        value: "Hello"
+
+
+  - statement:
+      class: Stmt.For
+      identifier:
+        class: Expr.Variable
+        inferredType: str
+        name: s
+
+      iterable:
+        class: Expr.Variable
+        inferredType: str
+        name: s
+
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Index
+              inferredType: str
+              list:
+                class: Expr.Variable
+                inferredType: str
+                name: s
+
+              index:
+                class: Expr.Literal
+                inferredType: int
+                value: 0
+
+
+
+
+
