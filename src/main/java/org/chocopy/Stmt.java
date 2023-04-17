@@ -3,6 +3,10 @@ package org.chocopy;
 import java.util.List;
 
 abstract class Stmt {
+    protected ValueType inferredType;
+    protected int line;
+    protected boolean isReturn;
+    
     interface Visitor<R> {
         R visitBlockStmt(Block stmt);
         R visitClassStmt(Class stmt);
@@ -62,7 +66,7 @@ abstract class Stmt {
     }
 
     static class Function extends Stmt {
-        Function(Token name, List<Stmt.Var> params, Token returnType, List<Stmt> body) {
+        Function(Token name, List<Stmt.Var> params, ValueType returnType, List<Stmt> body) {
             this.name = name;
             this.params = params;
             this.returnType = returnType;
@@ -76,8 +80,9 @@ abstract class Stmt {
 
         final Token name;
         final List<Stmt.Var> params;
-        final Token returnType;
+        final ValueType returnType;
         final List<Stmt> body;
+        FuncType signature;
     }
 
     static class If extends Stmt  {
@@ -114,6 +119,7 @@ abstract class Stmt {
         Return(Token keyword, Expr value) {
             this.keyword = keyword;
             this.value = value;
+            isReturn = true;
         }
 
         @Override
@@ -123,10 +129,11 @@ abstract class Stmt {
 
         final Token keyword;
         final Expr value;
+        ValueType expectedType;
     }
 
     static class Var extends Stmt {
-        Var(Token name, Token type, Expr initializer) {
+        Var(Token name, ValueType type, Expr initializer) {
             this.name = name;
             this.type = type;
             this.initializer = initializer;
@@ -138,7 +145,7 @@ abstract class Stmt {
         }
 
         final Token name;
-        final Token type;
+        final ValueType type;
         Expr initializer;
 
         public void setInitializer(Expr initializer) {

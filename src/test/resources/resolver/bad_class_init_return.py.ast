@@ -1,0 +1,38 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Function
+            name: __init__
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: A
+                  initializer: null
+
+            returnType: <None>
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Literal
+                    value: 1
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Variable
+          name: A
+
+        arguments: null
+
+

@@ -1,0 +1,134 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Class
+      name: B
+      superClass: A
+      members:
+        - member:
+            class: Stmt.Function
+            name: __init__
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: B
+                  initializer: null
+
+            returnType: <None>
+            body:
+              - statement:
+                  class: Stmt.Pass
+
+
+
+  - statement:
+      class: Stmt.Class
+      name: C
+      superClass: B
+      members:
+        - member:
+            class: Stmt.Var
+            name: z
+            type: bool
+            initializer:
+              class: Expr.Literal
+              value: true
+
+
+
+  - statement:
+      class: Stmt.Var
+      name: a
+      type: A
+      initializer:
+        class: Expr.Literal
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: b
+      type: B
+      initializer:
+        class: Expr.Literal
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: c
+      type: C
+      initializer:
+        class: Expr.Literal
+        value: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: a
+
+        value:
+          class: Expr.Call
+          callee:
+            class: Expr.Variable
+            name: A
+
+          arguments: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: b
+
+        value:
+          class: Expr.Call
+          callee:
+            class: Expr.Variable
+            name: B
+
+          arguments: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: c
+
+        value:
+          class: Expr.Call
+          callee:
+            class: Expr.Variable
+            name: C
+
+          arguments: null
+
+
+

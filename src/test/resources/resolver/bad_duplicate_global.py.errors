@@ -1,0 +1,3 @@
+[line 7] Error at 'foo': Duplicate declaration of identifier: foo
+[line 11] Error at 'print': Duplicate declaration of identifier: print
+[line 15] Error at 'x': Duplicate declaration of identifier: x

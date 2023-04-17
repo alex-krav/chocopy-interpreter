@@ -283,9 +283,9 @@ class Parser {
         Token superclass;
 
         if (check(IDENTIFIER, OBJECT_TYPE)) {
-            superclass = consume(peek().type, "Expect superclass name of " + name.lexeme + "class.");
+            superclass = consume(peek().type, "Expect superclass name.");
         } else {
-            throw error(peek(), "Expect superclass name of " + name.lexeme + "class.");
+            throw error(peek(), "Expect superclass name.");
         }
         
         consume(RIGHT_PAREN, "Expect ')' after superclass name of " + name.lexeme + "class.");
@@ -330,24 +330,28 @@ class Parser {
         if (check(IDENTIFIER, SELF)) {
             Token name = consume(peek().type, "Expect " + kind + " name.");
             consume(COLON, "Expect ':' after " + kind + " name.");
-            Token type = varType(kind, 0);
+            ValueType type = varType(kind);
             return new Stmt.Var(name, type, null);
         }
 
         throw error(peek(), "Unexpected token for " + kind + " identifier.");
     }
     
-    private Token varType(String kind, Integer level) {
+    private ValueType varType(String kind) {
         if (check(IDENTIFIER, BOOL_TYPE, STR_TYPE, INT_TYPE, OBJECT_TYPE, IDSTRING)) {
-            return consume(peek().type, "Expect " + kind + " type name.");
+            Token token = consume(peek().type, "Expect " + kind + " type name.");
+            String type = token.lexeme.replaceAll("^\"|\"$", "");
+            return switch (type) {
+                case "str" -> new StrType();
+                case "int" -> new IntType();
+                case "bool" -> new BoolType();
+                case "object" -> new ObjectType();
+                default -> new ClassValueType(type);
+            };
         } else if (match(LEFT_BRACKET)) {
-            level += 1;
-            Token name = varType(kind, level);
+            ValueType elementType = varType(kind);
             consume(RIGHT_BRACKET, "Expect ']' after " + kind + " type name.");
-            String lexeme = name.lexeme.startsWith("[") 
-                                ? name.lexeme 
-                                : "[".repeat(level) + name.lexeme + "]".repeat(level);
-            return new Token(LIST_TYPE, lexeme, name.literal, name.line);
+            return new ListValueType(elementType);
         }
 
         throw error(peek(), "Unexpected token for " + kind + " type.");
@@ -362,7 +366,7 @@ class Parser {
 
             if (expr instanceof Expr.Variable) {
                 Token name = ((Expr.Variable)expr).name;
-                return new Expr.Assign(name, value);
+                return new Expr.Assign(new Expr.Variable(name), value);
             } else if (expr instanceof Expr.Get) {
                 Expr.Get get = (Expr.Get) expr;
                 return new Expr.Set(get.object, get.name, value);
@@ -517,22 +521,22 @@ class Parser {
         Token __i = new Token(IDENTIFIER, "__i", null,-1);
         Stmt init_i = new Stmt.Var(
                                         __i, 
-                                        new Token(INT_TYPE, "int", null, -1), 
+                                        new IntType(), 
                                         new Expr.Literal(0));
         Token __iterable = new Token(IDENTIFIER, "__iterable", null,-1);
-        Stmt init_iterable = new Stmt.Var(
+        Stmt init_iterable = new Stmt.Var( // todo interpreter: make copy, not reference to iterable (test:resolver/stmt_for_strings.py)
                 __iterable,
-                new Token(OBJECT_TYPE, "object", null, -1),
+                new ListValueType(new ObjectType()),
                 iterable);
         Expr condition = new Expr.Binary(
                                         new Expr.Variable(__i),
                                         new Token(LESS, "<", null,-1),
                                         new Expr.Len(new Expr.Variable(__iterable)));
         Expr assignNextElem = new Expr.Assign(
-                                        element,
+                                        new Expr.Variable(element),
                                         new Expr.Index(new Expr.Variable(__iterable), new Expr.Variable(__i)));
         Expr increment = new Expr.Assign(
-                                        __i,
+                                        new Expr.Variable(__i),
                                         new Expr.Binary(
                                             new Expr.Variable(__i),
                                             new Token(PLUS, "+", null,-1),
@@ -586,7 +590,13 @@ class Parser {
     }
 
     private Stmt.Function function(String kind) {
-        Token name = consume(IDENTIFIER, "Expect " + kind + " name.");
+        Token name;
+        if (check(IDENTIFIER, INPUT_NATIVE_FUN, LEN_NATIVE_FUN, PRINT_NATIVE_FUN)) {
+            name = consume(peek().type, "Expect " + kind + " name.");
+        } else {
+            throw error(peek(), "Expect " + kind + " name.");
+        }
+        
         consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
         List<Stmt.Var> parameters = new ArrayList<>();
         if (!check(RIGHT_PAREN)) {
@@ -601,10 +611,10 @@ class Parser {
         }
         consume(RIGHT_PAREN, "Expect ')' after parameters.");
 
-        Token returnType = null;
+        ValueType returnType = new NoneType();
         if (!check(COLON)) {
             consume(ARROW, "Expect '->' before " + kind + " return type.");    
-            returnType = varType("return", 0);
+            returnType = varType("return");
         }
         
         consume(COLON, "Expect ':' after " + kind + " definition.");

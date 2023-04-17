@@ -1,0 +1,5 @@
+[line 0] Error: Expected 0 args, got 1
+[line 26] Error at 'get_Z': Method get_Z doesn't exist for class B
+[line 0] Error: Expected 1 args, got 0
+[line 0] Error: Expected int, got bool
+[line 0] Error: Expected int, got <None>

@@ -1,0 +1,108 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: [bool]
+      initializer:
+        class: Expr.Literal
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: z
+      type: str
+      initializer:
+        class: Expr.Literal
+        value: ""
+
+
+  - statement:
+      class: Stmt.Var
+      name: a
+      type: A
+      initializer:
+        class: Expr.Literal
+        value: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: a
+
+        value:
+          class: Expr.Call
+          callee:
+            class: Expr.Variable
+            name: A
+
+          arguments: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: z
+
+        value:
+          class: Expr.Literal
+          value: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Set
+        object:
+          class: Expr.Variable
+          name: a
+
+        name: x
+        value:
+          class: Expr.Literal
+          value: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.ListSet
+        list:
+          class: Expr.Variable
+          name: y
+
+        index:
+          class: Expr.Literal
+          value: 0
+
+        value:
+          class: Expr.Literal
+          value: null
+
+
+

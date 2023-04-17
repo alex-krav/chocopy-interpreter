@@ -1,0 +1,58 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Binary
+        left:
+          class: Expr.Literal
+          value: "Hello"
+
+        operator: "+"
+        right:
+          class: Expr.Listing
+          elements:
+            - element:
+                class: Expr.Literal
+                value: "World"
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Binary
+        left:
+          class: Expr.Literal
+          value: 1
+
+        operator: "+"
+        right:
+          class: Expr.Listing
+          elements:
+            - element:
+                class: Expr.Literal
+                value: 2
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Binary
+        left:
+          class: Expr.Listing
+          elements: null
+
+        operator: "+"
+        right:
+          class: Expr.Listing
+          elements:
+            - element:
+                class: Expr.Literal
+                value: 1
+
+
+
+

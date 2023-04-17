@@ -1,0 +1,83 @@
+{
+  "kind": "Program",
+  "declarations": [
+    {
+      "kind": "VarDef",
+      "var": {
+        "kind": "TypedVar",
+        "identifier": {
+          "kind": "Identifier",
+          "name": "x"
+        },
+        "type": {
+          "kind": "ClassType",
+          "className": "int"
+        }
+      },
+      "value": {
+        "kind": "IntegerLiteral",
+        "inferredType": {
+          "kind": "ClassValueType",
+          "className": "int"
+        },
+        "value": 1
+      }
+    },
+    {
+      "kind": "VarDef",
+      "var": {
+        "kind": "TypedVar",
+        "identifier": {
+          "kind": "Identifier",
+          "name": "o"
+        },
+        "type": {
+          "kind": "ClassType",
+          "className": "object"
+        }
+      },
+      "value": {
+        "kind": "NoneLiteral",
+        "inferredType": {
+          "kind": "ClassValueType",
+          "className": "<None>"
+        }
+      }
+    }
+  ],
+  "statements": [
+    {
+      "kind": "AssignStmt",
+      "targets": [
+        {
+          "kind": "Identifier",
+          "inferredType": {
+            "kind": "ClassValueType",
+            "className": "int"
+          },
+          "name": "x"
+        },
+        {
+          "kind": "Identifier",
+          "inferredType": {
+            "kind": "ClassValueType",
+            "className": "object"
+          },
+          "name": "o"
+        }
+      ],
+      "value": {
+        "kind": "IntegerLiteral",
+        "inferredType": {
+          "kind": "ClassValueType",
+          "className": "int"
+        },
+        "value": 42
+      }
+    }
+  ],
+  "errors": {
+    "errors": [],
+    "kind": "Errors"
+  }
+}

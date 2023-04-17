@@ -1,0 +1,285 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 1
+
+
+        - member:
+            class: Stmt.Function
+            name: get_A
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: A
+                  initializer: null
+
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Get
+                    inferredType: int
+                    object:
+                      name: self
+                      inferredType: A
+
+                    name: x
+
+
+
+
+  - statement:
+      class: Stmt.Class
+      name: B
+      superClass: A
+      members:
+        - member:
+            class: Stmt.Function
+            name: __init__
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: B
+                  initializer: null
+
+            returnType: <None>
+            body:
+              - statement:
+                  class: Stmt.Pass
+
+
+
+  - statement:
+      class: Stmt.Class
+      name: C
+      superClass: B
+      members:
+        - member:
+            class: Stmt.Var
+            name: z
+            type: bool
+            initializer:
+              class: Expr.Literal
+              inferredType: bool
+              value: true
+
+
+        - member:
+            class: Stmt.Function
+            name: set_A
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: C
+                  initializer: null
+
+              - param:
+                  class: Stmt.Var
+                  name: val
+                  type: int
+                  initializer: null
+
+            returnType: object
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Set
+                    object:
+                      name: self
+                      inferredType: C
+
+                    name: x
+                    value:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: val
+
+
+
+
+
+  - statement:
+      class: Stmt.Var
+      name: a
+      type: A
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: b
+      type: B
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: c
+      type: C
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: A
+          name: a
+
+        value:
+          class: Expr.Call
+          inferredType: A
+          callee:
+            class: Expr.Variable
+            inferredType: [object] -> <None>
+            name: A
+
+          arguments: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: B
+          name: b
+
+        value:
+          class: Expr.Call
+          inferredType: B
+          callee:
+            class: Expr.Variable
+            inferredType: [B] -> <None>
+            name: B
+
+          arguments: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: C
+          name: c
+
+        value:
+          class: Expr.Call
+          inferredType: C
+          callee:
+            class: Expr.Variable
+            inferredType: [B] -> <None>
+            name: C
+
+          arguments: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Set
+        object:
+          class: Expr.Variable
+          inferredType: B
+          name: b
+
+        name: x
+        value:
+          class: Expr.Call
+          inferredType: int
+          callee:
+            class: Expr.Get
+            inferredType: [A] -> int
+            object:
+              class: Expr.Variable
+              inferredType: A
+              name: a
+
+            name: get_A
+
+          arguments: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Set
+        object:
+          class: Expr.Variable
+          inferredType: A
+          name: a
+
+        name: x
+        value:
+          class: Expr.Call
+          inferredType: int
+          callee:
+            class: Expr.Get
+            inferredType: [A] -> int
+            object:
+              class: Expr.Variable
+              inferredType: B
+              name: b
+
+            name: get_A
+
+          arguments: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        inferredType: object
+        callee:
+          class: Expr.Get
+          inferredType: [C, int] -> object
+          object:
+            class: Expr.Variable
+            inferredType: C
+            name: c
+
+          name: set_A
+
+        arguments:
+          - argument:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+
+
+

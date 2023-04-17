@@ -1,0 +1,148 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        value: 1
+
+
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: int
+      initializer:
+        class: Expr.Literal
+        value: 2
+
+
+  - statement:
+      class: Stmt.Var
+      name: z
+      type: int
+      initializer:
+        class: Expr.Literal
+        value: 3
+
+
+  - statement:
+      class: Stmt.Function
+      name: foo
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer: null
+
+      returnType: object
+      body:
+        - statement:
+            class: Stmt.Var
+            name: y
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 4
+
+
+        - statement:
+            class: Stmt.Global
+            name: z
+
+        - statement:
+            class: Stmt.Function
+            name: qux
+            params: null
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      name: y
+
+                    value:
+                      class: Expr.Literal
+                      value: 1
+
+
+
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Literal
+                    value: 0
+
+
+
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                name: z
+
+              value:
+                class: Expr.Literal
+                value: 1
+
+
+
+        - statement:
+            class: Stmt.Pass
+
+
+  - statement:
+      class: Stmt.Function
+      name: bar
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer: null
+
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                name: z
+
+              value:
+                class: Expr.Literal
+                value: 1
+
+
+
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Variable
+              name: x
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Variable
+          name: foo
+
+        arguments:
+          - argument:
+              class: Expr.Literal
+              value: 1
+
+
+

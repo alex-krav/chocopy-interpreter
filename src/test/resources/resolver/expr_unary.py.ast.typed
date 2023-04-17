@@ -1,0 +1,27 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Unary
+        inferredType: int
+        operator: "-"
+        operand:
+          class: Expr.Literal
+          inferredType: int
+          value: 1
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Unary
+        inferredType: bool
+        operator: "not"
+        operand:
+          class: Expr.Literal
+          inferredType: bool
+          value: false
+
+
+

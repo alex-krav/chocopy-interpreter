@@ -1,0 +1,66 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Var
+      name: z
+      type: bool
+      initializer:
+        class: Expr.Literal
+        value: true
+
+
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Class
+      name: z
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Variable
+          name: A
+
+        arguments: null
+
+

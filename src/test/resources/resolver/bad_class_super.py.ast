@@ -1,0 +1,40 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: B
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Var
+      name: z
+      type: int
+      initializer:
+        class: Expr.Literal
+        value: 2
+
+
+  - statement:
+      class: Stmt.Class
+      name: B
+      superClass: z
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 1
+
+
+

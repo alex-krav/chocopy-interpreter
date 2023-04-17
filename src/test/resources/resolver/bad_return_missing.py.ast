@@ -1,0 +1,36 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: foo
+      params: null
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.If
+            condition:
+              class: Expr.Literal
+              value: true
+
+            thenBranch:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Literal
+                    value: 1
+
+
+
+            elseBranch: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Variable
+          name: foo
+
+        arguments: null
+
+

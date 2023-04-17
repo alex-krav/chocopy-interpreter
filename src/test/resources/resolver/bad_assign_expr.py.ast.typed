@@ -1,0 +1,301 @@
+{
+  "kind" : "Program",
+  
+  "declarations" : [ {
+    "kind" : "VarDef",
+    
+    "var" : {
+      "kind" : "TypedVar",
+      
+      "identifier" : {
+        "kind" : "Identifier",
+        
+        "name" : "x"
+      },
+      "type" : {
+        "kind" : "ClassType",
+        
+        "className" : "int"
+      }
+    },
+    "value" : {
+      "kind" : "IntegerLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "value" : 0
+    }
+  }, {
+    "kind" : "VarDef",
+    
+    "var" : {
+      "kind" : "TypedVar",
+      
+      "identifier" : {
+        "kind" : "Identifier",
+        
+        "name" : "y"
+      },
+      "type" : {
+        "kind" : "ClassType",
+        
+        "className" : "int"
+      }
+    },
+    "value" : {
+      "kind" : "IntegerLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "value" : 0
+    }
+  }, {
+    "kind" : "VarDef",
+    
+    "var" : {
+      "kind" : "TypedVar",
+      
+      "identifier" : {
+        "kind" : "Identifier",
+        
+        "name" : "z"
+      },
+      "type" : {
+        "kind" : "ClassType",
+        
+        "className" : "bool"
+      }
+    },
+    "value" : {
+      "kind" : "BooleanLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "bool"
+      },
+      "value" : false
+    }
+  } ],
+  "statements" : [ {
+    "kind" : "AssignStmt",
+    
+    "errorMsg" : "Expected type `bool`; got type `int`",
+    "targets" : [ {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "name" : "x"
+    }, {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "bool"
+      },
+      "name" : "z"
+    } ],
+    "value" : {
+      "kind" : "IntegerLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "value" : 1
+    }
+  }, {
+    "kind" : "AssignStmt",
+    
+    "errorMsg" : "Expected type `int`; got type `<None>`",
+    "targets" : [ {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "name" : "x"
+    }, {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "name" : "y"
+    } ],
+    "value" : {
+      "kind" : "NoneLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "<None>"
+      }
+    }
+  }, {
+    "kind" : "AssignStmt",
+    
+    "errorMsg" : "Expected type `int`; got type `<Empty>`",
+    "targets" : [ {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "name" : "x"
+    }, {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "name" : "y"
+    } ],
+    "value" : {
+      "kind" : "ListExpr",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "<Empty>"
+      },
+      "elements" : [ ]
+    }
+  }, {
+    "kind" : "AssignStmt",
+    
+    "errorMsg" : "Expected type `int`; got type `<None>`",
+    "targets" : [ {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "name" : "x"
+    }, {
+      "kind" : "Identifier",
+      
+      "errorMsg" : "Not a variable: a",
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "object"
+      },
+      "name" : "a"
+    } ],
+    "value" : {
+      "kind" : "NoneLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "<None>"
+      }
+    }
+  }, {
+    "kind" : "AssignStmt",
+    
+    "errorMsg" : "Expected type `int`; got type `<Empty>`",
+    "targets" : [ {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "name" : "x"
+    }, {
+      "kind" : "Identifier",
+      
+      "errorMsg" : "Not a variable: a",
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "object"
+      },
+      "name" : "a"
+    } ],
+    "value" : {
+      "kind" : "ListExpr",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "<Empty>"
+      },
+      "elements" : [ ]
+    }
+  }, {
+    "kind" : "AssignStmt",
+    
+    "errorMsg" : "Expected type `int`; got type `bool`",
+    "targets" : [ {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "name" : "x"
+    }, {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "int"
+      },
+      "name" : "y"
+    } ],
+    "value" : {
+      "kind" : "BooleanLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "bool"
+      },
+      "value" : true
+    }
+  } ],
+  "errors" : {
+    "errors" : [ {
+      "kind" : "CompilerError",
+      
+      "message" : 5 "Expected type `bool`; got type `int`"
+    }, {
+      "kind" : "CompilerError",
+      
+      "message" : 6 "Expected type `int`; got type `<None>`"
+    }, {
+      "kind" : "CompilerError",
+      
+      "message" : 7 "Expected type `int`; got type `<Empty>`"
+    }, {
+      "kind" : "CompilerError",
+      
+      "message" : 8 "Expected type `int`; got type `<None>`"
+    }, {
+      "kind" : "CompilerError",
+      
+      "message" : 8 "Not a variable: a"
+    }, {
+      "kind" : "CompilerError",
+      
+      "message" : 9 "Expected type `int`; got type `<Empty>`"
+    }, {
+      "kind" : "CompilerError",
+      
+      "message" : 9 "Not a variable: a"
+    }, {
+      "kind" : "CompilerError",
+      
+      "message" : 10 "Expected type `int`; got type `bool`"
+    } ],
+    "kind" : "Errors",
+    
+  }
+}

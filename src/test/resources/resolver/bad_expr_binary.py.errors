@@ -1,0 +1,12 @@
+[line 1] Error at 'and': Cannot use operator AND on types int and int
+[line 2] Error at 'or': Cannot use operator OR on types int and int
+[line 3] Error at '-': Cannot use operator - on types bool and bool
+[line 4] Error at '<': Cannot use operator < on types bool and bool
+[line 5] Error at '+': Cannot use operator + on types int and bool
+[line 6] Error at '+': Cannot use operator + on types bool and int
+[line 7] Error at '==': Cannot use operator == on types int and bool
+[line 8] Error at '!=': Cannot use operator != on types bool and int
+[line 9] Error at 'is': Cannot use operator is on types int and int
+[line 10] Error at 'is': Cannot use operator is on types bool and bool
+[line 11] Error at '+': Cannot use operator + on types <None> and <None>
+[line 12] Error at '==': Cannot use operator == on types <None> and <None>

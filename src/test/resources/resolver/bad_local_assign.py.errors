@@ -1,0 +1,2 @@
+[line 10] Error at 'y': Identifier not defined in current scope: y
+[line 18] Error at 'z': Identifier not defined in current scope: z

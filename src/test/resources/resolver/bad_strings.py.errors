@@ -1,0 +1,6 @@
+[line 5] Error at '+': Cannot use operator + on types int and str
+[line 6] Error at '+': Cannot use operator + on types str and int
+[line 6] Error at 'z': Expected str, got object
+[line 0] Error: Cannot assign to index of string
+[line 0] Error: Cannot assign to index of string
+[line 0] Error: Expected int index, got bool

@@ -1,0 +1,201 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: [int]
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 0
+
+
+  - statement:
+      class: Stmt.Var
+      name: z
+      type: [bool]
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: o
+      type: object
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: [int]
+          name: x
+
+        value:
+          class: Expr.Listing
+          inferredType: [int]
+          elements:
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 1
+
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 2
+
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 3
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: [bool]
+          name: z
+
+        value:
+          class: Expr.Listing
+          inferredType: [bool]
+          elements:
+            - element:
+                class: Expr.Literal
+                inferredType: bool
+                value: false
+
+            - element:
+                class: Expr.Literal
+                inferredType: bool
+                value: true
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: int
+          name: y
+
+        value:
+          class: Expr.Index
+          inferredType: int
+          list:
+            class: Expr.Variable
+            inferredType: [int]
+            name: x
+
+          index:
+            class: Expr.Literal
+            inferredType: int
+            value: 0
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.ListSet
+        inferredType: [int]
+        list:
+          class: Expr.Variable
+          inferredType: [int]
+          name: x
+
+        index:
+          class: Expr.Literal
+          inferredType: int
+          value: 0
+
+        value:
+          class: Expr.Literal
+          inferredType: int
+          value: 1
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.ListSet
+        inferredType: [bool]
+        list:
+          class: Expr.Variable
+          inferredType: [bool]
+          name: z
+
+        index:
+          class: Expr.Literal
+          inferredType: int
+          value: 1
+
+        value:
+          class: Expr.Index
+          inferredType: bool
+          list:
+            class: Expr.Variable
+            inferredType: [bool]
+            name: z
+
+          index:
+            class: Expr.Literal
+            inferredType: int
+            value: 0
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: object
+          name: o
+
+        value:
+          class: Expr.Index
+          inferredType: int
+          list:
+            class: Expr.Variable
+            inferredType: [int]
+            name: x
+
+          index:
+            class: Expr.Literal
+            inferredType: int
+            value: 1
+
+
+
+

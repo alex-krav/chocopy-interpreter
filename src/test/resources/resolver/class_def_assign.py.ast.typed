@@ -1,0 +1,323 @@
+{
+  "kind" : "Program",
+  
+  "declarations" : [ {
+    "kind" : "ClassDef",
+    
+    "name" : {
+      "kind" : "Identifier",
+      
+      "name" : "A"
+    },
+    "superClass" : {
+      "kind" : "Identifier",
+      
+      "name" : "object"
+    },
+    "declarations" : [ {
+      "kind" : "VarDef",
+      
+      "var" : {
+        "kind" : "TypedVar",
+        
+        "identifier" : {
+          "kind" : "Identifier",
+          
+          "name" : "x"
+        },
+        "type" : {
+          "kind" : "ClassType",
+          
+          "className" : "int"
+        }
+      },
+      "value" : {
+        "kind" : "IntegerLiteral",
+        
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "int"
+        },
+        "value" : 1
+      }
+    } ]
+  }, {
+    "kind" : "ClassDef",
+    
+    "name" : {
+      "kind" : "Identifier",
+      
+      "name" : "B"
+    },
+    "superClass" : {
+      "kind" : "Identifier",
+      
+      "name" : "A"
+    },
+    "declarations" : [ {
+      "kind" : "FuncDef",
+      
+      "name" : {
+        "kind" : "Identifier",
+        
+        "name" : "__init__"
+      },
+      "params" : [ {
+        "kind" : "TypedVar",
+        
+        "identifier" : {
+          "kind" : "Identifier",
+          
+          "name" : "self"
+        },
+        "type" : {
+          "kind" : "ClassType",
+          
+          "className" : "B"
+        }
+      } ],
+      "returnType" : {
+        "kind" : "ClassType",
+        
+        "className" : "<None>"
+      },
+      "declarations" : [ ],
+      "statements" : [ ]
+    } ]
+  }, {
+    "kind" : "ClassDef",
+    
+    "name" : {
+      "kind" : "Identifier",
+      
+      "name" : "C"
+    },
+    "superClass" : {
+      "kind" : "Identifier",
+      
+      "name" : "B"
+    },
+    "declarations" : [ {
+      "kind" : "VarDef",
+      
+      "var" : {
+        "kind" : "TypedVar",
+        
+        "identifier" : {
+          "kind" : "Identifier",
+          
+          "name" : "z"
+        },
+        "type" : {
+          "kind" : "ClassType",
+          
+          "className" : "bool"
+        }
+      },
+      "value" : {
+        "kind" : "BooleanLiteral",
+        
+        "inferredType" : {
+          "kind" : "ClassValueType",
+          "className" : "bool"
+        },
+        "value" : true
+      }
+    } ]
+  }, {
+    "kind" : "VarDef",
+    
+    "var" : {
+      "kind" : "TypedVar",
+      
+      "identifier" : {
+        "kind" : "Identifier",
+        
+        "name" : "a"
+      },
+      "type" : {
+        "kind" : "ClassType",
+        
+        "className" : "A"
+      }
+    },
+    "value" : {
+      "kind" : "NoneLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "<None>"
+      }
+    }
+  }, {
+    "kind" : "VarDef",
+    
+    "var" : {
+      "kind" : "TypedVar",
+      
+      "identifier" : {
+        "kind" : "Identifier",
+        
+        "name" : "b"
+      },
+      "type" : {
+        "kind" : "ClassType",
+        
+        "className" : "B"
+      }
+    },
+    "value" : {
+      "kind" : "NoneLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "<None>"
+      }
+    }
+  }, {
+    "kind" : "VarDef",
+    
+    "var" : {
+      "kind" : "TypedVar",
+      
+      "identifier" : {
+        "kind" : "Identifier",
+        
+        "name" : "c"
+      },
+      "type" : {
+        "kind" : "ClassType",
+        
+        "className" : "C"
+      }
+    },
+    "value" : {
+      "kind" : "NoneLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "<None>"
+      }
+    }
+  } ],
+  "statements" : [ {
+    "kind" : "AssignStmt",
+    
+    "targets" : [ {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "A"
+      },
+      "name" : "a"
+    } ],
+    "value" : {
+      "kind" : "CallExpr",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "A"
+      },
+      "function" : {
+        "kind" : "Identifier",
+        
+        "name" : "A"
+      },
+      "args" : [ ]
+    }
+  }, {
+    "kind" : "AssignStmt",
+    
+    "targets" : [ {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "A"
+      },
+      "name" : "a"
+    } ],
+    "value" : {
+      "kind" : "CallExpr",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "B"
+      },
+      "function" : {
+        "kind" : "Identifier",
+        
+        "name" : "B"
+      },
+      "args" : [ ]
+    }
+  }, {
+    "kind" : "AssignStmt",
+    
+    "targets" : [ {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "B"
+      },
+      "name" : "b"
+    }, {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "A"
+      },
+      "name" : "a"
+    }, {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "C"
+      },
+      "name" : "c"
+    } ],
+    "value" : {
+      "kind" : "CallExpr",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "C"
+      },
+      "function" : {
+        "kind" : "Identifier",
+        
+        "name" : "C"
+      },
+      "args" : [ ]
+    }
+  }, {
+    "kind" : "AssignStmt",
+    
+    "targets" : [ {
+      "kind" : "Identifier",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "C"
+      },
+      "name" : "c"
+    } ],
+    "value" : {
+      "kind" : "NoneLiteral",
+      
+      "inferredType" : {
+        "kind" : "ClassValueType",
+        "className" : "<None>"
+      }
+    }
+  } ],
+  "errors" : {
+    "errors" : [ ],
+    "kind" : "Errors",
+    
+  }
+}

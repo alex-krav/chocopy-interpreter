@@ -1,0 +1,71 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: bar
+      params: null
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Literal
+              inferredType: int
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Function
+      name: foo
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: str
+            initializer: null
+
+        - param:
+            class: Stmt.Var
+            name: y
+            type: bool
+            initializer: null
+
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Call
+              inferredType: int
+              callee:
+                class: Expr.Variable
+                inferredType: [] -> int
+                name: bar
+
+              arguments: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        inferredType: int
+        callee:
+          class: Expr.Variable
+          inferredType: [str, bool] -> int
+          name: foo
+
+        arguments:
+          - argument:
+              class: Expr.Literal
+              inferredType: str
+              value: "Hello"
+
+          - argument:
+              class: Expr.Literal
+              inferredType: bool
+              value: false
+
+
+

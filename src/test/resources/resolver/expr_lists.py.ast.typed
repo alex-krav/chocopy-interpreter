@@ -1,0 +1,201 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: [int]
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: [object]
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: z
+      type: [bool]
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Var
+      name: o
+      type: object
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: [int]
+          name: x
+
+        value:
+          class: Expr.Listing
+          inferredType: [int]
+          elements:
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 1
+
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 2
+
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 3
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: [int]
+          name: x
+
+        value:
+          class: Expr.Listing
+          inferredType: <Empty>
+          elements: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: [object]
+          name: y
+
+        value:
+          class: Expr.Listing
+          inferredType: [object]
+          elements:
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 1
+
+            - element:
+                class: Expr.Literal
+                inferredType: bool
+                value: true
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: [bool]
+          name: z
+
+        value:
+          class: Expr.Listing
+          inferredType: [bool]
+          elements:
+            - element:
+                class: Expr.Literal
+                inferredType: bool
+                value: false
+
+            - element:
+                class: Expr.Literal
+                inferredType: bool
+                value: true
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: [int]
+          name: x
+
+        value:
+          class: Expr.Literal
+          inferredType: <None>
+          value: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: object
+          name: o
+
+        value:
+          class: Expr.Variable
+          inferredType: [int]
+          name: x
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: object
+          name: o
+
+        value:
+          class: Expr.Assign
+          target:
+            class: Expr.Variable
+            inferredType: [int]
+            name: x
+
+          value:
+            class: Expr.Listing
+            inferredType: [int]
+            elements:
+              - element:
+                  class: Expr.Literal
+                  inferredType: int
+                  value: 1
+
+
+
+
+

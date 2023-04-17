@@ -64,7 +64,7 @@ public class ChocoPy {
 //        System.out.println(new AstPrinter().print(expression));
 
         Resolver resolver = new Resolver(interpreter);
-        resolver.resolve(statements);
+        resolver.resolveScript(statements);
 
         // Stop if there was a resolution error.
         if (hadError) return;
@@ -93,6 +93,16 @@ public class ChocoPy {
 
     static void error(int line, String text, String message) {
         report(line, " at '" + text + "'", message);
+    }
+    
+    static void binopError(Expr.Binary expr) {
+        ChocoPy.error(expr.operator, String.format("Cannot use operator %s on types %s and %s", 
+                expr.operator.lexeme, expr.left.inferredType, expr.right.inferredType));
+    }
+    
+    static void binopError(Expr.Logical expr) {
+        ChocoPy.error(expr.operator, String.format("Cannot use operator %s on types %s and %s", 
+                expr.operator, expr.left.inferredType, expr.right.inferredType));
     }
 
     static void runtimeError(RuntimeError error) {

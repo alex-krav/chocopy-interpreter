@@ -1,0 +1,56 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        value: 0
+
+
+  - statement:
+      class: Stmt.Var
+      name: o
+      type: object
+      initializer:
+        class: Expr.Literal
+        value: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Get
+        object:
+          class: Expr.Variable
+          name: x
+
+        name: foo
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Get
+        object:
+          class: Expr.Variable
+          name: o
+
+        name: bar
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Set
+        object:
+          class: Expr.Variable
+          name: o
+
+        name: baz
+        value:
+          class: Expr.Literal
+          value: 1
+
+
+

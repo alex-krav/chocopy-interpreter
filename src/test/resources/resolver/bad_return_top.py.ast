@@ -1,0 +1,17 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        value: 0
+
+
+  - statement:
+      class: Stmt.Return
+      value:
+        class: Expr.Variable
+        name: x
+
+

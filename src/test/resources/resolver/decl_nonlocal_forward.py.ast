@@ -1,0 +1,78 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: outer
+      params: null
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 0
+
+
+        - statement:
+            class: Stmt.Function
+            name: inner
+            params: null
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Nonlocal
+                  name: x
+
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      name: x
+
+                    value:
+                      class: Expr.Literal
+                      value: 1
+
+
+
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Variable
+                    name: x
+
+
+
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Call
+              callee:
+                class: Expr.Variable
+                name: inner
+
+              arguments: null
+
+
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Variable
+              name: x
+
+
+
+  - statement:
+      class: Stmt.Print
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Variable
+          name: outer
+
+        arguments: null
+
+

@@ -1,0 +1,16 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Binary
+        left:
+          class: Expr.Literal
+          value: 6
+
+        operator: "*"
+        right:
+          class: Expr.Literal
+          value: 9
+
+
+

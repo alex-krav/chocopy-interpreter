@@ -3,6 +3,10 @@ package org.chocopy;
 import java.util.List;
 
 abstract class Expr {
+    protected ValueType inferredType;
+    protected int line;
+    protected boolean callable;
+    
     interface Visitor<R> {
         R visitAssignExpr(Assign expr);
         R visitBinaryExpr(Binary expr);
@@ -24,8 +28,8 @@ abstract class Expr {
     }
 
     static class Assign extends Expr {
-        Assign(Token name, Expr value) {
-            this.name = name;
+        Assign(Variable target, Expr value) {
+            this.target = target;
             this.value = value;
         }
 
@@ -34,7 +38,7 @@ abstract class Expr {
             return visitor.visitAssignExpr(this);
         }
 
-        final Token name;
+        final Variable target;
         final Expr value;
     }
 

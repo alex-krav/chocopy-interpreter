@@ -1,0 +1,23 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Unary
+        operator: "-"
+        operand:
+          class: Expr.Literal
+          value: 1
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Unary
+        operator: "not"
+        operand:
+          class: Expr.Literal
+          value: false
+
+
+

@@ -1,0 +1,2 @@
+[line 7] Error at 'bar': Missing self param in method: bar
+[line 10] Error at 'baz': Missing self param in method: baz

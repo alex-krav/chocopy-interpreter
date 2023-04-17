@@ -1,0 +1,3 @@
+[line 21] Error at 'bar': Redefined method doesn't match superclass signature: bar
+[line 25] Error at 'baz': Redefined method doesn't match superclass signature: baz
+[line 29] Error at 'qux': Redefined method doesn't match superclass signature: qux

@@ -1,0 +1,81 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 1
+
+
+        - member:
+            class: Stmt.Function
+            name: foo
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: A
+                  initializer: null
+
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Literal
+                    value: 0
+
+
+
+        - member:
+            class: Stmt.Function
+            name: bar
+            params: null
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Literal
+                    value: 0
+
+
+
+        - member:
+            class: Stmt.Function
+            name: baz
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: int
+                  initializer: null
+
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Literal
+                    value: 0
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Variable
+          name: A
+
+        arguments: null
+
+

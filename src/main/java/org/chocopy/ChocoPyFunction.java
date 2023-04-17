@@ -46,7 +46,7 @@ class ChocoPyFunction implements ChocoPyCallable {
 
     ChocoPyFunction bind(ChocoPyInstance instance) {
         Environment environment = new Environment(closure);
-        environment.define("this", instance);
+        environment.define("self", instance);
         return new ChocoPyFunction(declaration, environment, isInitializer);
     }
 }

@@ -1,0 +1,22 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: x
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Pass
+
+
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        value: 5
+
+
+  - statement:
+      class: Stmt.Pass
+

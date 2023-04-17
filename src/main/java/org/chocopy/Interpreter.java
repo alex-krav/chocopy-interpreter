@@ -30,9 +30,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         Integer distance = locals.get(expr);
         if (distance != null) {
-            environment.assignAt(distance, expr.name, value);
+            environment.assignAt(distance, expr.target.name, value);
         } else {
-            globals.assign(expr.name, value);
+            globals.assign(expr.target.name, value);
         }
 
         return value;

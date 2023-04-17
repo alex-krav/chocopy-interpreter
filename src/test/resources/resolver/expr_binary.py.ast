@@ -1,0 +1,80 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Logical
+        left:
+          class: Expr.Binary
+          left:
+            class: Expr.Binary
+            left:
+              class: Expr.Literal
+              value: 1
+
+            operator: "+"
+            right:
+              class: Expr.Binary
+              left:
+                class: Expr.Literal
+                value: 2
+
+              operator: "*"
+              right:
+                class: Expr.Literal
+                value: 3
+
+
+
+          operator: ">"
+          right:
+            class: Expr.Binary
+            left:
+              class: Expr.Binary
+              left:
+                class: Expr.Literal
+                value: 13
+
+              operator: "//"
+              right:
+                class: Expr.Literal
+                value: 3
+
+
+            operator: "%"
+            right:
+              class: Expr.Literal
+              value: 2
+
+
+
+        operator: "or"
+        right:
+          class: Expr.Logical
+          left:
+            class: Expr.Binary
+            left:
+              class: Expr.Literal
+              value: 1
+
+            operator: "!="
+            right:
+              class: Expr.Literal
+              value: 1
+
+
+          operator: "and"
+          right:
+            class: Expr.Binary
+            left:
+              class: Expr.Literal
+              value: false
+
+            operator: "=="
+            right:
+              class: Expr.Literal
+              value: false
+
+
+
+
+

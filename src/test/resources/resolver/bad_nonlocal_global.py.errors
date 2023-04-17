@@ -1,0 +1,5 @@
+[line 7] Error at 'y': Unknown nonlocal variable y
+[line 8] Error at 'w': Unknown global variable w
+[line 15] Error at 'y': Unknown nonlocal variable y
+[line 16] Error at 'foo': Unknown global variable foo
+[line 17] Error at 'bar': Unknown nonlocal variable bar

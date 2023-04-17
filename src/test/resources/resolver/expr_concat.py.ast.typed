@@ -1,0 +1,90 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Binary
+        inferredType: [int]
+        left:
+          class: Expr.Listing
+          inferredType: [int]
+          elements:
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 1
+
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 2
+
+
+        operator: "+"
+        right:
+          class: Expr.Listing
+          inferredType: [int]
+          elements:
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 3
+
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 4
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Binary
+        inferredType: str
+        left:
+          class: Expr.Literal
+          inferredType: str
+          value: "Hello "
+
+        operator: "+"
+        right:
+          class: Expr.Literal
+          inferredType: str
+          value: "World"
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Binary
+        inferredType: [object]
+        left:
+          class: Expr.Listing
+          inferredType: [int]
+          elements:
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 1
+
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 2
+
+
+        operator: "+"
+        right:
+          class: Expr.Listing
+          inferredType: [bool]
+          elements:
+            - element:
+                class: Expr.Literal
+                inferredType: bool
+                value: true
+
+
+
+

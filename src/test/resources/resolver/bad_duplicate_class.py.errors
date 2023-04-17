@@ -1,0 +1,2 @@
+[line 7] Error at 'A': Cannot shadow class name: A
+[line 11] Error at 'z': Duplicate declaration of identifier: z

@@ -1,0 +1,71 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: foo
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: str
+            initializer: null
+
+        - param:
+            class: Stmt.Var
+            name: y
+            type: bool
+            initializer: null
+
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Literal
+              value: null
+
+
+
+  - statement:
+      class: Stmt.Function
+      name: bar
+      params: null
+      returnType: bool
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Literal
+              value: 1
+
+
+
+  - statement:
+      class: Stmt.Function
+      name: baz
+      params: null
+      returnType: str
+      body:
+        - statement:
+            class: Stmt.Return
+            value: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        callee:
+          class: Expr.Variable
+          name: foo
+
+        arguments:
+          - argument:
+              class: Expr.Literal
+              value: "Hello"
+
+          - argument:
+              class: Expr.Literal
+              value: false
+
+
+

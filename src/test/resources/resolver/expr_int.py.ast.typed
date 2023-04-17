@@ -1,0 +1,19 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Binary
+        inferredType: int
+        left:
+          class: Expr.Literal
+          inferredType: int
+          value: 6
+
+        operator: "*"
+        right:
+          class: Expr.Literal
+          inferredType: int
+          value: 9
+
+
+

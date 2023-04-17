@@ -1,0 +1,45 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Unary
+        operator: "not"
+        operand:
+          class: Expr.Literal
+          value: "Bad"
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Unary
+        operator: "-"
+        operand:
+          class: Expr.Literal
+          value: true
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Unary
+        operator: "-"
+        operand:
+          class: Expr.Literal
+          value: null
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Unary
+        operator: "not"
+        operand:
+          class: Expr.Listing
+          elements: null
+
+
+

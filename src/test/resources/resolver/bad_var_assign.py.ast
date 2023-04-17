@@ -1,0 +1,103 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        value: 1
+
+
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: bool
+      initializer:
+        class: Expr.Literal
+        value: true
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: x
+
+        value:
+          class: Expr.Literal
+          value: false
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: y
+
+        value:
+          class: Expr.Literal
+          value: 2
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: z
+
+        value:
+          class: Expr.Literal
+          value: 3
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: x
+
+        value:
+          class: Expr.Assign
+          target:
+            class: Expr.Variable
+            name: z
+
+          value:
+            class: Expr.Literal
+            value: 4
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: x
+
+        value:
+          class: Expr.Assign
+          target:
+            class: Expr.Variable
+            name: z
+
+          value:
+            class: Expr.Literal
+            value: null
+
+
+
+

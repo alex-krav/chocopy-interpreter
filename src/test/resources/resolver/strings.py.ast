@@ -1,0 +1,92 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: str
+      initializer:
+        class: Expr.Literal
+        value: "Hello"
+
+
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: str
+      initializer:
+        class: Expr.Literal
+        value: "World"
+
+
+  - statement:
+      class: Stmt.Var
+      name: z
+      type: str
+      initializer:
+        class: Expr.Literal
+        value: ""
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: z
+
+        value:
+          class: Expr.Binary
+          left:
+            class: Expr.Variable
+            name: x
+
+          operator: "+"
+          right:
+            class: Expr.Variable
+            name: y
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: z
+
+        value:
+          class: Expr.Index
+          list:
+            class: Expr.Variable
+            name: x
+
+          index:
+            class: Expr.Literal
+            value: 0
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: x
+
+        value:
+          class: Expr.Assign
+          target:
+            class: Expr.Variable
+            name: y
+
+          value:
+            class: Expr.Variable
+            name: z
+
+
+
+

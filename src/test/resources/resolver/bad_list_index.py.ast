@@ -1,0 +1,107 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: [int]
+      initializer:
+        class: Expr.Literal
+        value: null
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: x
+
+        value:
+          class: Expr.Listing
+          elements:
+            - element:
+                class: Expr.Literal
+                value: 1
+
+            - element:
+                class: Expr.Literal
+                value: 2
+
+            - element:
+                class: Expr.Literal
+                value: 3
+
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Index
+        list:
+          class: Expr.Variable
+          name: x
+
+        index:
+          class: Expr.Literal
+          value: true
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Index
+        list:
+          class: Expr.Literal
+          value: false
+
+        index:
+          class: Expr.Literal
+          value: 0
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Index
+        list:
+          class: Expr.Listing
+          elements: null
+
+        index:
+          class: Expr.Literal
+          value: 0
+
+
+
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.ListSet
+        list:
+          class: Expr.Variable
+          name: x
+
+        index:
+          class: Expr.Literal
+          value: true
+
+        value:
+          class: Expr.ListSet
+          list:
+            class: Expr.Variable
+            name: x
+
+          index:
+            class: Expr.Literal
+            value: false
+
+          value:
+            class: Expr.Literal
+            value: 1
+
+
+
+

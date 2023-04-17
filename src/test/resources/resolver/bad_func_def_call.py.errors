@@ -1,0 +1,7 @@
+[line 0] Error: Expected 2 args, got 1
+[line 0] Error: Expected 2 args, got 3
+[line 0] Error: Expected bool, got int
+[line 0] Error: Expected str, got int
+[line 0] Error: Expected bool, got str
+[line 12] Error at 'baz': Callable not defined: baz
+[line 0] Error: Not a function: baz
