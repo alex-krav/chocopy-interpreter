@@ -32,7 +32,7 @@ statements:
       type: object
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -41,7 +41,7 @@ statements:
       type: T
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -50,7 +50,7 @@ statements:
       type: S
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -59,7 +59,7 @@ statements:
       type: [str]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -68,7 +68,7 @@ statements:
       type: [bool]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -77,7 +77,7 @@ statements:
       type: [int]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -86,7 +86,7 @@ statements:
       type: [object]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -95,7 +95,7 @@ statements:
       type: [T]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -104,7 +104,7 @@ statements:
       type: [S]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -113,7 +113,7 @@ statements:
       type: [[str]]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -122,7 +122,7 @@ statements:
       type: [[bool]]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -131,7 +131,7 @@ statements:
       type: [[int]]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -140,7 +140,7 @@ statements:
       type: [[object]]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -149,7 +149,7 @@ statements:
       type: [[T]]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -158,6 +158,6 @@ statements:
       type: [[S]]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 

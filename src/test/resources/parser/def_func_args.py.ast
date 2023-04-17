@@ -7,13 +7,13 @@ statements:
             class: Stmt.Var
             name: x
             type: int
-            initializer: null
+            initializer: None
 
         - param:
             class: Stmt.Var
             name: y
             type: int
-            initializer: null
+            initializer: None
 
       returnType: bool
       body:

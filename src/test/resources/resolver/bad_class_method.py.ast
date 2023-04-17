@@ -21,7 +21,7 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: A
-                  initializer: null
+                  initializer: None
 
             returnType: int
             body:
@@ -36,7 +36,7 @@ statements:
         - member:
             class: Stmt.Function
             name: bar
-            params: null
+            params: []
             returnType: int
             body:
               - statement:
@@ -55,7 +55,7 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: int
-                  initializer: null
+                  initializer: None
 
             returnType: int
             body:
@@ -76,6 +76,6 @@ statements:
           class: Expr.Variable
           name: A
 
-        arguments: null
+        arguments: []
 
 

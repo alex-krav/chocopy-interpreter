@@ -60,7 +60,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         lineInferredType(builder, expr);
         lineSeparate(builder, "callee", expr.callee.accept(this));
         if (expr.arguments.isEmpty()) {
-            line(builder, "arguments", "null");
+            line(builder, "arguments", "[]");
         } else {
             builder.append(tabs()); builder.append("arguments:\n");
             level += 1;
@@ -112,7 +112,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         lineInferredType(builder, expr);
         String value;
         if (expr.value == null) {
-            value = "null";
+            value = "None";
         } else if (expr.value instanceof String) {
             value = "\"" + expr.value + "\"";
         } else {
@@ -162,7 +162,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         line(builder, "class", "Expr.Listing");
         lineInferredType(builder, expr);
         if (expr.elements.isEmpty()) {
-            line(builder, "elements", "null");
+            line(builder, "elements", "[]");
         } else {
             builder.append(tabs()); builder.append("elements:\n");
             level += 1;
@@ -329,7 +329,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         line(builder, "superClass", stmt.superclass.lexeme);
         
         if (stmt.members.isEmpty()) {
-            line(builder, "members", "null");
+            line(builder, "members", "[]");
         } else {
             builder.append(tabs()); builder.append("members:\n");
             for (Stmt member : stmt.members) {
@@ -393,7 +393,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         line(builder, "name", stmt.name.lexeme);
         
         if (stmt.params.isEmpty()) {
-            line(builder, "params", "null");
+            line(builder, "params", "[]");
         } else {
             builder.append(tabs()); builder.append("params:\n");
             level += 1;
@@ -429,7 +429,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         lineSeparate(builder, "condition", stmt.condition.accept(this));
         lineSeparate(builder, "thenBranch", stmt.thenBranch.accept(this));
         if (stmt.elseBranch == null) {
-            line(builder, "elseBranch", "null");
+            line(builder, "elseBranch", "[]");
         } else if (stmt.elseBranch instanceof Stmt.Block) {
             lineSeparate(builder, "elseBranch", stmt.elseBranch.accept(this));
         } else {
@@ -462,7 +462,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         level += 2;
         line(builder, "class", "Stmt.Return");
         if (stmt.value == null) {
-            line(builder, "value", "null");
+            line(builder, "value", "None");
         } else {
             lineSeparate(builder, "value", stmt.value.accept(this));
         }
@@ -480,7 +480,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         line(builder, "name", stmt.name.lexeme);
         line(builder, "type", stmt.type.toString());
         if (stmt.initializer == null) {
-            line(builder, "initializer", "null");
+            line(builder, "initializer", "None");
         } else {
             lineSeparate(builder, "initializer", stmt.initializer.accept(this));
         }

@@ -61,6 +61,6 @@ statements:
           class: Expr.Variable
           name: A
 
-        arguments: null
+        arguments: []
 
 

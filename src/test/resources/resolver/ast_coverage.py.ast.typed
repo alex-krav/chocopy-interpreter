@@ -17,7 +17,7 @@ statements:
             class: Stmt.Var
             name: s
             type: str
-            initializer: null
+            initializer: None
 
       returnType: int
       body:
@@ -56,13 +56,13 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: bar
-                  initializer: null
+                  initializer: None
 
               - param:
                   class: Stmt.Var
                   name: xx
                   type: [int]
-                  initializer: null
+                  initializer: None
 
             returnType: str
             body:
@@ -98,7 +98,7 @@ statements:
                         class: Stmt.Var
                         name: y
                         type: int
-                        initializer: null
+                        initializer: None
 
                   returnType: object
                   body:
@@ -146,7 +146,7 @@ statements:
 
 
 
-                        elseBranch: null
+                        elseBranch: []
 
 
               - statement:
@@ -405,13 +405,13 @@ statements:
                                         right:
                                           class: Expr.Literal
                                           inferredType: <None>
-                                          value: null
+                                          value: None
 
 
 
 
 
-                              elseBranch: null
+                              elseBranch: []
 
 
 
@@ -442,7 +442,7 @@ statements:
               inferredType: [object] -> <None>
               name: bar
 
-            arguments: null
+            arguments: []
 
           name: baz
 

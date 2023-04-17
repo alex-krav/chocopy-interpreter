@@ -43,7 +43,7 @@ statements:
         class: Expr.Binary
         left:
           class: Expr.Listing
-          elements: null
+          elements: []
 
         operator: "+"
         right:

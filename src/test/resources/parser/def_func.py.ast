@@ -2,7 +2,7 @@ statements:
   - statement:
       class: Stmt.Function
       name: foo
-      params: null
+      params: []
       returnType: int
       body:
         - statement:
@@ -21,6 +21,6 @@ statements:
           class: Expr.Variable
           name: foo
 
-        arguments: null
+        arguments: []
 
 

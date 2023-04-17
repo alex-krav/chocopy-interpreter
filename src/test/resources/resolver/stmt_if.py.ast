@@ -37,7 +37,7 @@ statements:
                         class: Stmt.Pass
 
 
-                  elseBranch: null
+                  elseBranch: []
 
 
             elseBranch:

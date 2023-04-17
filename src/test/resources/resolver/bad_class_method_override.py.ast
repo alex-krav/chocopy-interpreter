@@ -12,13 +12,13 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: A
-                  initializer: null
+                  initializer: None
 
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
-                  initializer: null
+                  initializer: None
 
             returnType: int
             body:
@@ -38,13 +38,13 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: A
-                  initializer: null
+                  initializer: None
 
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
-                  initializer: null
+                  initializer: None
 
             returnType: int
             body:
@@ -64,13 +64,13 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: A
-                  initializer: null
+                  initializer: None
 
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
-                  initializer: null
+                  initializer: None
 
             returnType: int
             body:
@@ -90,13 +90,13 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: A
-                  initializer: null
+                  initializer: None
 
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
-                  initializer: null
+                  initializer: None
 
             returnType: int
             body:
@@ -122,13 +122,13 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: B
-                  initializer: null
+                  initializer: None
 
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
-                  initializer: null
+                  initializer: None
 
             returnType: int
             body:
@@ -148,7 +148,7 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: B
-                  initializer: null
+                  initializer: None
 
             returnType: int
             body:
@@ -168,13 +168,13 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: B
-                  initializer: null
+                  initializer: None
 
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
-                  initializer: null
+                  initializer: None
 
             returnType: bool
             body:
@@ -194,13 +194,13 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: B
-                  initializer: null
+                  initializer: None
 
               - param:
                   class: Stmt.Var
                   name: x
                   type: bool
-                  initializer: null
+                  initializer: None
 
             returnType: int
             body:
@@ -221,6 +221,6 @@ statements:
           class: Expr.Variable
           name: B
 
-        arguments: null
+        arguments: []
 
 

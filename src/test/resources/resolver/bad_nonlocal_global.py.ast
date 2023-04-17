@@ -29,7 +29,7 @@ statements:
   - statement:
       class: Stmt.Function
       name: foo
-      params: null
+      params: []
       returnType: object
       body:
         - statement:
@@ -56,7 +56,7 @@ statements:
         - statement:
             class: Stmt.Function
             name: bar
-            params: null
+            params: []
             returnType: object
             body:
               - statement:
@@ -91,7 +91,7 @@ statements:
                 class: Expr.Variable
                 name: bar
 
-              arguments: null
+              arguments: []
 
 
 
@@ -103,6 +103,6 @@ statements:
           class: Expr.Variable
           name: foo
 
-        arguments: null
+        arguments: []
 
 

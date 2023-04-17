@@ -11,7 +11,7 @@ statements:
   - statement:
       class: Stmt.Function
       name: set_x
-      params: null
+      params: []
       returnType: int
       body:
         - statement:
@@ -48,7 +48,7 @@ statements:
           class: Expr.Variable
           name: set_x
 
-        arguments: null
+        arguments: []
 
 
   - statement:

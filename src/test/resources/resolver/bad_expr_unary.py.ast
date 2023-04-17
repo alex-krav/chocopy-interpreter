@@ -28,7 +28,7 @@ statements:
         operator: "-"
         operand:
           class: Expr.Literal
-          value: null
+          value: None
 
 
 
@@ -39,7 +39,7 @@ statements:
         operator: "not"
         operand:
           class: Expr.Listing
-          elements: null
+          elements: []
 
 
 

@@ -32,7 +32,7 @@ statements:
       type: object
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:

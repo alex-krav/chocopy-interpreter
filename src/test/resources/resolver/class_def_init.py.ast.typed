@@ -28,7 +28,7 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: B
-                  initializer: null
+                  initializer: None
 
             returnType: <None>
             body:
@@ -60,7 +60,7 @@ statements:
       initializer:
         class: Expr.Literal
         inferredType: <None>
-        value: null
+        value: None
 
 
   - statement:
@@ -70,7 +70,7 @@ statements:
       initializer:
         class: Expr.Literal
         inferredType: <None>
-        value: null
+        value: None
 
 
   - statement:
@@ -80,7 +80,7 @@ statements:
       initializer:
         class: Expr.Literal
         inferredType: <None>
-        value: null
+        value: None
 
 
   - statement:
@@ -100,7 +100,7 @@ statements:
             inferredType: [object] -> <None>
             name: A
 
-          arguments: null
+          arguments: []
 
 
 
@@ -121,7 +121,7 @@ statements:
             inferredType: [B] -> <None>
             name: B
 
-          arguments: null
+          arguments: []
 
 
 
@@ -142,7 +142,7 @@ statements:
             inferredType: [B] -> <None>
             name: C
 
-          arguments: null
+          arguments: []
 
 
 

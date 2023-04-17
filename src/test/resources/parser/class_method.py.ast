@@ -21,13 +21,13 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: Foo
-                  initializer: null
+                  initializer: None
 
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
-                  initializer: null
+                  initializer: None
 
             returnType: object
             body:
@@ -61,7 +61,7 @@ statements:
             class: Expr.Variable
             name: Foo
 
-          arguments: null
+          arguments: []
 
 
 

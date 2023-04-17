@@ -2,7 +2,7 @@ statements:
   - statement:
       class: Stmt.Function
       name: bar
-      params: null
+      params: []
       returnType: int
       body:
         - statement:
@@ -21,13 +21,13 @@ statements:
             class: Stmt.Var
             name: x
             type: str
-            initializer: null
+            initializer: None
 
         - param:
             class: Stmt.Var
             name: y
             type: bool
-            initializer: null
+            initializer: None
 
       returnType: int
       body:
@@ -39,7 +39,7 @@ statements:
                 class: Expr.Variable
                 name: bar
 
-              arguments: null
+              arguments: []
 
 
 

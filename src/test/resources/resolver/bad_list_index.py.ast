@@ -5,7 +5,7 @@ statements:
       type: [int]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -68,7 +68,7 @@ statements:
         class: Expr.Index
         list:
           class: Expr.Listing
-          elements: null
+          elements: []
 
         index:
           class: Expr.Literal

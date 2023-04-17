@@ -27,7 +27,7 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: B
-                  initializer: null
+                  initializer: None
 
             returnType: int
             body:
@@ -48,6 +48,6 @@ statements:
           class: Expr.Variable
           name: A
 
-        arguments: null
+        arguments: []
 
 

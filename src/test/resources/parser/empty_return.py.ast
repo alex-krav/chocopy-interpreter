@@ -2,7 +2,7 @@ statements:
   - statement:
       class: Stmt.Function
       name: m
-      params: null
+      params: []
       returnType: <None>
       body:
         - statement:
@@ -14,6 +14,6 @@ statements:
 
         - statement:
             class: Stmt.Return
-            value: null
+            value: None
 
 

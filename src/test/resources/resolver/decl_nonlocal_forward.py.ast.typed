@@ -2,7 +2,7 @@ statements:
   - statement:
       class: Stmt.Function
       name: outer
-      params: null
+      params: []
       returnType: int
       body:
         - statement:
@@ -18,7 +18,7 @@ statements:
         - statement:
             class: Stmt.Function
             name: inner
-            params: null
+            params: []
             returnType: int
             body:
               - statement:
@@ -60,7 +60,7 @@ statements:
                 inferredType: [] -> int
                 name: inner
 
-              arguments: null
+              arguments: []
 
 
         - statement:
@@ -82,6 +82,6 @@ statements:
           inferredType: [] -> int
           name: outer
 
-        arguments: null
+        arguments: []
 
 

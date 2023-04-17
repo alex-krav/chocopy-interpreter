@@ -24,7 +24,7 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:

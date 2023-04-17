@@ -22,7 +22,7 @@ statements:
             class: Stmt.Var
             name: x
             type: int
-            initializer: null
+            initializer: None
 
       returnType: object
       body:

@@ -6,7 +6,7 @@ statements:
       initializer:
         class: Expr.Literal
         inferredType: <None>
-        value: null
+        value: None
 
 
   - statement:
@@ -16,7 +16,7 @@ statements:
       initializer:
         class: Expr.Literal
         inferredType: <None>
-        value: null
+        value: None
 
 
   - statement:
@@ -61,7 +61,7 @@ statements:
             - element:
                 class: Expr.Literal
                 inferredType: <None>
-                value: null
+                value: None
 
 
 

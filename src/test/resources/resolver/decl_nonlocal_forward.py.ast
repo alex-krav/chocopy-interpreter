@@ -2,7 +2,7 @@ statements:
   - statement:
       class: Stmt.Function
       name: outer
-      params: null
+      params: []
       returnType: int
       body:
         - statement:
@@ -17,7 +17,7 @@ statements:
         - statement:
             class: Stmt.Function
             name: inner
-            params: null
+            params: []
             returnType: int
             body:
               - statement:
@@ -54,7 +54,7 @@ statements:
                 class: Expr.Variable
                 name: inner
 
-              arguments: null
+              arguments: []
 
 
         - statement:
@@ -73,6 +73,6 @@ statements:
           class: Expr.Variable
           name: outer
 
-        arguments: null
+        arguments: []
 
 

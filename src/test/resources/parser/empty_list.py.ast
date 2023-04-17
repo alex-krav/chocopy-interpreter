@@ -5,7 +5,7 @@ statements:
         class: Expr.Len
         expr:
           class: Expr.Listing
-          elements: null
+          elements: []
 
 
 

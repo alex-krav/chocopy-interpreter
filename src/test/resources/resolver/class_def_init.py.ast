@@ -27,7 +27,7 @@ statements:
                   class: Stmt.Var
                   name: self
                   type: B
-                  initializer: null
+                  initializer: None
 
             returnType: <None>
             body:
@@ -57,7 +57,7 @@ statements:
       type: A
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -66,7 +66,7 @@ statements:
       type: B
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -75,7 +75,7 @@ statements:
       type: C
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -92,7 +92,7 @@ statements:
             class: Expr.Variable
             name: A
 
-          arguments: null
+          arguments: []
 
 
 
@@ -110,7 +110,7 @@ statements:
             class: Expr.Variable
             name: B
 
-          arguments: null
+          arguments: []
 
 
 
@@ -128,7 +128,7 @@ statements:
             class: Expr.Variable
             name: C
 
-          arguments: null
+          arguments: []
 
 
 

@@ -63,7 +63,7 @@ statements:
 
           value:
             class: Expr.Literal
-            value: null
+            value: None
 
 
 
@@ -84,7 +84,7 @@ statements:
 
           value:
             class: Expr.Listing
-            elements: null
+            elements: []
 
 
 
@@ -105,7 +105,7 @@ statements:
 
           value:
             class: Expr.Literal
-            value: null
+            value: None
 
 
 
@@ -126,7 +126,7 @@ statements:
 
           value:
             class: Expr.Listing
-            elements: null
+            elements: []
 
 
 

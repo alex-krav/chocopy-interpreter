@@ -20,7 +20,7 @@ statements:
       type: [bool]
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -38,7 +38,7 @@ statements:
       type: A
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -55,7 +55,7 @@ statements:
             class: Expr.Variable
             name: A
 
-          arguments: null
+          arguments: []
 
 
 
@@ -69,7 +69,7 @@ statements:
 
         value:
           class: Expr.Literal
-          value: null
+          value: None
 
 
 
@@ -84,7 +84,7 @@ statements:
         name: x
         value:
           class: Expr.Literal
-          value: null
+          value: None
 
 
 
@@ -102,7 +102,7 @@ statements:
 
         value:
           class: Expr.Literal
-          value: null
+          value: None
 
 
 

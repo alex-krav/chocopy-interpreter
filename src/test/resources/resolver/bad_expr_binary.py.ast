@@ -155,12 +155,12 @@ statements:
         class: Expr.Binary
         left:
           class: Expr.Literal
-          value: null
+          value: None
 
         operator: "+"
         right:
           class: Expr.Literal
-          value: null
+          value: None
 
 
 
@@ -170,12 +170,12 @@ statements:
         class: Expr.Binary
         left:
           class: Expr.Literal
-          value: null
+          value: None
 
         operator: "=="
         right:
           class: Expr.Literal
-          value: null
+          value: None
 
 
 
@@ -185,12 +185,12 @@ statements:
         class: Expr.Binary
         left:
           class: Expr.Literal
-          value: null
+          value: None
 
         operator: "is"
         right:
           class: Expr.Literal
-          value: null
+          value: None
 
 
 

@@ -28,7 +28,7 @@ statements:
             class: Expr.Variable
             name: Foo
 
-          arguments: null
+          arguments: []
 
 
 

@@ -5,7 +5,7 @@ statements:
       type: A
       initializer:
         class: Expr.Literal
-        value: null
+        value: None
 
 
   - statement:
@@ -16,7 +16,7 @@ statements:
             class: Stmt.Var
             name: x
             type: B
-            initializer: null
+            initializer: None
 
       returnType: C
       body:
@@ -26,12 +26,12 @@ statements:
             type: D
             initializer:
               class: Expr.Literal
-              value: null
+              value: None
 
 
         - statement:
             class: Stmt.Return
-            value: null
+            value: None
 
 
   - statement:

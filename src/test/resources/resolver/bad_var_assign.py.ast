@@ -96,7 +96,7 @@ statements:
 
           value:
             class: Expr.Literal
-            value: null
+            value: None
 
 
 
