@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.chocopy.TestUtils.removeEmptyLines;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ResolverTest {
@@ -78,7 +79,7 @@ public class ResolverTest {
             assertEquals(error, errContent.toString());
             return;
         } else {
-            System.out.print(astPrinter.print(statements));
+            System.out.print(removeEmptyLines(astPrinter.print(statements)));
 
             bytes = Files.readAllBytes(Paths.get(inputPath + ".ast"));
             String output = new String(bytes, Charset.defaultCharset());
@@ -100,7 +101,7 @@ public class ResolverTest {
             String error = new String(bytes, Charset.defaultCharset());
             assertEquals(error, errContent.toString());
         } else {
-            System.out.print(astPrinter.print(statements));
+            System.out.print(removeEmptyLines(astPrinter.print(statements)));
             
             bytes = Files.readAllBytes(Paths.get(inputPath + ".ast.typed"));
             String output = new String(bytes, Charset.defaultCharset());

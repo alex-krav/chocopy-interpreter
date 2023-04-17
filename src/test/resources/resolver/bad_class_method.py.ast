@@ -11,8 +11,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 1
-
-
         - member:
             class: Stmt.Function
             name: foo
@@ -22,7 +20,6 @@ statements:
                   name: self
                   type: A
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -30,9 +27,6 @@ statements:
                   value:
                     class: Expr.Literal
                     value: 0
-
-
-
         - member:
             class: Stmt.Function
             name: bar
@@ -44,9 +38,6 @@ statements:
                   value:
                     class: Expr.Literal
                     value: 0
-
-
-
         - member:
             class: Stmt.Function
             name: baz
@@ -56,7 +47,6 @@ statements:
                   name: self
                   type: int
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -64,10 +54,6 @@ statements:
                   value:
                     class: Expr.Literal
                     value: 0
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -75,7 +61,4 @@ statements:
         callee:
           class: Expr.Variable
           name: A
-
         arguments: []
-
-

@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 1
-
-
   - statement:
       class: Stmt.Var
       name: y
@@ -15,8 +13,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 2
-
-
   - statement:
       class: Stmt.Var
       name: z
@@ -24,8 +20,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 3
-
-
   - statement:
       class: Stmt.Function
       name: foo
@@ -35,15 +29,12 @@ statements:
         - statement:
             class: Stmt.Global
             name: x
-
         - statement:
             class: Stmt.Nonlocal
             name: y
-
         - statement:
             class: Stmt.Global
             name: w
-
         - statement:
             class: Stmt.Var
             name: z
@@ -51,8 +42,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: true
-
-
         - statement:
             class: Stmt.Function
             name: bar
@@ -62,27 +51,20 @@ statements:
               - statement:
                   class: Stmt.Global
                   name: x
-
               - statement:
                   class: Stmt.Nonlocal
                   name: z
-
               - statement:
                   class: Stmt.Nonlocal
                   name: y
-
               - statement:
                   class: Stmt.Global
                   name: foo
-
               - statement:
                   class: Stmt.Nonlocal
                   name: bar
-
               - statement:
                   class: Stmt.Pass
-
-
         - statement:
             class: Stmt.Expression
             expr:
@@ -90,11 +72,7 @@ statements:
               callee:
                 class: Expr.Variable
                 name: bar
-
               arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -102,7 +80,4 @@ statements:
         callee:
           class: Expr.Variable
           name: foo
-
         arguments: []
-
-

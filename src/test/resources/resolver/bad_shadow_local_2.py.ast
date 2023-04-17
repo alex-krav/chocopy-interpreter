@@ -11,9 +11,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 1
-
-
-
   - statement:
       class: Stmt.Function
       name: foo
@@ -23,7 +20,6 @@ statements:
             name: x
             type: int
             initializer: None
-
       returnType: object
       body:
         - statement:
@@ -33,12 +29,7 @@ statements:
             initializer:
               class: Expr.Literal
               value: 5
-
-
         - statement:
             class: Stmt.Pass
-
-
   - statement:
       class: Stmt.Pass
-

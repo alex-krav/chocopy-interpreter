@@ -8,17 +8,11 @@ statements:
           left:
             class: Expr.Literal
             value: 1
-
           operator: "+"
           right:
             class: Expr.Literal
             value: 2
-
-
         operator: "+"
         right:
           class: Expr.Literal
           value: 3
-
-
-

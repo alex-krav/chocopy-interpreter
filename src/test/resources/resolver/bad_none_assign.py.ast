@@ -11,9 +11,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 1
-
-
-
   - statement:
       class: Stmt.Var
       name: y
@@ -21,8 +18,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Var
       name: z
@@ -30,8 +25,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: ""
-
-
   - statement:
       class: Stmt.Var
       name: a
@@ -39,8 +32,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -48,17 +39,12 @@ statements:
         target:
           class: Expr.Variable
           name: a
-
         value:
           class: Expr.Call
           callee:
             class: Expr.Variable
             name: A
-
           arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -66,13 +52,9 @@ statements:
         target:
           class: Expr.Variable
           name: z
-
         value:
           class: Expr.Literal
           value: None
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -80,14 +62,10 @@ statements:
         object:
           class: Expr.Variable
           name: a
-
         name: x
         value:
           class: Expr.Literal
           value: None
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -95,14 +73,9 @@ statements:
         list:
           class: Expr.Variable
           name: y
-
         index:
           class: Expr.Literal
           value: 0
-
         value:
           class: Expr.Literal
           value: None
-
-
-

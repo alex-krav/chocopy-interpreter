@@ -7,8 +7,6 @@ statements:
         class: Expr.Literal
         inferredType: <None>
         value: None
-
-
   - statement:
       class: Stmt.Var
       name: y
@@ -17,8 +15,6 @@ statements:
         class: Expr.Literal
         inferredType: <None>
         value: None
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -27,7 +23,6 @@ statements:
           class: Expr.Variable
           inferredType: [int]
           name: x
-
         value:
           class: Expr.Listing
           inferredType: [int]
@@ -36,15 +31,10 @@ statements:
                 class: Expr.Literal
                 inferredType: int
                 value: 1
-
             - element:
                 class: Expr.Literal
                 inferredType: int
                 value: 2
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -53,7 +43,6 @@ statements:
           class: Expr.Variable
           inferredType: [object]
           name: y
-
         value:
           class: Expr.Listing
           inferredType: [<None>]
@@ -62,10 +51,6 @@ statements:
                 class: Expr.Literal
                 inferredType: <None>
                 value: None
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -75,19 +60,14 @@ statements:
           class: Expr.Variable
           inferredType: [int]
           name: x
-
         index:
           class: Expr.Literal
           inferredType: int
           value: 0
-
         value:
           class: Expr.Literal
           inferredType: int
           value: 3
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -97,12 +77,10 @@ statements:
           class: Expr.Variable
           inferredType: [int]
           name: x
-
         index:
           class: Expr.Literal
           inferredType: int
           value: 1
-
         value:
           class: Expr.ListSet
           inferredType: [object]
@@ -110,17 +88,11 @@ statements:
             class: Expr.Variable
             inferredType: [object]
             name: y
-
           index:
             class: Expr.Literal
             inferredType: int
             value: 0
-
           value:
             class: Expr.Literal
             inferredType: int
             value: 4
-
-
-
-

@@ -4,10 +4,6 @@ statements:
       condition:
         class: Expr.Literal
         value: true
-
       body:
         - statement:
             class: Stmt.Pass
-
-
-

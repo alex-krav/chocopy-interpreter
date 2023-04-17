@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 0
-
-
   - statement:
       class: Stmt.Var
       name: o
@@ -15,8 +13,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -24,10 +20,7 @@ statements:
         object:
           class: Expr.Variable
           name: x
-
         name: foo
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -35,10 +28,7 @@ statements:
         object:
           class: Expr.Variable
           name: o
-
         name: bar
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -46,11 +36,7 @@ statements:
         object:
           class: Expr.Variable
           name: o
-
         name: baz
         value:
           class: Expr.Literal
           value: 1
-
-
-

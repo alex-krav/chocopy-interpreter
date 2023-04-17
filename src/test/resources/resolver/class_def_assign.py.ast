@@ -11,9 +11,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 1
-
-
-
   - statement:
       class: Stmt.Class
       name: B
@@ -28,14 +25,10 @@ statements:
                   name: self
                   type: B
                   initializer: None
-
             returnType: <None>
             body:
               - statement:
                   class: Stmt.Pass
-
-
-
   - statement:
       class: Stmt.Class
       name: C
@@ -48,9 +41,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: true
-
-
-
   - statement:
       class: Stmt.Var
       name: a
@@ -58,8 +48,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Var
       name: b
@@ -67,8 +55,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Var
       name: c
@@ -76,8 +62,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -85,17 +69,12 @@ statements:
         target:
           class: Expr.Variable
           name: a
-
         value:
           class: Expr.Call
           callee:
             class: Expr.Variable
             name: A
-
           arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -103,17 +82,12 @@ statements:
         target:
           class: Expr.Variable
           name: a
-
         value:
           class: Expr.Call
           callee:
             class: Expr.Variable
             name: B
-
           arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -121,13 +95,9 @@ statements:
         target:
           class: Expr.Variable
           name: c
-
         value:
           class: Expr.Literal
           value: None
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -135,28 +105,19 @@ statements:
         target:
           class: Expr.Variable
           name: b
-
         value:
           class: Expr.Assign
           target:
             class: Expr.Variable
             name: a
-
           value:
             class: Expr.Assign
             target:
               class: Expr.Variable
               name: c
-
             value:
               class: Expr.Call
               callee:
                 class: Expr.Variable
                 name: C
-
               arguments: []
-
-
-
-
-

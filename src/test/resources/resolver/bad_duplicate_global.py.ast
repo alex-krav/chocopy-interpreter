@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 1
-
-
   - statement:
       class: Stmt.Function
       name: foo
@@ -16,8 +14,6 @@ statements:
       body:
         - statement:
             class: Stmt.Pass
-
-
   - statement:
       class: Stmt.Function
       name: foo
@@ -26,8 +22,6 @@ statements:
       body:
         - statement:
             class: Stmt.Pass
-
-
   - statement:
       class: Stmt.Function
       name: print
@@ -37,13 +31,10 @@ statements:
             name: val
             type: object
             initializer: None
-
       returnType: object
       body:
         - statement:
             class: Stmt.Pass
-
-
   - statement:
       class: Stmt.Var
       name: x
@@ -51,8 +42,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 2
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -60,7 +49,4 @@ statements:
         callee:
           class: Expr.Variable
           name: foo
-
         arguments: []
-
-

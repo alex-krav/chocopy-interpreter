@@ -8,13 +8,11 @@ statements:
             name: x
             type: int
             initializer: None
-
         - param:
             class: Stmt.Var
             name: y
             type: int
             initializer: None
-
       returnType: bool
       body:
         - statement:
@@ -24,15 +22,10 @@ statements:
               left:
                 class: Expr.Variable
                 name: x
-
               operator: ">"
               right:
                 class: Expr.Variable
                 name: y
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -40,15 +33,10 @@ statements:
         callee:
           class: Expr.Variable
           name: foo
-
         arguments:
           - argument:
               class: Expr.Literal
               value: 1
-
           - argument:
               class: Expr.Literal
               value: 2
-
-
-

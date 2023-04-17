@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: ""
-
-
   - statement:
       class: Stmt.Var
       name: l
@@ -15,8 +13,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 0
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -24,12 +20,8 @@ statements:
         target:
           class: Expr.Variable
           name: s
-
         value:
           class: Expr.Input
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -37,16 +29,11 @@ statements:
         target:
           class: Expr.Variable
           name: l
-
         value:
           class: Expr.Len
           expr:
             class: Expr.Variable
             name: s
-
-
-
-
   - statement:
       class: Stmt.While
       condition:
@@ -56,22 +43,16 @@ statements:
           expr:
             class: Expr.Variable
             name: s
-
-
         operator: ">"
         right:
           class: Expr.Literal
           value: 0
-
-
       body:
         - statement:
             class: Stmt.Print
             expr:
               class: Expr.Variable
               name: s
-
-
         - statement:
             class: Stmt.Expression
             expr:
@@ -79,11 +60,5 @@ statements:
               target:
                 class: Expr.Variable
                 name: s
-
               value:
                 class: Expr.Input
-
-
-
-
-

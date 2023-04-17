@@ -8,7 +8,6 @@ statements:
             name: x
             type: int
             initializer: None
-
       returnType: bool
       body:
         - statement:
@@ -18,8 +17,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 0
-
-
         - statement:
             class: Stmt.Var
             name: b
@@ -27,8 +24,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 1
-
-
         - statement:
             class: Stmt.Function
             name: bar
@@ -38,7 +33,6 @@ statements:
                   name: y
                   type: int
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -48,16 +42,11 @@ statements:
                   initializer:
                     class: Expr.Literal
                     value: 2
-
-
               - statement:
                   class: Stmt.Return
                   value:
                     class: Expr.Variable
                     name: y
-
-
-
         - statement:
             class: Stmt.Return
             value:
@@ -67,21 +56,14 @@ statements:
                 callee:
                   class: Expr.Variable
                   name: bar
-
                 arguments:
                   - argument:
                       class: Expr.Variable
                       name: x
-
-
               operator: ">"
               right:
                 class: Expr.Variable
                 name: a
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -89,11 +71,7 @@ statements:
         callee:
           class: Expr.Variable
           name: foo
-
         arguments:
           - argument:
               class: Expr.Literal
               value: 1
-
-
-

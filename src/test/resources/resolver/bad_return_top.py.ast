@@ -6,12 +6,8 @@ statements:
       initializer:
         class: Expr.Literal
         value: 0
-
-
   - statement:
       class: Stmt.Return
       value:
         class: Expr.Variable
         name: x
-
-

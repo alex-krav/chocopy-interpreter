@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 0
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -15,29 +13,20 @@ statements:
         target:
           class: Expr.Variable
           name: x
-
         value:
           class: Expr.Ternary
           onTrue:
             class: Expr.Literal
             value: "Hello"
-
           condition:
             class: Expr.Binary
             left:
               class: Expr.Literal
               value: 2
-
             operator: ">"
             right:
               class: Expr.Literal
               value: 3
-
-
           onFalse:
             class: Expr.Literal
             value: 3
-
-
-
-

@@ -12,8 +12,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 0
-
-
         - statement:
             class: Stmt.Function
             name: inner
@@ -23,7 +21,6 @@ statements:
               - statement:
                   class: Stmt.Nonlocal
                   name: x
-
               - statement:
                   class: Stmt.Expression
                   expr:
@@ -31,21 +28,14 @@ statements:
                     target:
                       class: Expr.Variable
                       name: x
-
                     value:
                       class: Expr.Literal
                       value: 1
-
-
-
               - statement:
                   class: Stmt.Return
                   value:
                     class: Expr.Variable
                     name: x
-
-
-
         - statement:
             class: Stmt.Expression
             expr:
@@ -53,18 +43,12 @@ statements:
               callee:
                 class: Expr.Variable
                 name: inner
-
               arguments: []
-
-
         - statement:
             class: Stmt.Return
             value:
               class: Expr.Variable
               name: x
-
-
-
   - statement:
       class: Stmt.Print
       expr:
@@ -72,7 +56,4 @@ statements:
         callee:
           class: Expr.Variable
           name: outer
-
         arguments: []
-
-

@@ -8,12 +8,8 @@ statements:
           class: Expr.Literal
           inferredType: int
           value: 6
-
         operator: "*"
         right:
           class: Expr.Literal
           inferredType: int
           value: 9
-
-
-

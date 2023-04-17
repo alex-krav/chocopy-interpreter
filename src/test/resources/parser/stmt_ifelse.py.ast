@@ -4,23 +4,15 @@ statements:
       condition:
         class: Expr.Literal
         value: true
-
       thenBranch:
         - statement:
             class: Stmt.Expression
             expr:
               class: Expr.Literal
               value: false
-
-
-
       elseBranch:
         - statement:
             class: Stmt.Expression
             expr:
               class: Expr.Literal
               value: true
-
-
-
-

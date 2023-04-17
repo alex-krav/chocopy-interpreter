@@ -10,19 +10,13 @@ statements:
             condition:
               class: Expr.Literal
               value: true
-
             thenBranch:
               - statement:
                   class: Stmt.Return
                   value:
                     class: Expr.Literal
                     value: 1
-
-
-
             elseBranch: []
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -30,7 +24,4 @@ statements:
         callee:
           class: Expr.Variable
           name: foo
-
         arguments: []
-
-

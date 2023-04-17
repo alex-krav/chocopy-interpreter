@@ -6,11 +6,7 @@ statements:
         left:
           class: Expr.Literal
           value: 6
-
         operator: "*"
         right:
           class: Expr.Literal
           value: 9
-
-
-

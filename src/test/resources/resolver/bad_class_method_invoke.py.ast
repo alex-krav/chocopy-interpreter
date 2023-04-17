@@ -11,8 +11,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 1
-
-
         - member:
             class: Stmt.Function
             name: get_A
@@ -22,7 +20,6 @@ statements:
                   name: self
                   type: A
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -31,12 +28,7 @@ statements:
                     class: Expr.Get
                     object:
                       name: self
-
                     name: x
-
-
-
-
   - statement:
       class: Stmt.Class
       name: B
@@ -51,14 +43,10 @@ statements:
                   name: self
                   type: B
                   initializer: None
-
             returnType: <None>
             body:
               - statement:
                   class: Stmt.Pass
-
-
-
   - statement:
       class: Stmt.Class
       name: C
@@ -71,8 +59,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: true
-
-
         - member:
             class: Stmt.Function
             name: set_A
@@ -82,13 +68,11 @@ statements:
                   name: self
                   type: C
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: val
                   type: int
                   initializer: None
-
             returnType: object
             body:
               - statement:
@@ -97,16 +81,10 @@ statements:
                     class: Expr.Set
                     object:
                       name: self
-
                     name: x
                     value:
                       class: Expr.Variable
                       name: val
-
-
-
-
-
   - statement:
       class: Stmt.Var
       name: a
@@ -114,8 +92,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Var
       name: b
@@ -123,8 +99,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Var
       name: c
@@ -132,8 +106,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -141,17 +113,12 @@ statements:
         target:
           class: Expr.Variable
           name: a
-
         value:
           class: Expr.Call
           callee:
             class: Expr.Variable
             name: A
-
           arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -159,17 +126,12 @@ statements:
         target:
           class: Expr.Variable
           name: b
-
         value:
           class: Expr.Call
           callee:
             class: Expr.Variable
             name: B
-
           arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -177,17 +139,12 @@ statements:
         target:
           class: Expr.Variable
           name: c
-
         value:
           class: Expr.Call
           callee:
             class: Expr.Variable
             name: C
-
           arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -197,16 +154,11 @@ statements:
           object:
             class: Expr.Variable
             name: a
-
           name: get_A
-
         arguments:
           - argument:
               class: Expr.Literal
               value: 1
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -216,12 +168,8 @@ statements:
           object:
             class: Expr.Variable
             name: b
-
           name: get_Z
-
         arguments: []
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -231,12 +179,8 @@ statements:
           object:
             class: Expr.Variable
             name: c
-
           name: set_A
-
         arguments: []
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -246,16 +190,11 @@ statements:
           object:
             class: Expr.Variable
             name: c
-
           name: set_A
-
         arguments:
           - argument:
               class: Expr.Literal
               value: false
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -265,13 +204,8 @@ statements:
           object:
             class: Expr.Variable
             name: c
-
           name: set_A
-
         arguments:
           - argument:
               class: Expr.Literal
               value: None
-
-
-

@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static org.chocopy.TestUtils.removeEmptyLines;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ParserTest {
@@ -77,7 +78,7 @@ public class ParserTest {
         } else {
             for (Stmt stmt : statements) {
                 String stmtAst = astPrinter.print(stmt);
-                System.out.print(stmtAst);
+                System.out.print(removeEmptyLines(stmtAst));
             }
             
             bytes = Files.readAllBytes(Paths.get(inputPath + ".ast"));

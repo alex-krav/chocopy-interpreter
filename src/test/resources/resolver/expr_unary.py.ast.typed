@@ -9,9 +9,6 @@ statements:
           class: Expr.Literal
           inferredType: int
           value: 1
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -22,6 +19,3 @@ statements:
           class: Expr.Literal
           inferredType: bool
           value: false
-
-
-

@@ -7,15 +7,12 @@ statements:
         class: Expr.Literal
         inferredType: int
         value: 0
-
-
   - statement:
       class: Stmt.For
       identifier:
         class: Expr.Variable
         inferredType: int
         name: x
-
       iterable:
         class: Expr.Listing
         inferredType: [int]
@@ -24,18 +21,14 @@ statements:
               class: Expr.Literal
               inferredType: int
               value: 1
-
           - element:
               class: Expr.Literal
               inferredType: int
               value: 2
-
           - element:
               class: Expr.Literal
               inferredType: int
               value: 3
-
-
       body:
         - statement:
             class: Stmt.Expression
@@ -46,14 +39,8 @@ statements:
                 class: Expr.Variable
                 inferredType: int
                 name: x
-
               operator: "+"
               right:
                 class: Expr.Literal
                 inferredType: int
                 value: 1
-
-
-
-
-

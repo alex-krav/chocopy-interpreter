@@ -7,9 +7,6 @@ statements:
         operand:
           class: Expr.Literal
           value: "Bad"
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -18,9 +15,6 @@ statements:
         operand:
           class: Expr.Literal
           value: true
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -29,9 +23,6 @@ statements:
         operand:
           class: Expr.Literal
           value: None
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -40,6 +31,3 @@ statements:
         operand:
           class: Expr.Listing
           elements: []
-
-
-

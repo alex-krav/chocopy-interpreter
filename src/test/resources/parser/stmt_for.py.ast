@@ -6,37 +6,26 @@ statements:
       initializer:
         class: Expr.Literal
         value: 0
-
-
   - statement:
       class: Stmt.For
       identifier:
         class: Expr.Variable
         name: x
-
       iterable:
         class: Expr.Listing
         elements:
           - element:
               class: Expr.Literal
               value: 1
-
           - element:
               class: Expr.Literal
               value: 2
-
           - element:
               class: Expr.Literal
               value: 3
-
-
       body:
         - statement:
             class: Stmt.Print
             expr:
               class: Expr.Variable
               name: x
-
-
-
-

@@ -8,7 +8,6 @@ statements:
           class: Expr.Literal
           inferredType: int
           value: 3
-
         condition:
           class: Expr.Binary
           inferredType: bool
@@ -16,18 +15,12 @@ statements:
             class: Expr.Literal
             inferredType: int
             value: 1
-
           operator: ">"
           right:
             class: Expr.Literal
             inferredType: int
             value: 2
-
-
         onFalse:
           class: Expr.Literal
           inferredType: int
           value: 4
-
-
-

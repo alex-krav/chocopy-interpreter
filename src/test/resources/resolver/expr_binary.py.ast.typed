@@ -14,7 +14,6 @@ statements:
               class: Expr.Literal
               inferredType: int
               value: 1
-
             operator: "+"
             right:
               class: Expr.Binary
@@ -23,15 +22,11 @@ statements:
                 class: Expr.Literal
                 inferredType: int
                 value: 2
-
               operator: "*"
               right:
                 class: Expr.Literal
                 inferredType: int
                 value: 3
-
-
-
           operator: ">"
           right:
             class: Expr.Binary
@@ -43,22 +38,16 @@ statements:
                 class: Expr.Literal
                 inferredType: int
                 value: 13
-
               operator: "//"
               right:
                 class: Expr.Literal
                 inferredType: int
                 value: 3
-
-
             operator: "%"
             right:
               class: Expr.Literal
               inferredType: int
               value: 2
-
-
-
         operator: "or"
         right:
           class: Expr.Logical
@@ -70,14 +59,11 @@ statements:
               class: Expr.Literal
               inferredType: int
               value: 1
-
             operator: "!="
             right:
               class: Expr.Literal
               inferredType: int
               value: 1
-
-
           operator: "and"
           right:
             class: Expr.Binary
@@ -86,14 +72,8 @@ statements:
               class: Expr.Literal
               inferredType: bool
               value: false
-
             operator: "=="
             right:
               class: Expr.Literal
               inferredType: bool
               value: false
-
-
-
-
-

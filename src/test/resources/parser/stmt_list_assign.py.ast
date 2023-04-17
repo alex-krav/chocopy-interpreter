@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -15,25 +13,18 @@ statements:
         target:
           class: Expr.Variable
           name: x
-
         value:
           class: Expr.Listing
           elements:
             - element:
                 class: Expr.Literal
                 value: 1
-
             - element:
                 class: Expr.Literal
                 value: 2
-
             - element:
                 class: Expr.Literal
                 value: 3
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -41,21 +32,14 @@ statements:
         list:
           class: Expr.Variable
           name: x
-
         index:
           class: Expr.Literal
           value: 0
-
         value:
           class: Expr.Index
           list:
             class: Expr.Variable
             name: x
-
           index:
             class: Expr.Literal
             value: 1
-
-
-
-

@@ -6,7 +6,6 @@ statements:
         left:
           class: Expr.Literal
           value: "Hello"
-
         operator: "+"
         right:
           class: Expr.Listing
@@ -14,10 +13,6 @@ statements:
             - element:
                 class: Expr.Literal
                 value: "World"
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -25,7 +20,6 @@ statements:
         left:
           class: Expr.Literal
           value: 1
-
         operator: "+"
         right:
           class: Expr.Listing
@@ -33,10 +27,6 @@ statements:
             - element:
                 class: Expr.Literal
                 value: 2
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -44,7 +34,6 @@ statements:
         left:
           class: Expr.Listing
           elements: []
-
         operator: "+"
         right:
           class: Expr.Listing
@@ -52,7 +41,3 @@ statements:
             - element:
                 class: Expr.Literal
                 value: 1
-
-
-
-

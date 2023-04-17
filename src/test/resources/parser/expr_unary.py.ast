@@ -7,6 +7,3 @@ statements:
         operand:
           class: Expr.Literal
           value: 1
-
-
-

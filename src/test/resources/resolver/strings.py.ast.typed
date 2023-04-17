@@ -7,8 +7,6 @@ statements:
         class: Expr.Literal
         inferredType: str
         value: "Hello"
-
-
   - statement:
       class: Stmt.Var
       name: y
@@ -17,8 +15,6 @@ statements:
         class: Expr.Literal
         inferredType: str
         value: "World"
-
-
   - statement:
       class: Stmt.Var
       name: z
@@ -27,8 +23,6 @@ statements:
         class: Expr.Literal
         inferredType: str
         value: ""
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -37,7 +31,6 @@ statements:
           class: Expr.Variable
           inferredType: str
           name: z
-
         value:
           class: Expr.Binary
           inferredType: str
@@ -45,16 +38,11 @@ statements:
             class: Expr.Variable
             inferredType: str
             name: x
-
           operator: "+"
           right:
             class: Expr.Variable
             inferredType: str
             name: y
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -63,7 +51,6 @@ statements:
           class: Expr.Variable
           inferredType: str
           name: z
-
         value:
           class: Expr.Index
           inferredType: str
@@ -71,15 +58,10 @@ statements:
             class: Expr.Variable
             inferredType: str
             name: x
-
           index:
             class: Expr.Literal
             inferredType: int
             value: 0
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -88,19 +70,13 @@ statements:
           class: Expr.Variable
           inferredType: str
           name: x
-
         value:
           class: Expr.Assign
           target:
             class: Expr.Variable
             inferredType: str
             name: y
-
           value:
             class: Expr.Variable
             inferredType: str
             name: z
-
-
-
-

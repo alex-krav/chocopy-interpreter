@@ -6,14 +6,10 @@ statements:
         left:
           class: Expr.Literal
           value: 1
-
         operator: "and"
         right:
           class: Expr.Literal
           value: 2
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -21,14 +17,10 @@ statements:
         left:
           class: Expr.Literal
           value: 1
-
         operator: "or"
         right:
           class: Expr.Literal
           value: 2
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -36,14 +28,10 @@ statements:
         left:
           class: Expr.Literal
           value: true
-
         operator: "-"
         right:
           class: Expr.Literal
           value: false
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -51,14 +39,10 @@ statements:
         left:
           class: Expr.Literal
           value: true
-
         operator: "<"
         right:
           class: Expr.Literal
           value: false
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -66,14 +50,10 @@ statements:
         left:
           class: Expr.Literal
           value: 1
-
         operator: "+"
         right:
           class: Expr.Literal
           value: true
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -81,14 +61,10 @@ statements:
         left:
           class: Expr.Literal
           value: false
-
         operator: "+"
         right:
           class: Expr.Literal
           value: 0
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -96,14 +72,10 @@ statements:
         left:
           class: Expr.Literal
           value: 1
-
         operator: "=="
         right:
           class: Expr.Literal
           value: true
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -111,14 +83,10 @@ statements:
         left:
           class: Expr.Literal
           value: false
-
         operator: "!="
         right:
           class: Expr.Literal
           value: 0
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -126,14 +94,10 @@ statements:
         left:
           class: Expr.Literal
           value: 1
-
         operator: "is"
         right:
           class: Expr.Literal
           value: 1
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -141,14 +105,10 @@ statements:
         left:
           class: Expr.Literal
           value: true
-
         operator: "is"
         right:
           class: Expr.Literal
           value: false
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -156,14 +116,10 @@ statements:
         left:
           class: Expr.Literal
           value: None
-
         operator: "+"
         right:
           class: Expr.Literal
           value: None
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -171,14 +127,10 @@ statements:
         left:
           class: Expr.Literal
           value: None
-
         operator: "=="
         right:
           class: Expr.Literal
           value: None
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -186,11 +138,7 @@ statements:
         left:
           class: Expr.Literal
           value: None
-
         operator: "is"
         right:
           class: Expr.Literal
           value: None
-
-
-

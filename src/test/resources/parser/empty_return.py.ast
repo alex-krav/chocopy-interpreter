@@ -10,10 +10,6 @@ statements:
             expr:
               class: Expr.Literal
               value: "hello"
-
-
         - statement:
             class: Stmt.Return
             value: None
-
-

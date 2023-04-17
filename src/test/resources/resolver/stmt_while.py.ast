@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 0
-
-
   - statement:
       class: Stmt.While
       condition:
@@ -15,13 +13,10 @@ statements:
         left:
           class: Expr.Variable
           name: x
-
         operator: "<"
         right:
           class: Expr.Literal
           value: 100
-
-
       body:
         - statement:
             class: Stmt.Expression
@@ -30,20 +25,12 @@ statements:
               target:
                 class: Expr.Variable
                 name: x
-
               value:
                 class: Expr.Binary
                 left:
                   class: Expr.Variable
                   name: x
-
                 operator: "+"
                 right:
                   class: Expr.Literal
                   value: 1
-
-
-
-
-
-

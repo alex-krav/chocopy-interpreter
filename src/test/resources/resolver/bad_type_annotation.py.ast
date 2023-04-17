@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Function
       name: foo
@@ -17,7 +15,6 @@ statements:
             name: x
             type: B
             initializer: None
-
       returnType: C
       body:
         - statement:
@@ -27,13 +24,8 @@ statements:
             initializer:
               class: Expr.Literal
               value: None
-
-
         - statement:
             class: Stmt.Return
             value: None
-
-
   - statement:
       class: Stmt.Pass
-

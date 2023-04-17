@@ -5,12 +5,9 @@ statements:
         class: Expr.Literal
         inferredType: bool
         value: false
-
       thenBranch:
         - statement:
             class: Stmt.Pass
-
-
       elseBranch:
         - statement:
             class: Stmt.If
@@ -18,7 +15,6 @@ statements:
               class: Expr.Literal
               inferredType: bool
               value: true
-
             thenBranch:
               - statement:
                   class: Stmt.If
@@ -29,26 +25,15 @@ statements:
                       class: Expr.Literal
                       inferredType: int
                       value: 1
-
                     operator: "=="
                     right:
                       class: Expr.Literal
                       inferredType: int
                       value: 1
-
-
                   thenBranch:
                     - statement:
                         class: Stmt.Pass
-
-
                   elseBranch: []
-
-
             elseBranch:
               - statement:
                   class: Stmt.Pass
-
-
-
-

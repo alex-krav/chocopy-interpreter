@@ -11,9 +11,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: true
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -21,7 +18,4 @@ statements:
         callee:
           class: Expr.Variable
           name: A
-
         arguments: []
-
-

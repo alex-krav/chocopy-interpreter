@@ -11,9 +11,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 3
-
-
-
   - statement:
       class: Stmt.Class
       name: B
@@ -28,7 +25,6 @@ statements:
                   name: self
                   type: B
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -36,10 +32,6 @@ statements:
                   value:
                     class: Expr.Literal
                     value: 3
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -47,7 +39,4 @@ statements:
         callee:
           class: Expr.Variable
           name: A
-
         arguments: []
-
-

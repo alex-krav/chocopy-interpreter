@@ -6,18 +6,14 @@ statements:
       initializer:
         class: Expr.Literal
         value: "Hello"
-
-
   - statement:
       class: Stmt.For
       identifier:
         class: Expr.Variable
         name: s
-
       iterable:
         class: Expr.Variable
         name: s
-
       body:
         - statement:
             class: Stmt.Expression
@@ -26,12 +22,6 @@ statements:
               list:
                 class: Expr.Variable
                 name: s
-
               index:
                 class: Expr.Literal
                 value: 0
-
-
-
-
-

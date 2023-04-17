@@ -6,7 +6,6 @@ statements:
         left:
           class: Expr.Variable
           name: a
-
         operator: "+"
         right:
           class: Expr.Index
@@ -15,16 +14,9 @@ statements:
             list:
               class: Expr.Variable
               name: b
-
             index:
               class: Expr.Variable
               name: i
-
-
           index:
             class: Expr.Variable
             name: j
-
-
-
-

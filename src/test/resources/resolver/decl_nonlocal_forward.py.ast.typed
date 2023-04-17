@@ -13,8 +13,6 @@ statements:
               class: Expr.Literal
               inferredType: int
               value: 0
-
-
         - statement:
             class: Stmt.Function
             name: inner
@@ -24,7 +22,6 @@ statements:
               - statement:
                   class: Stmt.Nonlocal
                   name: x
-
               - statement:
                   class: Stmt.Expression
                   expr:
@@ -33,23 +30,16 @@ statements:
                       class: Expr.Variable
                       inferredType: int
                       name: x
-
                     value:
                       class: Expr.Literal
                       inferredType: int
                       value: 1
-
-
-
               - statement:
                   class: Stmt.Return
                   value:
                     class: Expr.Variable
                     inferredType: int
                     name: x
-
-
-
         - statement:
             class: Stmt.Expression
             expr:
@@ -59,19 +49,13 @@ statements:
                 class: Expr.Variable
                 inferredType: [] -> int
                 name: inner
-
               arguments: []
-
-
         - statement:
             class: Stmt.Return
             value:
               class: Expr.Variable
               inferredType: int
               name: x
-
-
-
   - statement:
       class: Stmt.Print
       expr:
@@ -81,7 +65,4 @@ statements:
           class: Expr.Variable
           inferredType: [] -> int
           name: outer
-
         arguments: []
-
-

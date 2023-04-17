@@ -10,9 +10,6 @@ statements:
             value:
               class: Expr.Literal
               value: 1
-
-
-
   - statement:
       class: Stmt.Function
       name: foo
@@ -22,13 +19,11 @@ statements:
             name: x
             type: str
             initializer: None
-
         - param:
             class: Stmt.Var
             name: y
             type: bool
             initializer: None
-
       returnType: int
       body:
         - statement:
@@ -38,11 +33,7 @@ statements:
               callee:
                 class: Expr.Variable
                 name: bar
-
               arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -50,14 +41,10 @@ statements:
         callee:
           class: Expr.Variable
           name: foo
-
         arguments:
           - argument:
               class: Expr.Literal
               value: "Hello"
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -65,22 +52,16 @@ statements:
         callee:
           class: Expr.Variable
           name: foo
-
         arguments:
           - argument:
               class: Expr.Literal
               value: "Hello"
-
           - argument:
               class: Expr.Literal
               value: false
-
           - argument:
               class: Expr.Literal
               value: 3
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -88,18 +69,13 @@ statements:
         callee:
           class: Expr.Variable
           name: foo
-
         arguments:
           - argument:
               class: Expr.Literal
               value: "Hello"
-
           - argument:
               class: Expr.Literal
               value: 3
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -107,18 +83,13 @@ statements:
         callee:
           class: Expr.Variable
           name: foo
-
         arguments:
           - argument:
               class: Expr.Literal
               value: 1
-
           - argument:
               class: Expr.Literal
               value: "Hello"
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -126,7 +97,4 @@ statements:
         callee:
           class: Expr.Variable
           name: baz
-
         arguments: []
-
-

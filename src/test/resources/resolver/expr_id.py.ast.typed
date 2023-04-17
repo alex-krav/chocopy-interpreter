@@ -7,8 +7,6 @@ statements:
         class: Expr.Literal
         inferredType: int
         value: 1
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -18,12 +16,8 @@ statements:
           class: Expr.Variable
           inferredType: int
           name: x
-
         operator: "-"
         right:
           class: Expr.Literal
           inferredType: int
           value: 1
-
-
-

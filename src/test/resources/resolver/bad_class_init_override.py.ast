@@ -11,8 +11,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 1
-
-
         - member:
             class: Stmt.Function
             name: __init__
@@ -22,20 +20,15 @@ statements:
                   name: self
                   type: A
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
                   initializer: None
-
             returnType: <None>
             body:
               - statement:
                   class: Stmt.Pass
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -43,11 +36,7 @@ statements:
         callee:
           class: Expr.Variable
           name: A
-
         arguments:
           - argument:
               class: Expr.Literal
               value: 1
-
-
-

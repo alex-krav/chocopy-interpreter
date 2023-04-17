@@ -13,7 +13,6 @@ statements:
                   name: self
                   type: A
                   initializer: None
-
             returnType: <None>
             body:
               - statement:
@@ -21,10 +20,6 @@ statements:
                   value:
                     class: Expr.Literal
                     value: 1
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -32,7 +27,4 @@ statements:
         callee:
           class: Expr.Variable
           name: A
-
         arguments: []
-
-

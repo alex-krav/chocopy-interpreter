@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: "Hello"
-
-
   - statement:
       class: Stmt.Var
       name: y
@@ -15,8 +13,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: "World"
-
-
   - statement:
       class: Stmt.Var
       name: z
@@ -24,8 +20,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: ""
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -33,14 +27,10 @@ statements:
         left:
           class: Expr.Literal
           value: 1
-
         operator: "+"
         right:
           class: Expr.Variable
           name: x
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -48,21 +38,15 @@ statements:
         target:
           class: Expr.Variable
           name: z
-
         value:
           class: Expr.Binary
           left:
             class: Expr.Variable
             name: x
-
           operator: "+"
           right:
             class: Expr.Literal
             value: 1
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -70,24 +54,17 @@ statements:
         target:
           class: Expr.Variable
           name: z
-
         value:
           class: Expr.ListSet
           list:
             class: Expr.Variable
             name: x
-
           index:
             class: Expr.Literal
             value: 0
-
           value:
             class: Expr.Variable
             name: y
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -95,17 +72,12 @@ statements:
         list:
           class: Expr.Variable
           name: x
-
         index:
           class: Expr.Literal
           value: 1
-
         value:
           class: Expr.Variable
           name: y
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -113,10 +85,6 @@ statements:
         list:
           class: Expr.Variable
           name: x
-
         index:
           class: Expr.Literal
           value: true
-
-
-

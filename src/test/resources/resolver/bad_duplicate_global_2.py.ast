@@ -6,8 +6,6 @@ statements:
       members:
         - member:
             class: Stmt.Pass
-
-
   - statement:
       class: Stmt.Var
       name: x
@@ -15,8 +13,5 @@ statements:
       initializer:
         class: Expr.Literal
         value: 5
-
-
   - statement:
       class: Stmt.Pass
-

@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 0
-
-
   - statement:
       class: Stmt.Var
       name: y
@@ -15,8 +13,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 0
-
-
   - statement:
       class: Stmt.Var
       name: z
@@ -24,8 +20,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: false
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -33,20 +27,14 @@ statements:
         target:
           class: Expr.Variable
           name: x
-
         value:
           class: Expr.Assign
           target:
             class: Expr.Variable
             name: z
-
           value:
             class: Expr.Literal
             value: 1
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -54,20 +42,14 @@ statements:
         target:
           class: Expr.Variable
           name: x
-
         value:
           class: Expr.Assign
           target:
             class: Expr.Variable
             name: y
-
           value:
             class: Expr.Literal
             value: None
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -75,20 +57,14 @@ statements:
         target:
           class: Expr.Variable
           name: x
-
         value:
           class: Expr.Assign
           target:
             class: Expr.Variable
             name: y
-
           value:
             class: Expr.Listing
             elements: []
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -96,20 +72,14 @@ statements:
         target:
           class: Expr.Variable
           name: x
-
         value:
           class: Expr.Assign
           target:
             class: Expr.Variable
             name: a
-
           value:
             class: Expr.Literal
             value: None
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -117,20 +87,14 @@ statements:
         target:
           class: Expr.Variable
           name: x
-
         value:
           class: Expr.Assign
           target:
             class: Expr.Variable
             name: a
-
           value:
             class: Expr.Listing
             elements: []
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -138,17 +102,11 @@ statements:
         target:
           class: Expr.Variable
           name: x
-
         value:
           class: Expr.Assign
           target:
             class: Expr.Variable
             name: y
-
           value:
             class: Expr.Literal
             value: true
-
-
-
-

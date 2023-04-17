@@ -25,4 +25,8 @@ public class TestUtils {
         }
         return inputData.stream().map(Arguments::of);
     }
+
+    public static String removeEmptyLines(String text) {
+        return text.replaceAll("(?m)^[ \t]*\r?\n", "");
+    }
 }

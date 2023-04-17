@@ -4,36 +4,26 @@ statements:
       expr:
         class: Expr.Literal
         value: true
-
-
   - statement:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
         value: false
-
-
   - statement:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
         value: 1
-
-
   - statement:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
         value: None
-
-
   - statement:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
         value: "This is a string"
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -42,14 +32,9 @@ statements:
           - element:
               class: Expr.Literal
               value: 1
-
           - element:
               class: Expr.Literal
               value: 2
-
           - element:
               class: Expr.Literal
               value: 3
-
-
-

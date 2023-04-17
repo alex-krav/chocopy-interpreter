@@ -10,9 +10,6 @@ statements:
             value:
               class: Expr.Literal
               value: 1
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -20,7 +17,4 @@ statements:
         callee:
           class: Expr.Variable
           name: foo
-
         arguments: []
-
-

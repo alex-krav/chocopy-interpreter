@@ -11,9 +11,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: 1
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -21,14 +18,9 @@ statements:
         target:
           class: Expr.Variable
           name: f
-
         value:
           class: Expr.Call
           callee:
             class: Expr.Variable
             name: Foo
-
           arguments: []
-
-
-

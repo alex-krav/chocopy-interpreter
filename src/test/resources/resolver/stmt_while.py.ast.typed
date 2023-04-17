@@ -7,8 +7,6 @@ statements:
         class: Expr.Literal
         inferredType: int
         value: 0
-
-
   - statement:
       class: Stmt.While
       condition:
@@ -18,14 +16,11 @@ statements:
           class: Expr.Variable
           inferredType: int
           name: x
-
         operator: "<"
         right:
           class: Expr.Literal
           inferredType: int
           value: 100
-
-
       body:
         - statement:
             class: Stmt.Expression
@@ -35,7 +30,6 @@ statements:
                 class: Expr.Variable
                 inferredType: int
                 name: x
-
               value:
                 class: Expr.Binary
                 inferredType: int
@@ -43,15 +37,8 @@ statements:
                   class: Expr.Variable
                   inferredType: int
                   name: x
-
                 operator: "+"
                 right:
                   class: Expr.Literal
                   inferredType: int
                   value: 1
-
-
-
-
-
-

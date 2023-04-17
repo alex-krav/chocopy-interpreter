@@ -7,8 +7,6 @@ statements:
         class: Expr.Literal
         inferredType: int
         value: 0
-
-
   - statement:
       class: Stmt.Function
       name: set_x
@@ -18,7 +16,6 @@ statements:
         - statement:
             class: Stmt.Global
             name: x
-
         - statement:
             class: Stmt.Expression
             expr:
@@ -27,23 +24,16 @@ statements:
                 class: Expr.Variable
                 inferredType: int
                 name: x
-
               value:
                 class: Expr.Literal
                 inferredType: int
                 value: 1
-
-
-
         - statement:
             class: Stmt.Return
             value:
               class: Expr.Variable
               inferredType: int
               name: x
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -53,15 +43,10 @@ statements:
           class: Expr.Variable
           inferredType: [] -> int
           name: set_x
-
         arguments: []
-
-
   - statement:
       class: Stmt.Print
       expr:
         class: Expr.Variable
         inferredType: int
         name: x
-
-

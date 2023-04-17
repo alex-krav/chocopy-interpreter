@@ -13,13 +13,11 @@ statements:
                   name: self
                   type: A
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -27,9 +25,6 @@ statements:
                   value:
                     class: Expr.Variable
                     name: x
-
-
-
         - member:
             class: Stmt.Function
             name: bar
@@ -39,13 +34,11 @@ statements:
                   name: self
                   type: A
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -53,9 +46,6 @@ statements:
                   value:
                     class: Expr.Variable
                     name: x
-
-
-
         - member:
             class: Stmt.Function
             name: baz
@@ -65,13 +55,11 @@ statements:
                   name: self
                   type: A
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -79,9 +67,6 @@ statements:
                   value:
                     class: Expr.Variable
                     name: x
-
-
-
         - member:
             class: Stmt.Function
             name: qux
@@ -91,13 +76,11 @@ statements:
                   name: self
                   type: A
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -105,10 +88,6 @@ statements:
                   value:
                     class: Expr.Variable
                     name: x
-
-
-
-
   - statement:
       class: Stmt.Class
       name: B
@@ -123,13 +102,11 @@ statements:
                   name: self
                   type: B
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -137,9 +114,6 @@ statements:
                   value:
                     class: Expr.Literal
                     value: 0
-
-
-
         - member:
             class: Stmt.Function
             name: bar
@@ -149,7 +123,6 @@ statements:
                   name: self
                   type: B
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -157,9 +130,6 @@ statements:
                   value:
                     class: Expr.Literal
                     value: 0
-
-
-
         - member:
             class: Stmt.Function
             name: baz
@@ -169,13 +139,11 @@ statements:
                   name: self
                   type: B
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: x
                   type: int
                   initializer: None
-
             returnType: bool
             body:
               - statement:
@@ -183,9 +151,6 @@ statements:
                   value:
                     class: Expr.Literal
                     value: true
-
-
-
         - member:
             class: Stmt.Function
             name: qux
@@ -195,13 +160,11 @@ statements:
                   name: self
                   type: B
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: x
                   type: bool
                   initializer: None
-
             returnType: int
             body:
               - statement:
@@ -209,10 +172,6 @@ statements:
                   value:
                     class: Expr.Literal
                     value: 0
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -220,7 +179,4 @@ statements:
         callee:
           class: Expr.Variable
           name: B
-
         arguments: []
-
-

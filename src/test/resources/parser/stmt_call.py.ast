@@ -4,5 +4,3 @@ statements:
       expr:
         class: Expr.Literal
         value: 1
-
-

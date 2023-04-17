@@ -12,9 +12,6 @@ statements:
               class: Expr.Literal
               inferredType: int
               value: 1
-
-
-
   - statement:
       class: Stmt.Class
       name: B
@@ -29,14 +26,10 @@ statements:
                   name: self
                   type: B
                   initializer: None
-
             returnType: <None>
             body:
               - statement:
                   class: Stmt.Pass
-
-
-
   - statement:
       class: Stmt.Class
       name: C
@@ -50,9 +43,6 @@ statements:
               class: Expr.Literal
               inferredType: bool
               value: true
-
-
-
   - statement:
       class: Stmt.Var
       name: a
@@ -61,8 +51,6 @@ statements:
         class: Expr.Literal
         inferredType: <None>
         value: None
-
-
   - statement:
       class: Stmt.Var
       name: b
@@ -71,8 +59,6 @@ statements:
         class: Expr.Literal
         inferredType: <None>
         value: None
-
-
   - statement:
       class: Stmt.Var
       name: c
@@ -81,8 +67,6 @@ statements:
         class: Expr.Literal
         inferredType: <None>
         value: None
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -91,7 +75,6 @@ statements:
           class: Expr.Variable
           inferredType: A
           name: a
-
         value:
           class: Expr.Call
           inferredType: A
@@ -99,11 +82,7 @@ statements:
             class: Expr.Variable
             inferredType: [object] -> <None>
             name: A
-
           arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -112,7 +91,6 @@ statements:
           class: Expr.Variable
           inferredType: B
           name: b
-
         value:
           class: Expr.Call
           inferredType: B
@@ -120,11 +98,7 @@ statements:
             class: Expr.Variable
             inferredType: [B] -> <None>
             name: B
-
           arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -133,7 +107,6 @@ statements:
           class: Expr.Variable
           inferredType: C
           name: c
-
         value:
           class: Expr.Call
           inferredType: C
@@ -141,8 +114,4 @@ statements:
             class: Expr.Variable
             inferredType: [B] -> <None>
             name: C
-
           arguments: []
-
-
-

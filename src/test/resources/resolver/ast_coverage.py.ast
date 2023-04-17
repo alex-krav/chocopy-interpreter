@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 0
-
-
   - statement:
       class: Stmt.Function
       name: foo
@@ -17,7 +15,6 @@ statements:
             name: s
             type: str
             initializer: None
-
       returnType: int
       body:
         - statement:
@@ -27,10 +24,6 @@ statements:
               expr:
                 class: Expr.Variable
                 name: s
-
-
-
-
   - statement:
       class: Stmt.Class
       name: bar
@@ -43,8 +36,6 @@ statements:
             initializer:
               class: Expr.Literal
               value: true
-
-
         - member:
             class: Stmt.Function
             name: baz
@@ -54,19 +45,16 @@ statements:
                   name: self
                   type: bar
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: xx
                   type: [int]
                   initializer: None
-
             returnType: str
             body:
               - statement:
                   class: Stmt.Global
                   name: count
-
               - statement:
                   class: Stmt.Var
                   name: x
@@ -74,8 +62,6 @@ statements:
                   initializer:
                     class: Expr.Literal
                     value: 0
-
-
               - statement:
                   class: Stmt.Var
                   name: y
@@ -83,8 +69,6 @@ statements:
                   initializer:
                     class: Expr.Literal
                     value: 1
-
-
               - statement:
                   class: Stmt.Function
                   name: qux
@@ -94,13 +78,11 @@ statements:
                         name: y
                         type: int
                         initializer: None
-
                   returnType: object
                   body:
                     - statement:
                         class: Stmt.Nonlocal
                         name: x
-
                     - statement:
                         class: Stmt.If
                         condition:
@@ -108,13 +90,10 @@ statements:
                           left:
                             class: Expr.Variable
                             name: x
-
                           operator: ">"
                           right:
                             class: Expr.Variable
                             name: y
-
-
                         thenBranch:
                           - statement:
                               class: Stmt.Expression
@@ -123,31 +102,21 @@ statements:
                                 target:
                                   class: Expr.Variable
                                   name: x
-
                                 value:
                                   class: Expr.Unary
                                   operator: "-"
                                   operand:
                                     class: Expr.Literal
                                     value: 1
-
-
-
-
-
                         elseBranch: []
-
-
               - statement:
                   class: Stmt.For
                   identifier:
                     class: Expr.Variable
                     name: x
-
                   iterable:
                     class: Expr.Variable
                     name: xx
-
                   body:
                     - statement:
                         class: Stmt.Expression
@@ -155,24 +124,16 @@ statements:
                           class: Expr.Set
                           object:
                             name: self
-
                           name: p
                           value:
                             class: Expr.Binary
                             left:
                               class: Expr.Variable
                               name: x
-
                             operator: "=="
                             right:
                               class: Expr.Literal
                               value: 2
-
-
-
-
-
-
               - statement:
                   class: Stmt.Expression
                   expr:
@@ -180,14 +141,10 @@ statements:
                     callee:
                       class: Expr.Variable
                       name: qux
-
                     arguments:
                       - argument:
                           class: Expr.Literal
                           value: 0
-
-
-
               - statement:
                   class: Stmt.Expression
                   expr:
@@ -195,21 +152,15 @@ statements:
                     target:
                       class: Expr.Variable
                       name: count
-
                     value:
                       class: Expr.Binary
                       left:
                         class: Expr.Variable
                         name: count
-
                       operator: "+"
                       right:
                         class: Expr.Literal
                         value: 1
-
-
-
-
               - statement:
                   class: Stmt.While
                   condition:
@@ -217,13 +168,10 @@ statements:
                     left:
                       class: Expr.Variable
                       name: x
-
                     operator: "<="
                     right:
                       class: Expr.Literal
                       value: 0
-
-
                   body:
                     - statement:
                         class: Stmt.If
@@ -231,9 +179,7 @@ statements:
                           class: Expr.Get
                           object:
                             name: self
-
                           name: p
-
                         thenBranch:
                           - statement:
                               class: Stmt.Expression
@@ -242,31 +188,23 @@ statements:
                                 list:
                                   class: Expr.Variable
                                   name: xx
-
                                 index:
                                   class: Expr.Literal
                                   value: 0
-
                                 value:
                                   class: Expr.Index
                                   list:
                                     class: Expr.Variable
                                     name: xx
-
                                   index:
                                     class: Expr.Literal
                                     value: 1
-
-
-
-
                           - statement:
                               class: Stmt.Expression
                               expr:
                                 class: Expr.Set
                                 object:
                                   name: self
-
                                 name: p
                                 value:
                                   class: Expr.Unary
@@ -275,12 +213,7 @@ statements:
                                     class: Expr.Get
                                     object:
                                       name: self
-
                                     name: p
-
-
-
-
                           - statement:
                               class: Stmt.Expression
                               expr:
@@ -288,22 +221,15 @@ statements:
                                 target:
                                   class: Expr.Variable
                                   name: x
-
                                 value:
                                   class: Expr.Binary
                                   left:
                                     class: Expr.Variable
                                     name: x
-
                                   operator: "+"
                                   right:
                                     class: Expr.Literal
                                     value: 1
-
-
-
-
-
                         elseBranch:
                           - statement:
                               class: Stmt.If
@@ -314,26 +240,19 @@ statements:
                                   callee:
                                     class: Expr.Variable
                                     name: foo
-
                                   arguments:
                                     - argument:
                                         class: Expr.Index
                                         list:
                                           class: Expr.Literal
                                           value: "Long"
-
                                         index:
                                           class: Expr.Literal
                                           value: 0
-
-
-
                                 operator: "=="
                                 right:
                                   class: Expr.Literal
                                   value: 1
-
-
                               thenBranch:
                                 - statement:
                                     class: Stmt.Expression
@@ -341,36 +260,21 @@ statements:
                                       class: Expr.Set
                                       object:
                                         name: self
-
                                       name: p
                                       value:
                                         class: Expr.Binary
                                         left:
                                           name: self
-
                                         operator: "is"
                                         right:
                                           class: Expr.Literal
                                           value: None
-
-
-
-
-
                               elseBranch: []
-
-
-
-
               - statement:
                   class: Stmt.Return
                   value:
                     class: Expr.Literal
                     value: "Nope"
-
-
-
-
   - statement:
       class: Stmt.Print
       expr:
@@ -382,11 +286,8 @@ statements:
             callee:
               class: Expr.Variable
               name: bar
-
             arguments: []
-
           name: baz
-
         arguments:
           - argument:
               class: Expr.Listing
@@ -394,11 +295,6 @@ statements:
                 - element:
                     class: Expr.Literal
                     value: 1
-
                 - element:
                     class: Expr.Literal
                     value: 2
-
-
-
-

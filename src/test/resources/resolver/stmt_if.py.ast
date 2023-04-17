@@ -4,19 +4,15 @@ statements:
       condition:
         class: Expr.Literal
         value: false
-
       thenBranch:
         - statement:
             class: Stmt.Pass
-
-
       elseBranch:
         - statement:
             class: Stmt.If
             condition:
               class: Expr.Literal
               value: true
-
             thenBranch:
               - statement:
                   class: Stmt.If
@@ -25,25 +21,14 @@ statements:
                     left:
                       class: Expr.Literal
                       value: 1
-
                     operator: "=="
                     right:
                       class: Expr.Literal
                       value: 1
-
-
                   thenBranch:
                     - statement:
                         class: Stmt.Pass
-
-
                   elseBranch: []
-
-
             elseBranch:
               - statement:
                   class: Stmt.Pass
-
-
-
-

@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 1
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -15,17 +13,11 @@ statements:
         target:
           class: Expr.Variable
           name: x
-
         value:
           class: Expr.Literal
           value: 2
-
-
-
   - statement:
       class: Stmt.Print
       expr:
         class: Expr.Variable
         name: x
-
-

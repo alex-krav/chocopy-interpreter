@@ -7,8 +7,6 @@ statements:
         class: Expr.Literal
         inferredType: int
         value: 1
-
-
   - statement:
       class: Stmt.Var
       name: y
@@ -17,8 +15,6 @@ statements:
         class: Expr.Literal
         inferredType: bool
         value: true
-
-
   - statement:
       class: Stmt.Var
       name: z
@@ -27,8 +23,6 @@ statements:
         class: Expr.Literal
         inferredType: str
         value: ""
-
-
   - statement:
       class: Stmt.Var
       name: o
@@ -37,8 +31,6 @@ statements:
         class: Expr.Literal
         inferredType: <None>
         value: None
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -47,14 +39,10 @@ statements:
           class: Expr.Variable
           inferredType: int
           name: x
-
         value:
           class: Expr.Literal
           inferredType: int
           value: 2
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -63,14 +51,10 @@ statements:
           class: Expr.Variable
           inferredType: bool
           name: y
-
         value:
           class: Expr.Literal
           inferredType: bool
           value: false
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -79,14 +63,10 @@ statements:
           class: Expr.Variable
           inferredType: str
           name: z
-
         value:
           class: Expr.Literal
           inferredType: str
           value: "Hello"
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -95,11 +75,7 @@ statements:
           class: Expr.Variable
           inferredType: object
           name: o
-
         value:
           class: Expr.Variable
           inferredType: str
           name: z
-
-
-

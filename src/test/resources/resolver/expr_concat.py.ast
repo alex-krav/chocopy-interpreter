@@ -9,12 +9,9 @@ statements:
             - element:
                 class: Expr.Literal
                 value: 1
-
             - element:
                 class: Expr.Literal
                 value: 2
-
-
         operator: "+"
         right:
           class: Expr.Listing
@@ -22,14 +19,9 @@ statements:
             - element:
                 class: Expr.Literal
                 value: 3
-
             - element:
                 class: Expr.Literal
                 value: 4
-
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -37,14 +29,10 @@ statements:
         left:
           class: Expr.Literal
           value: "Hello "
-
         operator: "+"
         right:
           class: Expr.Literal
           value: "World"
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -55,12 +43,9 @@ statements:
             - element:
                 class: Expr.Literal
                 value: 1
-
             - element:
                 class: Expr.Literal
                 value: 2
-
-
         operator: "+"
         right:
           class: Expr.Listing
@@ -68,7 +53,3 @@ statements:
             - element:
                 class: Expr.Literal
                 value: true
-
-
-
-

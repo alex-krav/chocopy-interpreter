@@ -6,22 +6,15 @@ statements:
         onTrue:
           class: Expr.Literal
           value: 3
-
         condition:
           class: Expr.Binary
           left:
             class: Expr.Literal
             value: 1
-
           operator: ">"
           right:
             class: Expr.Literal
             value: 2
-
-
         onFalse:
           class: Expr.Literal
           value: 4
-
-
-

@@ -11,9 +11,6 @@ statements:
               class: Expr.Literal
               inferredType: int
               value: 1
-
-
-
   - statement:
       class: Stmt.Function
       name: foo
@@ -23,13 +20,11 @@ statements:
             name: x
             type: str
             initializer: None
-
         - param:
             class: Stmt.Var
             name: y
             type: bool
             initializer: None
-
       returnType: int
       body:
         - statement:
@@ -41,11 +36,7 @@ statements:
                 class: Expr.Variable
                 inferredType: [] -> int
                 name: bar
-
               arguments: []
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -55,17 +46,12 @@ statements:
           class: Expr.Variable
           inferredType: [str, bool] -> int
           name: foo
-
         arguments:
           - argument:
               class: Expr.Literal
               inferredType: str
               value: "Hello"
-
           - argument:
               class: Expr.Literal
               inferredType: bool
               value: false
-
-
-

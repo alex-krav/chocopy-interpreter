@@ -7,8 +7,6 @@ statements:
         class: Expr.Literal
         inferredType: int
         value: 0
-
-
   - statement:
       class: Stmt.Function
       name: foo
@@ -18,7 +16,6 @@ statements:
             name: s
             type: str
             initializer: None
-
       returnType: int
       body:
         - statement:
@@ -29,10 +26,6 @@ statements:
                 class: Expr.Variable
                 inferredType: str
                 name: s
-
-
-
-
   - statement:
       class: Stmt.Class
       name: bar
@@ -46,8 +39,6 @@ statements:
               class: Expr.Literal
               inferredType: bool
               value: true
-
-
         - member:
             class: Stmt.Function
             name: baz
@@ -57,19 +48,16 @@ statements:
                   name: self
                   type: bar
                   initializer: None
-
               - param:
                   class: Stmt.Var
                   name: xx
                   type: [int]
                   initializer: None
-
             returnType: str
             body:
               - statement:
                   class: Stmt.Global
                   name: count
-
               - statement:
                   class: Stmt.Var
                   name: x
@@ -78,8 +66,6 @@ statements:
                     class: Expr.Literal
                     inferredType: int
                     value: 0
-
-
               - statement:
                   class: Stmt.Var
                   name: y
@@ -88,8 +74,6 @@ statements:
                     class: Expr.Literal
                     inferredType: int
                     value: 1
-
-
               - statement:
                   class: Stmt.Function
                   name: qux
@@ -99,13 +83,11 @@ statements:
                         name: y
                         type: int
                         initializer: None
-
                   returnType: object
                   body:
                     - statement:
                         class: Stmt.Nonlocal
                         name: x
-
                     - statement:
                         class: Stmt.If
                         condition:
@@ -115,14 +97,11 @@ statements:
                             class: Expr.Variable
                             inferredType: int
                             name: x
-
                           operator: ">"
                           right:
                             class: Expr.Variable
                             inferredType: int
                             name: y
-
-
                         thenBranch:
                           - statement:
                               class: Stmt.Expression
@@ -132,7 +111,6 @@ statements:
                                   class: Expr.Variable
                                   inferredType: int
                                   name: x
-
                                 value:
                                   class: Expr.Unary
                                   inferredType: int
@@ -141,26 +119,17 @@ statements:
                                     class: Expr.Literal
                                     inferredType: int
                                     value: 1
-
-
-
-
-
                         elseBranch: []
-
-
               - statement:
                   class: Stmt.For
                   identifier:
                     class: Expr.Variable
                     inferredType: int
                     name: x
-
                   iterable:
                     class: Expr.Variable
                     inferredType: [int]
                     name: xx
-
                   body:
                     - statement:
                         class: Stmt.Expression
@@ -169,7 +138,6 @@ statements:
                           object:
                             name: self
                             inferredType: bar
-
                           name: p
                           value:
                             class: Expr.Binary
@@ -178,18 +146,11 @@ statements:
                               class: Expr.Variable
                               inferredType: int
                               name: x
-
                             operator: "=="
                             right:
                               class: Expr.Literal
                               inferredType: int
                               value: 2
-
-
-
-
-
-
               - statement:
                   class: Stmt.Expression
                   expr:
@@ -199,15 +160,11 @@ statements:
                       class: Expr.Variable
                       inferredType: [int] -> object
                       name: qux
-
                     arguments:
                       - argument:
                           class: Expr.Literal
                           inferredType: int
                           value: 0
-
-
-
               - statement:
                   class: Stmt.Expression
                   expr:
@@ -216,7 +173,6 @@ statements:
                       class: Expr.Variable
                       inferredType: int
                       name: count
-
                     value:
                       class: Expr.Binary
                       inferredType: int
@@ -224,16 +180,11 @@ statements:
                         class: Expr.Variable
                         inferredType: int
                         name: count
-
                       operator: "+"
                       right:
                         class: Expr.Literal
                         inferredType: int
                         value: 1
-
-
-
-
               - statement:
                   class: Stmt.While
                   condition:
@@ -243,14 +194,11 @@ statements:
                       class: Expr.Variable
                       inferredType: int
                       name: x
-
                     operator: "<="
                     right:
                       class: Expr.Literal
                       inferredType: int
                       value: 0
-
-
                   body:
                     - statement:
                         class: Stmt.If
@@ -260,9 +208,7 @@ statements:
                           object:
                             name: self
                             inferredType: bar
-
                           name: p
-
                         thenBranch:
                           - statement:
                               class: Stmt.Expression
@@ -273,12 +219,10 @@ statements:
                                   class: Expr.Variable
                                   inferredType: [int]
                                   name: xx
-
                                 index:
                                   class: Expr.Literal
                                   inferredType: int
                                   value: 0
-
                                 value:
                                   class: Expr.Index
                                   inferredType: int
@@ -286,15 +230,10 @@ statements:
                                     class: Expr.Variable
                                     inferredType: [int]
                                     name: xx
-
                                   index:
                                     class: Expr.Literal
                                     inferredType: int
                                     value: 1
-
-
-
-
                           - statement:
                               class: Stmt.Expression
                               expr:
@@ -302,7 +241,6 @@ statements:
                                 object:
                                   name: self
                                   inferredType: bar
-
                                 name: p
                                 value:
                                   class: Expr.Unary
@@ -314,12 +252,7 @@ statements:
                                     object:
                                       name: self
                                       inferredType: bar
-
                                     name: p
-
-
-
-
                           - statement:
                               class: Stmt.Expression
                               expr:
@@ -328,7 +261,6 @@ statements:
                                   class: Expr.Variable
                                   inferredType: int
                                   name: x
-
                                 value:
                                   class: Expr.Binary
                                   inferredType: int
@@ -336,17 +268,11 @@ statements:
                                     class: Expr.Variable
                                     inferredType: int
                                     name: x
-
                                   operator: "+"
                                   right:
                                     class: Expr.Literal
                                     inferredType: int
                                     value: 1
-
-
-
-
-
                         elseBranch:
                           - statement:
                               class: Stmt.If
@@ -360,7 +286,6 @@ statements:
                                     class: Expr.Variable
                                     inferredType: [str] -> int
                                     name: foo
-
                                   arguments:
                                     - argument:
                                         class: Expr.Index
@@ -369,21 +294,15 @@ statements:
                                           class: Expr.Literal
                                           inferredType: str
                                           value: "Long"
-
                                         index:
                                           class: Expr.Literal
                                           inferredType: int
                                           value: 0
-
-
-
                                 operator: "=="
                                 right:
                                   class: Expr.Literal
                                   inferredType: int
                                   value: 1
-
-
                               thenBranch:
                                 - statement:
                                     class: Stmt.Expression
@@ -392,7 +311,6 @@ statements:
                                       object:
                                         name: self
                                         inferredType: bar
-
                                       name: p
                                       value:
                                         class: Expr.Binary
@@ -400,32 +318,18 @@ statements:
                                         left:
                                           name: self
                                           inferredType: bar
-
                                         operator: "is"
                                         right:
                                           class: Expr.Literal
                                           inferredType: <None>
                                           value: None
-
-
-
-
-
                               elseBranch: []
-
-
-
-
               - statement:
                   class: Stmt.Return
                   value:
                     class: Expr.Literal
                     inferredType: str
                     value: "Nope"
-
-
-
-
   - statement:
       class: Stmt.Print
       expr:
@@ -441,11 +345,8 @@ statements:
               class: Expr.Variable
               inferredType: [object] -> <None>
               name: bar
-
             arguments: []
-
           name: baz
-
         arguments:
           - argument:
               class: Expr.Listing
@@ -455,12 +356,7 @@ statements:
                     class: Expr.Literal
                     inferredType: int
                     value: 1
-
                 - element:
                     class: Expr.Literal
                     inferredType: int
                     value: 2
-
-
-
-

@@ -6,8 +6,6 @@ statements:
       initializer:
         class: Expr.Literal
         value: 0
-
-
   - statement:
       class: Stmt.Function
       name: set_x
@@ -17,7 +15,6 @@ statements:
         - statement:
             class: Stmt.Global
             name: x
-
         - statement:
             class: Stmt.Expression
             expr:
@@ -25,21 +22,14 @@ statements:
               target:
                 class: Expr.Variable
                 name: x
-
               value:
                 class: Expr.Literal
                 value: 1
-
-
-
         - statement:
             class: Stmt.Return
             value:
               class: Expr.Variable
               name: x
-
-
-
   - statement:
       class: Stmt.Expression
       expr:
@@ -47,14 +37,9 @@ statements:
         callee:
           class: Expr.Variable
           name: set_x
-
         arguments: []
-
-
   - statement:
       class: Stmt.Print
       expr:
         class: Expr.Variable
         name: x
-
-
