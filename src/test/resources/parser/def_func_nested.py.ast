@@ -17,7 +17,6 @@ statements:
             type: int
             initializer:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 0
 
 
@@ -27,7 +26,6 @@ statements:
             type: int
             initializer:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 1
 
 
@@ -49,7 +47,6 @@ statements:
                   type: int
                   initializer:
                     class: Expr.Literal
-                    type: java.lang.Integer
                     value: 2
 
 
@@ -96,7 +93,6 @@ statements:
         arguments:
           - argument:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 1
 
 

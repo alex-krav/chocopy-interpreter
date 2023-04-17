@@ -5,13 +5,11 @@ statements:
         class: Expr.Binary
         left:
           class: Expr.Literal
-          type: java.lang.Integer
           value: 1
 
         operator: ">"
         right:
           class: Expr.Literal
-          type: java.lang.Integer
           value: 2
 
 
@@ -20,7 +18,6 @@ statements:
             class: Stmt.Print
             expr:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 1
 
 
@@ -32,13 +29,11 @@ statements:
               class: Expr.Binary
               left:
                 class: Expr.Literal
-                type: java.lang.Integer
                 value: 3
 
               operator: "=="
               right:
                 class: Expr.Literal
-                type: java.lang.Integer
                 value: 4
 
 
@@ -47,7 +42,6 @@ statements:
                   class: Stmt.Print
                   expr:
                     class: Expr.Literal
-                    type: java.lang.Integer
                     value: 2
 
 
@@ -57,7 +51,6 @@ statements:
                   class: Stmt.If
                   condition:
                     class: Expr.Literal
-                    type: java.lang.Boolean
                     value: true
 
                   thenBranch:
@@ -65,7 +58,6 @@ statements:
                         class: Stmt.Print
                         expr:
                           class: Expr.Literal
-                          type: java.lang.Integer
                           value: 3
 
 
@@ -75,7 +67,6 @@ statements:
                         class: Stmt.Print
                         expr:
                           class: Expr.Literal
-                          type: java.lang.Integer
                           value: 4
 
 

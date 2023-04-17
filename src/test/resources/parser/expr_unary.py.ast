@@ -6,7 +6,6 @@ statements:
         operator: "-"
         operand:
           class: Expr.Literal
-          type: java.lang.Integer
           value: 1
 
 

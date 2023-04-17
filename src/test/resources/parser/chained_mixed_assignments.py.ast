@@ -9,12 +9,14 @@ statements:
 
         index:
           class: Expr.Literal
-          type: java.lang.Integer
           value: 0
 
         value:
           class: Expr.Assign
-          name: y
+          target:
+            class: Expr.Variable
+            name: y
+
           value:
             class: Expr.Set
             object:
@@ -24,7 +26,6 @@ statements:
             name: f
             value:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 1
 
 
@@ -42,7 +43,10 @@ statements:
         name: g
         value:
           class: Expr.Assign
-          name: y
+          target:
+            class: Expr.Variable
+            name: y
+
           value:
             class: Expr.Index
             list:
@@ -51,7 +55,6 @@ statements:
 
             index:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 0
 
 

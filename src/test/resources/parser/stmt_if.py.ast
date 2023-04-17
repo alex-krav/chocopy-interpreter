@@ -3,7 +3,6 @@ statements:
       class: Stmt.If
       condition:
         class: Expr.Literal
-        type: java.lang.Boolean
         value: true
 
       thenBranch:
@@ -11,7 +10,6 @@ statements:
             class: Stmt.Expression
             expr:
               class: Expr.Literal
-              type: java.lang.Boolean
               value: false
 
 

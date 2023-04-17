@@ -3,7 +3,6 @@ statements:
       class: Stmt.While
       condition:
         class: Expr.Literal
-        type: java.lang.Boolean
         value: true
 
       body:

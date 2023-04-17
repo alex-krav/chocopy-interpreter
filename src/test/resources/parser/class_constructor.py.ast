@@ -10,7 +10,6 @@ statements:
             type: int
             initializer:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 0
 
 
@@ -21,7 +20,7 @@ statements:
               - param:
                   class: Stmt.Var
                   name: self
-                  type: "Foo"
+                  type: Foo
                   initializer: null
 
               - param:
@@ -37,7 +36,7 @@ statements:
                   expr:
                     class: Expr.Set
                     object:
-                      self
+                      name: self
 
                     name: x
                     value:
@@ -52,7 +51,10 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Assign
-        name: f
+        target:
+          class: Expr.Variable
+          name: f
+
         value:
           class: Expr.Call
           callee:
@@ -62,7 +64,6 @@ statements:
           arguments:
             - argument:
                 class: Expr.Literal
-                type: java.lang.Integer
                 value: 1
 
 

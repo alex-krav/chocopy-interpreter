@@ -5,7 +5,6 @@ statements:
       type: int
       initializer:
         class: Expr.Literal
-        type: java.lang.Integer
         value: 1
 
 
@@ -13,10 +12,12 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Assign
-        name: x
+        target:
+          class: Expr.Variable
+          name: x
+
         value:
           class: Expr.Literal
-          type: java.lang.Integer
           value: 2
 
 

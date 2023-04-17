@@ -5,7 +5,6 @@ statements:
       type: str
       initializer:
         class: Expr.Literal
-        type: java.lang.String
         value: ""
 
 
@@ -15,7 +14,6 @@ statements:
       type: int
       initializer:
         class: Expr.Literal
-        type: java.lang.Integer
         value: 0
 
 
@@ -23,7 +21,10 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Assign
-        name: s
+        target:
+          class: Expr.Variable
+          name: s
+
         value:
           class: Expr.Input
 
@@ -33,7 +34,10 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Assign
-        name: l
+        target:
+          class: Expr.Variable
+          name: l
+
         value:
           class: Expr.Len
           expr:
@@ -57,7 +61,6 @@ statements:
         operator: ">"
         right:
           class: Expr.Literal
-          type: java.lang.Integer
           value: 0
 
 
@@ -73,7 +76,10 @@ statements:
             class: Stmt.Expression
             expr:
               class: Expr.Assign
-              name: s
+              target:
+                class: Expr.Variable
+                name: s
+
               value:
                 class: Expr.Input
 

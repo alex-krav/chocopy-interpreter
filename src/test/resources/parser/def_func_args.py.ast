@@ -44,12 +44,10 @@ statements:
         arguments:
           - argument:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 1
 
           - argument:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 2
 
 

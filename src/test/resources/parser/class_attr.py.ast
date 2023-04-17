@@ -10,7 +10,6 @@ statements:
             type: int
             initializer:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 1
 
 
@@ -19,7 +18,10 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Assign
-        name: f
+        target:
+          class: Expr.Variable
+          name: f
+
         value:
           class: Expr.Call
           callee:

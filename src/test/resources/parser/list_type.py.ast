@@ -5,7 +5,6 @@ statements:
       type: str
       initializer:
         class: Expr.Literal
-        type: java.lang.String
         value: "asdf"
 
 
@@ -15,7 +14,6 @@ statements:
       type: bool
       initializer:
         class: Expr.Literal
-        type: java.lang.Boolean
         value: false
 
 
@@ -25,7 +23,6 @@ statements:
       type: int
       initializer:
         class: Expr.Literal
-        type: java.lang.Integer
         value: 4
 
 
@@ -35,7 +32,6 @@ statements:
       type: object
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -45,17 +41,15 @@ statements:
       type: T
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
   - statement:
       class: Stmt.Var
       name: ids
-      type: "S"
+      type: S
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -65,7 +59,6 @@ statements:
       type: [str]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -75,7 +68,6 @@ statements:
       type: [bool]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -85,7 +77,6 @@ statements:
       type: [int]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -95,7 +86,6 @@ statements:
       type: [object]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -105,17 +95,15 @@ statements:
       type: [T]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
   - statement:
       class: Stmt.Var
       name: ids_list
-      type: ["S"]
+      type: [S]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -125,7 +113,6 @@ statements:
       type: [[str]]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -135,7 +122,6 @@ statements:
       type: [[bool]]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -145,7 +131,6 @@ statements:
       type: [[int]]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -155,7 +140,6 @@ statements:
       type: [[object]]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -165,17 +149,15 @@ statements:
       type: [[T]]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
   - statement:
       class: Stmt.Var
       name: ids_list2
-      type: [["S"]]
+      type: [[S]]
       initializer:
         class: Expr.Literal
-        type: <None>
         value: null
 
 

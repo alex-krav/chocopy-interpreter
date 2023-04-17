@@ -3,16 +3,24 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Assign
-        name: x
+        target:
+          class: Expr.Variable
+          name: x
+
         value:
           class: Expr.Assign
-          name: y
+          target:
+            class: Expr.Variable
+            name: y
+
           value:
             class: Expr.Assign
-            name: z
+            target:
+              class: Expr.Variable
+              name: z
+
             value:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 1
 
 

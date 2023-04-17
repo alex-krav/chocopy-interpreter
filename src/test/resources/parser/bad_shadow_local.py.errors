@@ -1,0 +1,7 @@
+[line 1] Error at 'object': Expect expression.
+[line 3] Error at 'bool': Unexpected token for function parameter identifier.
+[line 5] Error at '': Expect expression.
+[line 5] Error at 'str': Expect function name.
+[line 6] Error at '': Expect expression.
+[line 8] Error at '': Expect expression.
+[line 9] Error at '': Expect expression.

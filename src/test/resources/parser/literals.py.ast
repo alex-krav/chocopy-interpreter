@@ -3,7 +3,6 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
-        type: java.lang.Boolean
         value: true
 
 
@@ -11,7 +10,6 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
-        type: java.lang.Boolean
         value: false
 
 
@@ -19,7 +17,6 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
-        type: java.lang.Integer
         value: 1
 
 
@@ -27,7 +24,6 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
-        type: <None>
         value: null
 
 
@@ -35,7 +31,6 @@ statements:
       class: Stmt.Expression
       expr:
         class: Expr.Literal
-        type: java.lang.String
         value: "This is a string"
 
 
@@ -46,17 +41,14 @@ statements:
         elements:
           - element:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 1
 
           - element:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 2
 
           - element:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 3
 
 

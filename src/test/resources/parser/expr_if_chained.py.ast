@@ -5,20 +5,17 @@ statements:
         class: Expr.Ternary
         onTrue:
           class: Expr.Literal
-          type: java.lang.Integer
           value: 3
 
         condition:
           class: Expr.Binary
           left:
             class: Expr.Literal
-            type: java.lang.Integer
             value: 1
 
           operator: ">"
           right:
             class: Expr.Literal
-            type: java.lang.Integer
             value: 2
 
 
@@ -26,26 +23,22 @@ statements:
           class: Expr.Ternary
           onTrue:
             class: Expr.Literal
-            type: java.lang.Integer
             value: 4
 
           condition:
             class: Expr.Binary
             left:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 1
 
             operator: "<"
             right:
               class: Expr.Literal
-              type: java.lang.Integer
               value: 0
 
 
           onFalse:
             class: Expr.Literal
-            type: java.lang.Integer
             value: 5
 
 
