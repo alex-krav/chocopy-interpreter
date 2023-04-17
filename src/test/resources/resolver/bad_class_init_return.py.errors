@@ -1,1 +1,1 @@
-[line 3] Error at 'return': Expected <None>, got int
+[line 3] Error at 'return': Expected type '<None>', got type 'int'

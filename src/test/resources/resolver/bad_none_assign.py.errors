@@ -1,3 +1,3 @@
-[line 11] Error at 'z': Expected str, got <None>
-[line 12] Error: Expected int, got <None>
-[line 13] Error: Expected bool, got <None>
+[line 11] Error at 'z': Expected type 'str', got type '<None>'
+[line 12] Error: Expected type 'int', got type '<None>'
+[line 13] Error: Expected type 'bool', got type '<None>'

@@ -1,2 +1,2 @@
-[line 5] Error at 'y': Expected [object], got [int]
-[line 6] Error at 'y': Expected [object], got [int]
+[line 5] Error at 'y': Expected type '[object]', got type '[int]'
+[line 6] Error at 'y': Expected type '[object]', got type '[int]'

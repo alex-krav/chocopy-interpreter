@@ -39,7 +39,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (expr.value.inferredType!= null 
                 && expr.target.inferredType != null 
                 && !canAssign(expr.value.inferredType, expr.target.inferredType)) {
-            ChocoPy.error(expr.target.name, String.format("Expected %s, got %s",
+            ChocoPy.error(expr.target.name, String.format("Expected type '%s', got type '%s'",
                     expr.target.inferredType, expr.value.inferredType));
             return null;
         }
@@ -130,7 +130,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                     } else {
                         for (int i = 0; i < t.getParameters().size() - 1; i++) {
                             if (!canAssign(expr.arguments.get(i).inferredType, t.getParameters().get(i+1))) {
-                                ChocoPy.error(expr.line, String.format("Expected %s, got %s", t.getParameters().get(i+1), expr.arguments.get(i).inferredType));
+                                ChocoPy.error(expr.line, String.format("Expected type '%s', got type '%s'", t.getParameters().get(i+1), expr.arguments.get(i).inferredType));
                             }
                         }
                     }
@@ -151,7 +151,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 } else {
                     for (int i = 0; i < t.getParameters().size(); i++) {
                         if (!canAssign(expr.arguments.get(i).inferredType, t.getParameters().get(i))) {
-                            ChocoPy.error(expr.line, String.format("Expected %s, got %s",t.getParameters().get(i), expr.arguments.get(i).inferredType));
+                            ChocoPy.error(expr.line, String.format("Expected type '%s', got type '%s'",t.getParameters().get(i), expr.arguments.get(i).inferredType));
                         }
                     }
                 }
@@ -166,7 +166,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             String methodName = getExpr.name.lexeme;
             
             if (staticTypes.contains(object.inferredType.getClass()) || !(object.inferredType.getClass().equals(ClassValueType.class))) {
-                ChocoPy.error(expr.line, "Expected object, got " + object.inferredType);
+                ChocoPy.error(expr.line, "Expected type 'object', got type '" + object.inferredType + "'");
                 expr.inferredType = new ObjectType();
                 return null;
             } else {
@@ -183,7 +183,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             } else {
                 for (int i = 0; i < t.getParameters().size()-1; i++) {
                     if (!canAssign(expr.arguments.get(i).inferredType, t.getParameters().get(i+1))) {
-                        ChocoPy.error(expr.line, String.format("Expected %s, got %s", t.getParameters().get(i+1), expr.arguments.get(i).inferredType));
+                        ChocoPy.error(expr.line, String.format("Expected type '%s', got type '%s'", t.getParameters().get(i+1), expr.arguments.get(i).inferredType));
                     }
                 }
             }
@@ -205,7 +205,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         ValueType objInferredType = expr.object.inferredType;
         
         if (staticTypes.contains(objInferredType.getClass())) {
-            ChocoPy.error(expr.name, "Expected object, got " + objInferredType);
+            ChocoPy.error(expr.name, "Expected type 'object', got type '" + objInferredType + "'");
         } else {
             String className = ((ClassValueType)objInferredType).getClassName();
             String memberName = expr.name.lexeme;
@@ -278,7 +278,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.onTrue);
         
         if (!(expr.condition.inferredType instanceof BoolType)) {
-            ChocoPy.error(expr.line, "Expected boolean, got " + expr.condition.inferredType);
+            ChocoPy.error(expr.line, "Expected type 'boolean', got type '" + expr.condition.inferredType + "'");
         }
         
         expr.inferredType = join(expr.onTrue.inferredType, expr.onFalse.inferredType);
@@ -310,7 +310,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.id);
         
         if (!(expr.id.inferredType instanceof IntType)) {
-            ChocoPy.error(expr.line, "Expected int index, got " + expr.id.inferredType);
+            ChocoPy.error(expr.line, "Expected index of type 'int', got type '" + expr.id.inferredType + "'");
         }
         
         if (expr.listing.inferredType instanceof StrType) {
@@ -321,7 +321,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             ListValueType listingType = (ListValueType) expr.listing.inferredType;
             expr.inferredType = listingType.getElementType();
         } else {
-            ChocoPy.error(expr.line, "Cannot index into " + expr.listing.inferredType);
+            ChocoPy.error(expr.line, "Cannot index into type '" + expr.listing.inferredType + "'");
             expr.inferredType = new ObjectType();
         }
         
@@ -338,11 +338,11 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             ChocoPy.error(expr.line ,"Cannot assign to index of string");
         }
         if (!(expr.id.inferredType instanceof IntType)) {
-            ChocoPy.error(expr.line, "Expected int index, got " + expr.id.inferredType);
+            ChocoPy.error(expr.line, "Expected index of type 'int', got type '" + expr.id.inferredType + "'");
         }
         if (expr.listing.inferredType instanceof ListValueType 
                 && !canAssign(expr.value.inferredType, ((ListValueType) expr.listing.inferredType).getElementType())) {
-            ChocoPy.error(expr.line ,String.format("Expected %s, got %s", 
+            ChocoPy.error(expr.line ,String.format("Expected type '%s', got type '%s'", 
                     ((ListValueType) expr.listing.inferredType).getElementType(), expr.value.inferredType));
         }
         
@@ -356,7 +356,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
         if (!(expr.expression.inferredType instanceof StrType) 
                 && !(expr.expression.inferredType instanceof ListValueType)) {
-            ChocoPy.error(expr.line, "Expected str or list, got " + expr.expression.inferredType);
+            ChocoPy.error(expr.line, "Expected type 'str' or 'list', got type '" + expr.expression.inferredType + "'");
         }
 
         expr.inferredType = new IntType();
@@ -377,7 +377,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         ValueType objInferredType = expr.object.inferredType;
 
         if (staticTypes.contains(objInferredType.getClass())) {
-            ChocoPy.error(expr.name, "Expected object, got " + objInferredType);
+            ChocoPy.error(expr.name, "Expected type 'object', got type '" + objInferredType + "'");
         } else {
             String className = ((ClassValueType)objInferredType).getClassName();
             String memberName = expr.name.lexeme;
@@ -388,7 +388,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             } else if (attr instanceof FuncType) {
                 ChocoPy.error(expr.name, "Can't set to class method " + memberName);
             } else if (!canAssign(expr.value.inferredType, attr)) {
-                ChocoPy.error(expr.object.line, String.format("Expected %s, got %s", attr, expr.value.inferredType));
+                ChocoPy.error(expr.object.line, String.format("Expected type '%s', got type '%s'", attr, expr.value.inferredType));
             }
         }
 
@@ -421,7 +421,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 if (operandType instanceof IntType) {
                     expr.inferredType = new IntType();
                 } else {
-                    ChocoPy.error(expr.operator, "Expected int, got " + operandType);
+                    ChocoPy.error(expr.operator, "Expected type 'int', got type '" + operandType + "'");
                     expr.inferredType = new ObjectType();
                 }
             }
@@ -429,7 +429,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 if (operandType instanceof BoolType) {
                     expr.inferredType = new BoolType();
                 } else {
-                    ChocoPy.error(expr.operator, "Expected bool, got " + operandType);
+                    ChocoPy.error(expr.operator, "Expected type 'bool', got type '" + operandType + "'");
                     expr.inferredType = new ObjectType();
                 }
             }
@@ -783,7 +783,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             }
         }
         if (!hasReturn && !canAssign(new NoneType(), scopes.peek().get("expectedReturnType"))) {
-            ChocoPy.error(function.name, "Expected return statement of type " + scopes.peek().get("expectedReturnType"));
+            ChocoPy.error(function.name, "Expected return statement of type '" + scopes.peek().get("expectedReturnType") + "'");
         }
         scopes.peek().put("expectedReturnType", null);
         endScope();
@@ -794,7 +794,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitIfStmt(Stmt.If stmt) {
         resolve(stmt.condition);
         if (!(stmt.condition.inferredType instanceof BoolType)) {
-            ChocoPy.error(stmt.condition.line,"Expected bool, got " + stmt.condition.inferredType);
+            ChocoPy.error(stmt.condition.line,"Expected type 'bool', got type '" + stmt.condition.inferredType + "'");
             return null;
         }
         
@@ -812,7 +812,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(stmt.expression);
         
         if (!staticTypes.contains(stmt.expression.inferredType.getClass())) {
-            ChocoPy.error(stmt.expression.line, "Expected str, int or bool, got " + stmt.expression.inferredType);
+            ChocoPy.error(stmt.expression.line, "Expected type 'str', 'int' or 'bool', got type '" + stmt.expression.inferredType + "'");
         }
         
         stmt.inferredType = new NoneType();
@@ -835,11 +835,11 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             resolve(stmt.value);
 
             if (!canAssign(stmt.value.inferredType, scopes.peek().get("expectedReturnType"))) {
-                ChocoPy.error(stmt.keyword, String.format("Expected %s, got %s", scopes.peek().get("expectedReturnType"), stmt.value.inferredType));
+                ChocoPy.error(stmt.keyword, String.format("Expected type '%s', got type '%s'", scopes.peek().get("expectedReturnType"), stmt.value.inferredType));
             }
         } else {
             if (!canAssign(new NoneType(), scopes.peek().get("expectedReturnType"))) {
-                ChocoPy.error(stmt.keyword, String.format("Expected %s, got <None>", scopes.peek().get("expectedReturnType")));
+                ChocoPy.error(stmt.keyword, String.format("Expected type '%s', got type '<None>'", scopes.peek().get("expectedReturnType")));
             }
         }
 
@@ -878,7 +878,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             resolve(stmt.initializer);
 
             if (!canAssign(stmt.initializer.inferredType, stmt.type)) {
-                ChocoPy.error(stmt.name, String.format("Expected %s, got %s",
+                ChocoPy.error(stmt.name, String.format("Expected type '%s', got type '%s'",
                         stmt.type, stmt.initializer.inferredType));
             }
         }
@@ -908,7 +908,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(stmt.body);
         
         if (!(stmt.condition.inferredType instanceof BoolType)) {
-            ChocoPy.error(stmt.condition.line, "Expected bool, got " + stmt.condition.inferredType);
+            ChocoPy.error(stmt.condition.line, "Expected type 'bool', got type '" + stmt.condition.inferredType + "'");
             return null;
         }
         
@@ -933,16 +933,16 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (iterableType instanceof ListValueType) {
             ValueType elementType = ((ListValueType) iterableType).getElementType();
             if (!canAssign(elementType, stmt.identifier.inferredType)) {
-                ChocoPy.error(stmt.identifier.line, String.format("Expected %s, got %s", elementType, stmt.identifier.inferredType));
+                ChocoPy.error(stmt.identifier.line, String.format("Expected type '%s', got type '%s'", elementType, stmt.identifier.inferredType));
                 return null;
             }
         } else if (iterableType instanceof StrType) {
             if (!canAssign(iterableType, stmt.identifier.inferredType)) {
-                ChocoPy.error(stmt.identifier.line, String.format("Expected str, got %s", stmt.identifier.inferredType));
+                ChocoPy.error(stmt.identifier.line, String.format("Expected type 'str', got type '%s'", stmt.identifier.inferredType));
                 return null;
             }
         } else {
-            ChocoPy.error(stmt.identifier.line, String.format("Expected iterable, got %s", stmt.iterable.inferredType));
+            ChocoPy.error(stmt.identifier.line, String.format("Expected type 'list' or 'str', got type '%s'", stmt.iterable.inferredType));
             return null;
         }
         

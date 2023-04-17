@@ -1,4 +1,4 @@
-[line 1] Error at 'not': Expected bool, got str
-[line 2] Error at '-': Expected int, got bool
-[line 3] Error at '-': Expected int, got <None>
-[line 4] Error at 'not': Expected bool, got <Empty>
+[line 1] Error at 'not': Expected type 'bool', got type 'str'
+[line 2] Error at '-': Expected type 'int', got type 'bool'
+[line 3] Error at '-': Expected type 'int', got type '<None>'
+[line 4] Error at 'not': Expected type 'bool', got type '<Empty>'
