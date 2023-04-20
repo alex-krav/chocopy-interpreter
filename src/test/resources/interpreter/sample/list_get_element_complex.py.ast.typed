@@ -1,0 +1,111 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: next
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 0
+  - statement:
+      class: Stmt.Function
+      name: next_int
+      params: []
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Global
+            name: next
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: int
+                name: next
+              value:
+                class: Expr.Binary
+                inferredType: int
+                left:
+                  class: Expr.Variable
+                  inferredType: int
+                  name: next
+                operator: "+"
+                right:
+                  class: Expr.Literal
+                  inferredType: int
+                  value: 1
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Variable
+              inferredType: int
+              name: next
+  - statement:
+      class: Stmt.Function
+      name: make_list
+      params: []
+      returnType: [int]
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Listing
+              inferredType: [int]
+              elements:
+                - element:
+                    class: Expr.Call
+                    inferredType: int
+                    callee:
+                      class: Expr.Variable
+                      inferredType: [] -> int
+                      name: next_int
+                    arguments: []
+                - element:
+                    class: Expr.Call
+                    inferredType: int
+                    callee:
+                      class: Expr.Variable
+                      inferredType: [] -> int
+                      name: next_int
+                    arguments: []
+                - element:
+                    class: Expr.Call
+                    inferredType: int
+                    callee:
+                      class: Expr.Variable
+                      inferredType: [] -> int
+                      name: next_int
+                    arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Index
+          inferredType: int
+          list:
+            class: Expr.Call
+            inferredType: [int]
+            callee:
+              class: Expr.Variable
+              inferredType: [] -> [int]
+              name: make_list
+            arguments: []
+          index:
+            class: Expr.Binary
+            inferredType: int
+            left:
+              class: Expr.Call
+              inferredType: int
+              callee:
+                class: Expr.Variable
+                inferredType: [] -> int
+                name: next_int
+              arguments: []
+            operator: "-"
+            right:
+              class: Expr.Literal
+              inferredType: int
+              value: 3

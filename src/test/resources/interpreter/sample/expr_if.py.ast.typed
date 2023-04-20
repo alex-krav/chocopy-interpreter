@@ -1,0 +1,39 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Ternary
+          inferredType: int
+          onTrue:
+            class: Expr.Literal
+            inferredType: int
+            value: 3
+          condition:
+            class: Expr.Literal
+            inferredType: bool
+            value: true
+          onFalse:
+            class: Expr.Literal
+            inferredType: int
+            value: 4
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Ternary
+          inferredType: int
+          onTrue:
+            class: Expr.Literal
+            inferredType: int
+            value: 3
+          condition:
+            class: Expr.Literal
+            inferredType: bool
+            value: false
+          onFalse:
+            class: Expr.Literal
+            inferredType: int
+            value: 4

@@ -1,0 +1,216 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: a
+      type: str
+      initializer:
+        class: Expr.Literal
+        inferredType: str
+        value: "Hello"
+  - statement:
+      class: Stmt.Var
+      name: b
+      type: str
+      initializer:
+        class: Expr.Literal
+        inferredType: str
+        value: "World"
+  - statement:
+      class: Stmt.Var
+      name: c
+      type: str
+      initializer:
+        class: Expr.Literal
+        inferredType: str
+        value: "ChocoPy"
+  - statement:
+      class: Stmt.Function
+      name: cat2
+      params:
+        - param:
+            class: Stmt.Var
+            name: a
+            type: str
+            initializer: None
+        - param:
+            class: Stmt.Var
+            name: b
+            type: str
+            initializer: None
+      returnType: str
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Binary
+              inferredType: str
+              left:
+                class: Expr.Variable
+                inferredType: str
+                name: a
+              operator: "+"
+              right:
+                class: Expr.Variable
+                inferredType: str
+                name: b
+  - statement:
+      class: Stmt.Function
+      name: cat3
+      params:
+        - param:
+            class: Stmt.Var
+            name: a
+            type: str
+            initializer: None
+        - param:
+            class: Stmt.Var
+            name: b
+            type: str
+            initializer: None
+        - param:
+            class: Stmt.Var
+            name: c
+            type: str
+            initializer: None
+      returnType: str
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Binary
+              inferredType: str
+              left:
+                class: Expr.Binary
+                inferredType: str
+                left:
+                  class: Expr.Variable
+                  inferredType: str
+                  name: a
+                operator: "+"
+                right:
+                  class: Expr.Variable
+                  inferredType: str
+                  name: b
+              operator: "+"
+              right:
+                class: Expr.Variable
+                inferredType: str
+                name: c
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: str
+          callee:
+            class: Expr.Variable
+            inferredType: [str, str] -> str
+            name: cat2
+          arguments:
+            - argument:
+                class: Expr.Variable
+                inferredType: str
+                name: a
+            - argument:
+                class: Expr.Variable
+                inferredType: str
+                name: b
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: str
+          callee:
+            class: Expr.Variable
+            inferredType: [str, str] -> str
+            name: cat2
+          arguments:
+            - argument:
+                class: Expr.Literal
+                inferredType: str
+                value: ""
+            - argument:
+                class: Expr.Variable
+                inferredType: str
+                name: c
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: str
+          callee:
+            class: Expr.Variable
+            inferredType: [str, str, str] -> str
+            name: cat3
+          arguments:
+            - argument:
+                class: Expr.Variable
+                inferredType: str
+                name: a
+            - argument:
+                class: Expr.Literal
+                inferredType: str
+                value: " "
+            - argument:
+                class: Expr.Variable
+                inferredType: str
+                name: c
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Len
+          expr:
+            class: Expr.Variable
+            inferredType: str
+            name: a
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Len
+          expr:
+            class: Expr.Call
+            inferredType: str
+            callee:
+              class: Expr.Variable
+              inferredType: [str, str] -> str
+              name: cat2
+            arguments:
+              - argument:
+                  class: Expr.Variable
+                  inferredType: str
+                  name: a
+              - argument:
+                  class: Expr.Variable
+                  inferredType: str
+                  name: a
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Len
+          expr:
+            class: Expr.Call
+            inferredType: str
+            callee:
+              class: Expr.Variable
+              inferredType: [str, str] -> str
+              name: cat2
+            arguments:
+              - argument:
+                  class: Expr.Literal
+                  inferredType: str
+                  value: ""
+              - argument:
+                  class: Expr.Literal
+                  inferredType: str
+                  value: ""

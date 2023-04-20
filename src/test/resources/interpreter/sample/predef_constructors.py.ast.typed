@@ -1,0 +1,57 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Call
+            inferredType: object
+            callee:
+              class: Expr.Variable
+              inferredType: [object] -> <None>
+              name: object
+            arguments: []
+          operator: "is"
+          right:
+            class: Expr.Literal
+            inferredType: <None>
+            value: None
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: int
+          callee:
+            class: Expr.Variable
+            inferredType: [object] -> <None>
+            name: int
+          arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: str
+          callee:
+            class: Expr.Variable
+            inferredType: [object] -> <None>
+            name: str
+          arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: bool
+          callee:
+            class: Expr.Variable
+            inferredType: [object] -> <None>
+            name: bool
+          arguments: []

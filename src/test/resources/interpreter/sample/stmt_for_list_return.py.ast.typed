@@ -1,0 +1,88 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: print_list
+      params:
+        - param:
+            class: Stmt.Var
+            name: z
+            type: [int]
+            initializer: None
+      returnType: object
+      body:
+        - statement:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+        - statement:
+            class: Stmt.For
+            identifier:
+              class: Expr.Variable
+              inferredType: int
+              name: x
+            iterable:
+              class: Expr.Variable
+              inferredType: [int]
+              name: z
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Print
+                    expr:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: x
+              - statement:
+                  class: Stmt.If
+                  condition:
+                    class: Expr.Binary
+                    inferredType: bool
+                    left:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: x
+                    operator: ">="
+                    right:
+                      class: Expr.Literal
+                      inferredType: int
+                      value: 30
+                  thenBranch:
+                    - statement:
+                        class: Stmt.Return
+                        value: None
+                  elseBranch: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        inferredType: object
+        callee:
+          class: Expr.Variable
+          inferredType: [[int]] -> object
+          name: print_list
+        arguments:
+          - argument:
+              class: Expr.Listing
+              inferredType: [int]
+              elements:
+                - element:
+                    class: Expr.Literal
+                    inferredType: int
+                    value: 10
+                - element:
+                    class: Expr.Literal
+                    inferredType: int
+                    value: 20
+                - element:
+                    class: Expr.Literal
+                    inferredType: int
+                    value: 30
+                - element:
+                    class: Expr.Literal
+                    inferredType: int
+                    value: 40

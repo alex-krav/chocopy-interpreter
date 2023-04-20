@@ -1,0 +1,11 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Len
+          expr:
+            class: Expr.Literal
+            inferredType: str
+            value: "ChocoPy"

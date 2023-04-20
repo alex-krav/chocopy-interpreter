@@ -1,0 +1,63 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: str
+      initializer:
+        class: Expr.Literal
+        inferredType: str
+        value: ""
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: str
+      initializer:
+        class: Expr.Literal
+        inferredType: str
+        value: "123"
+  - statement:
+      class: Stmt.Var
+      name: z
+      type: str
+      initializer:
+        class: Expr.Literal
+        inferredType: str
+        value: "abc"
+  - statement:
+      class: Stmt.For
+      identifier:
+        class: Expr.Variable
+        inferredType: str
+        name: x
+      iterable:
+        class: Expr.Variable
+        inferredType: str
+        name: z
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Variable
+                inferredType: str
+                name: x
+        - statement:
+            class: Stmt.For
+            identifier:
+              class: Expr.Variable
+              inferredType: str
+              name: x
+            iterable:
+              class: Expr.Literal
+              inferredType: str
+              value: ""
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Print
+                    expr:
+                      class: Expr.Variable
+                      inferredType: str
+                      name: x

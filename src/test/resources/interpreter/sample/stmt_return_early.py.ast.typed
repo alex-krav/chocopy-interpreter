@@ -1,0 +1,38 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: f
+      params: []
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.While
+            condition:
+              class: Expr.Literal
+              inferredType: bool
+              value: true
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Literal
+                    inferredType: int
+                    value: 1
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: int
+          callee:
+            class: Expr.Variable
+            inferredType: [] -> int
+            name: f
+          arguments: []

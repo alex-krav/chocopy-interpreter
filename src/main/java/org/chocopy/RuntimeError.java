@@ -1,10 +1,15 @@
 package org.chocopy;
 
 class RuntimeError extends RuntimeException {
-    final Token token;
+    final int line;
 
     RuntimeError(Token token, String message) {
         super(message);
-        this.token = token;
+        this.line = token.line;
+    }
+
+    RuntimeError(int line, String message) {
+        super(message);
+        this.line = line;
     }
 }

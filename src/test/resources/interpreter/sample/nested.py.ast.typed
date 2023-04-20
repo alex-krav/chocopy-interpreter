@@ -1,0 +1,90 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: g
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 1
+  - statement:
+      class: Stmt.Function
+      name: foo
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer: None
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Var
+            name: y
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 2
+        - statement:
+            class: Stmt.Function
+            name: bar
+            params: []
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Var
+                  name: z
+                  type: int
+                  initializer:
+                    class: Expr.Literal
+                    inferredType: int
+                    value: 3
+              - statement:
+                  class: Stmt.Function
+                  name: baz
+                  params: []
+                  returnType: int
+                  body:
+                    - statement:
+                        class: Stmt.Return
+                        value:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: y
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Call
+                    inferredType: int
+                    callee:
+                      class: Expr.Variable
+                      inferredType: [] -> int
+                      name: baz
+                    arguments: []
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Call
+              inferredType: int
+              callee:
+                class: Expr.Variable
+                inferredType: [] -> int
+                name: bar
+              arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: int
+          callee:
+            class: Expr.Variable
+            inferredType: [int] -> int
+            name: foo
+          arguments:
+            - argument:
+                class: Expr.Variable
+                inferredType: int
+                name: g

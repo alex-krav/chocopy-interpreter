@@ -1,0 +1,49 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 0
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: object
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: int
+          name: x
+        value:
+          class: Expr.Literal
+          inferredType: int
+          value: 42
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: object
+          name: y
+        value:
+          class: Expr.Literal
+          inferredType: int
+          value: 42
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Variable
+          inferredType: int
+          name: x

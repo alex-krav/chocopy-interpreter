@@ -444,13 +444,13 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     }
 
     @Override
-    public String visitPrintStmt(Stmt.Print stmt) {
+    public String visitPrintExpr(Expr.Print expr) {
         StringBuilder builder = new StringBuilder();
 
-        level += 2;
-        line(builder,"class", "Stmt.Print");
-        lineSeparate(builder, "expr", stmt.expression.accept(this));
-        level -= 2;
+        level += 1;
+        line(builder,"class", "Expr.Print");
+        lineSeparate(builder, "expr", expr.expression.accept(this));
+        level -= 1;
 
         return builder.toString();
     }

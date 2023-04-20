@@ -1,0 +1,56 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: a
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 42
+  - statement:
+      class: Stmt.Class
+      name: B
+      superClass: A
+      members:
+        - member:
+            class: Stmt.Var
+            name: b
+            type: bool
+            initializer:
+              class: Expr.Literal
+              inferredType: bool
+              value: true
+        - member:
+            class: Stmt.Function
+            name: __init__
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: B
+                  initializer: None
+            returnType: <None>
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Print
+                    expr:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "B"
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        inferredType: B
+        callee:
+          class: Expr.Variable
+          inferredType: [B] -> <None>
+          name: B
+        arguments: []

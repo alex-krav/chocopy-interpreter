@@ -16,26 +16,42 @@ class ChocoPyFunction implements ChocoPyCallable {
 
     @Override
     public int arity() {
-        return declaration.params.size();
+        if (declaration.params.size() > 0 && declaration.params.get(0).name.lexeme.equals("self")) {
+            return declaration.params.size() - 1;
+        } else {
+            return declaration.params.size();
+        }
     }
 
     @Override
     public Object call(Interpreter interpreter, List<Object> arguments) {
         Environment environment = new Environment(closure);
-        for (int i = 0; i < declaration.params.size(); i++) {
-            environment.define(declaration.params.get(i).name.lexeme,
-                    arguments.get(i));
+        
+        if (declaration.params.size() > 0) {
+            if (arguments.size() == declaration.params.size()) {
+                // function
+                for (int i = 0; i < declaration.params.size(); i++) {
+                    environment.define(declaration.params.get(i).name.lexeme, arguments.get(i));
+                }
+            } else {
+                // method
+                environment.define(declaration.params.get(0).name.lexeme, 
+                        closure.values.get("self"));
+                for (int i = 1; i < declaration.params.size(); i++) {
+                    environment.define(declaration.params.get(i).name.lexeme, arguments.get(i-1));
+                }
+            }
         }
 
         try {
             interpreter.executeBlock(declaration.body, environment);
         } catch (Return returnValue) {
-            if (isInitializer) return closure.getAt(0, "this");
+            if (isInitializer) return closure.values.get("self");
 
             return returnValue.value;
         }
 
-        if (isInitializer) return closure.getAt(0, "this");
+        if (isInitializer) return closure.values.get("self");
         return null;
     }
 

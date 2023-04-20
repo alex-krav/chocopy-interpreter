@@ -1,6 +1,8 @@
 package org.chocopy;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class ValueType {
     
@@ -143,5 +145,19 @@ class FuncType extends ValueType {
                     && returnType.equals(that.returnType);
         }
         return false;
+    }
+}
+
+class Vars extends ValueType {
+    Set<String> vars = new HashSet<>();
+
+    public Vars() {}
+    
+    public boolean contains(String var) {
+        return vars.contains(var);
+    }
+    
+    public void put(String var) {
+        vars.add(var);
     }
 }

@@ -1,0 +1,52 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: [int]
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: [int]
+          name: x
+        value:
+          class: Expr.Listing
+          inferredType: [int]
+          elements:
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 1
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 2
+            - element:
+                class: Expr.Literal
+                inferredType: int
+                value: 3
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Index
+          inferredType: int
+          list:
+            class: Expr.Variable
+            inferredType: [int]
+            name: x
+          index:
+            class: Expr.Unary
+            inferredType: int
+            operator: "-"
+            operand:
+              class: Expr.Literal
+              inferredType: int
+              value: 1

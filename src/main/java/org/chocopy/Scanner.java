@@ -11,12 +11,6 @@ class Scanner {
             "del", "except", "finally", "from", "import",
             "lambda", "raise", "try", "with", "yield"
     };
-    private static final String[] builtin_types = new String[] {
-            "object", "bool", "str", "int"
-    };
-    private static final String[] native_functions = new String[] {
-            "print", "input", "len"
-    };
 
     static {
         keywords = new HashMap<>();

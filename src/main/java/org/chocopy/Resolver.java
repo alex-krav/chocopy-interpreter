@@ -10,11 +10,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private final Map<String, ClassInfo> classes = new HashMap<>();
     private FunctionType currentFunction = FunctionType.NONE;
 
-    private final Interpreter interpreter;
-
-    Resolver(Interpreter interpreter) {
-        this.interpreter = interpreter;
-    }
+    Resolver() {}
 
     private enum FunctionType {
         NONE,
@@ -36,16 +32,32 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.target);
         resolve(expr.value);
         
-        if (expr.value.inferredType!= null 
-                && expr.target.inferredType != null 
-                && !canAssign(expr.value.inferredType, expr.target.inferredType)) {
-            ChocoPy.error(expr.target.name, String.format("Expected type '%s', got type '%s'",
-                    expr.target.inferredType, expr.value.inferredType));
-            return null;
+        ValueType targetType = expr.target.inferredType;
+        ValueType valueType = expr.value.inferredType;
+
+        if (targetType != null) {
+            if (!isVarDeclaredGlobalInCurrentScope(expr.target.name.lexeme) 
+                    && !isVarDeclaredNonlocalInCurrentScope(expr.target.name.lexeme) 
+                    && !definedInCurrentScope(expr.target.name.lexeme)) {
+                ChocoPy.error(expr.target.name, "Identifier not defined in current scope: " + expr.target.name.lexeme);
+                return null;
+            } else if (isVarDeclaredGlobalInCurrentScope(expr.target.name.lexeme) 
+                    && getGlobalType(expr.target.name.lexeme) == null) {
+                ChocoPy.error(expr.target.name, "Identifier not defined in global scope: " + expr.target.name.lexeme);
+                return null;
+            } else if (isVarDeclaredNonlocalInCurrentScope(expr.target.name.lexeme) 
+                    && getNonLocalType(expr.target.name.lexeme) == null) {
+                ChocoPy.error(expr.target.name, "Identifier not defined in nonlocal scope: " + expr.target.name.lexeme);
+                return null;
+            }
+
+            if (valueType!= null && !canAssign(valueType, targetType)) {
+                ChocoPy.error(expr.target.name, String.format("Expected type '%s', got type '%s'", targetType, valueType));
+                return null;
+            }
         }
         
-        expr.inferredType = expr.target.inferredType;
-        resolveLocal(expr, expr.target.name);
+        expr.inferredType = targetType;
         return null;
     }
 
@@ -135,7 +147,14 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                         }
                     }
                 }
-                expr.inferredType = new ClassValueType(name);
+                
+                switch (name) {
+                    case "object" -> expr.inferredType = new ObjectType();
+                    case "int" -> expr.inferredType = new IntType();
+                    case "str" -> expr.inferredType = new StrType();
+                    case "bool" -> expr.inferredType = new BoolType();
+                    default -> expr.inferredType = new ClassValueType(name);
+                }
             } 
             else {
                 // FUNCTION
@@ -401,13 +420,9 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (currentClass == ClassType.NONE) {
             ChocoPy.error(expr.keyword, "Can't use 'self' outside of a class.");
             return null;
-        } else if (!definedInCurrentScope("self")) {
-            ChocoPy.error(expr.keyword, "'self' is not defined.");
-            return null;
         }
 
-        resolveLocal(expr, expr.keyword);
-        expr.inferredType = scopes.peek().get("self");
+        expr.inferredType = getType("self");
         return null;
     }
 
@@ -441,33 +456,30 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitVariableExpr(Expr.Variable expr) {
-        if (!expr.callable && !scopes.peek().containsKey(expr.name.lexeme)) {
+        ValueType type = getType(expr.name.lexeme);
+        
+        if (type == null) {
             ChocoPy.error(expr.name, "Identifier not defined in current scope: " + expr.name.lexeme);
             expr.inferredType = new ObjectType();
             return null;
-        } else if (expr.callable && getType(expr.name.lexeme) == null) {
-            ChocoPy.error(expr.name, "Callable not defined: " + expr.name.lexeme);
+        } else if (isVarDeclaredGlobalInCurrentScope(expr.name.lexeme) 
+                && getGlobalType(expr.name.lexeme) == null) {
+            ChocoPy.error(expr.name, "Identifier not defined in global scope: " + expr.name.lexeme);
+            expr.inferredType = new ObjectType();
+            return null;
+        } else if (isVarDeclaredNonlocalInCurrentScope(expr.name.lexeme) 
+                && getNonLocalType(expr.name.lexeme) == null) {
+            ChocoPy.error(expr.name, "Identifier not defined in nonlocal scope: " + expr.name.lexeme);
             expr.inferredType = new ObjectType();
             return null;
         }
         
         if (scopes.peek().get(expr.name.lexeme) instanceof StubType) {
-            ChocoPy.error(expr.name,
-                    "Can't read local variable in its own initializer.");
+            ChocoPy.error(expr.name, "Can't read local variable in its own initializer.");
         }
         
-        expr.inferredType = getType(expr.name.lexeme);
-        resolveLocal(expr, expr.name);
+        expr.inferredType = type;
         return null;
-    }
-
-    private void resolveLocal(Expr expr, Token name) {
-        for (int i = scopes.size() - 1; i >= 0; i--) {
-            if (scopes.get(i).containsKey(name.lexeme)) {
-                interpreter.resolve(expr, scopes.size() - 1 - i);
-                return;
-            }
-        }
     }
 
     private ValueType getType(String name) {
@@ -531,7 +543,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 FuncType methodType = getSignature(method);
                 
                 FunctionType declaration = FunctionType.METHOD;
-                if (methodName.equals("init")) {
+                if (methodName.equals("__init__")) {
                     declaration = FunctionType.INITIALIZER;
                 }
 
@@ -566,10 +578,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                     continue;
                 }
                 classes.get(className).attrs.put(attrName, attr.type);
-//                declare(attr.name);
-//                define(attr.name, attr.type);
                 resolve(attr);
-                resolveLocal(new Expr.Variable(attr.name), attr.name);
             }
         }
 
@@ -592,11 +601,28 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         define("print", new FuncType(Collections.singletonList(new ObjectType()), new NoneType()));
         define("input", new FuncType(Collections.emptyList(), new StrType()));
         define("len", new FuncType(Collections.singletonList(new ObjectType()), new IntType()));
-        scopes.peek().put("object", new ClassValueType("object"));
         
-        ClassInfo objectClassInfo = new ClassInfo("object", null);
-        objectClassInfo.methods.put("__init__", new FuncType(Collections.singletonList(new ObjectType()), new NoneType()));
-        classes.put("object", objectClassInfo);
+        scopes.peek().put("object", new ObjectType());
+        scopes.peek().put("int", new IntType());
+        scopes.peek().put("str", new StrType());
+        scopes.peek().put("bool", new BoolType());
+        
+        FuncType defaultConstructor = new FuncType(Collections.singletonList(new ObjectType()), new NoneType());
+        ClassInfo objectInfo = new ClassInfo("object");
+        objectInfo.methods.put("__init__", defaultConstructor);
+        classes.put("object", objectInfo);
+
+        ClassInfo intInfo = new ClassInfo("int", "object");
+        intInfo.methods.put("__init__", defaultConstructor);
+        classes.put("int", intInfo);
+
+        ClassInfo boolInfo = new ClassInfo("bool", "object");
+        boolInfo.methods.put("__init__", defaultConstructor);
+        classes.put("bool", boolInfo);
+
+        ClassInfo strInfo = new ClassInfo("str", "object");
+        strInfo.methods.put("__init__", defaultConstructor);
+        classes.put("str", strInfo);
 
         resolve(statements);
         endScope();
@@ -808,14 +834,14 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitPrintStmt(Stmt.Print stmt) {
-        resolve(stmt.expression);
+    public Void visitPrintExpr(Expr.Print expr) {
+        resolve(expr.expression);
         
-        if (!staticTypes.contains(stmt.expression.inferredType.getClass())) {
-            ChocoPy.error(stmt.expression.line, "Expected type 'str', 'int' or 'bool', got type '" + stmt.expression.inferredType + "'");
+        if (!staticTypes.contains(expr.expression.inferredType.getClass())) {
+            ChocoPy.error(expr.expression.line, "Expected type 'str', 'int' or 'bool', got type '" + expr.expression.inferredType + "'");
         }
         
-        stmt.inferredType = new NoneType();
+        expr.inferredType = new NoneType();
         return null;
     }
 
@@ -979,12 +1005,45 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (type == null || type instanceof FuncType) {
             ChocoPy.error(stmt.name, "Unknown global variable " + stmt.name.lexeme);
             return null;
+        } else {
+            addGlobalVarToCurrentScope(stmt.name.lexeme);
         }
 
         declare(stmt.name);
         define(stmt.name, type);
-        interpreter.resolve(new Expr.Variable(stmt.name), scopes.size() - 1);
         return null;
+    }
+    
+    private void addGlobalVarToCurrentScope(String var) {
+        if (scopes.peek().containsKey("__global")) {
+            Vars globals = (Vars) scopes.peek().get("__global");
+            globals.put(var);
+        }
+    }
+    
+    private void addNonlocalVarToCurrentScope(String var) {
+        if (scopes.peek().containsKey("__nonlocal")) {
+            Vars nonlocals = (Vars) scopes.peek().get("__nonlocal");
+            nonlocals.put(var);
+        }
+    }
+
+    private boolean isVarDeclaredGlobalInCurrentScope(String var) {
+        if (scopes.peek().containsKey("__global")) {
+            Vars globals = (Vars) scopes.peek().get("__global");
+            return globals.contains(var);
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isVarDeclaredNonlocalInCurrentScope(String var) {
+        if (scopes.peek().containsKey("__nonlocal")) {
+            Vars nonlocals = (Vars) scopes.peek().get("__nonlocal");
+            return nonlocals.contains(var);
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -1005,11 +1064,12 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (type == null || type instanceof FuncType) {
             ChocoPy.error(stmt.name, "Unknown nonlocal variable " + stmt.name.lexeme);
             return null;
+        } else {
+            addNonlocalVarToCurrentScope(stmt.name.lexeme);
         }
 
         declare(stmt.name);
         define(stmt.name, type);
-        resolveLocal(new Expr.Variable(stmt.name), stmt.name);
         return null;
     }
     

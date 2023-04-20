@@ -1,11 +1,7 @@
 package org.chocopy;
 
-import java.util.HashMap;
-import java.util.Map;
-
 class ChocoPyInstance {
     private final ChocoPyClass klass;
-    private final Map<String, Object> fields = new HashMap<>();
 
     ChocoPyInstance(ChocoPyClass klass) {
         this.klass = klass;
@@ -13,22 +9,29 @@ class ChocoPyInstance {
 
     @Override
     public String toString() {
-        return klass.name + " instance";
+        if (klass.name.equals("int")) {
+            return "0";
+        } else if (klass.name.equals("str")) {
+            return "";
+        } else if (klass.name.equals("bool")) {
+            return "False";
+        } else {
+            return klass.name + " instance";
+        }
     }
 
     Object get(Token name) {
-        if (fields.containsKey(name.lexeme)) {
-            return fields.get(name.lexeme);
-        }
+        ChocoPyAttribute attr = klass.findAttribute(name.lexeme);
+        if (attr != null) return attr.getValue();
 
         ChocoPyFunction method = klass.findMethod(name.lexeme);
         if (method != null) return method.bind(this);
 
-        throw new RuntimeError(name,
-                "Undefined property '" + name.lexeme + "'.");
+        throw new RuntimeError(name, "Undefined property '" + name.lexeme + "'.");
     }
 
     void set(Token name, Object value) {
-        fields.put(name.lexeme, value);
+        ChocoPyAttribute attr = klass.findAttribute(name.lexeme);
+        if (attr != null) attr.setValue(value);
     }
 }

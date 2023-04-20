@@ -7,12 +7,15 @@ class ChocoPyClass implements ChocoPyCallable {
     final String name;
     final ChocoPyClass superclass;
     private final Map<String, ChocoPyFunction> methods;
+    private final Map<String, ChocoPyAttribute> attributes;
 
     ChocoPyClass(String name, ChocoPyClass superclass,
-                 Map<String, ChocoPyFunction> methods) {
+                 Map<String, ChocoPyFunction> methods,
+                 Map<String, ChocoPyAttribute> attributes) {
         this.superclass = superclass;
         this.name = name;
         this.methods = methods;
+        this.attributes = attributes;
     }
 
     @Override
@@ -22,7 +25,7 @@ class ChocoPyClass implements ChocoPyCallable {
 
     @Override
     public int arity() {
-        ChocoPyFunction initializer = findMethod("init");
+        ChocoPyFunction initializer = findMethod("__init__");
         if (initializer == null) return 0;
         return initializer.arity();
     }
@@ -30,7 +33,7 @@ class ChocoPyClass implements ChocoPyCallable {
     @Override
     public Object call(Interpreter interpreter, List<Object> arguments) {
         ChocoPyInstance instance = new ChocoPyInstance(this);
-        ChocoPyFunction initializer = findMethod("init");
+        ChocoPyFunction initializer = findMethod("__init__");
         if (initializer != null) {
             initializer.bind(instance).call(interpreter, arguments);
         }
@@ -45,6 +48,18 @@ class ChocoPyClass implements ChocoPyCallable {
 
         if (superclass != null) {
             return superclass.findMethod(name);
+        }
+
+        return null;
+    }
+
+    ChocoPyAttribute findAttribute(String name) {
+        if (attributes.containsKey(name)) {
+            return attributes.get(name);
+        }
+
+        if (superclass != null) {
+            return superclass.findAttribute(name);
         }
 
         return null;

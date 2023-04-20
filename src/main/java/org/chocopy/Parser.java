@@ -185,9 +185,16 @@ class Parser {
             variable.line = previous().line;
             return variable;
         }
+        
+        if (match(OBJECT_TYPE, INT_TYPE, STR_TYPE, BOOL_TYPE)) {
+            Expr.Variable variable = new Expr.Variable(previous());
+            variable.line = previous().line;
+            return variable;
+        }
 
         if (match(LEN_NATIVE_FUN)) return lenExpression();
         if (match(INPUT_NATIVE_FUN)) return inputExpression();
+        if (match(PRINT_NATIVE_FUN)) return printExpression();
 
         if (match(LEFT_PAREN)) {
             Expr expr = expression();
@@ -253,27 +260,28 @@ class Parser {
         if (match(FOR)) return forStatement();
 
         Stmt stmt = simpleStatement();
-        if (!isAtEnd()) consume(NEWLINE, "Expect 'newline' after simple statement.");
+        if (!isAtEnd()) consume(NEWLINE, "Expect 'newline' after simple statement."); //todo: consume DEDENT or EOF
         return stmt;
     }
     
     private Stmt simpleStatement() {
-        if (match(PRINT_NATIVE_FUN)) return printStatement();
-        
         if (match(PASS)) return new Stmt.Pass(previous());
         if (match(RETURN)) return returnStatement();
 
         return expressionStatement();
     }
 
-    private Stmt printStatement() {
+    private Expr printExpression() {
         consume(LEFT_PAREN, "Expect '(' before argument.");
+        int line = previous().line;
         Expr value = expression();
         consume(RIGHT_PAREN, "Expect ')' after argument.");
-        return new Stmt.Print(value);
+        Expr.Print print = new Expr.Print(value);
+        print.line = line;
+        return print;
     }
 
-    private Expr inputExpression() { //todo: impl as anonymous function?
+    private Expr inputExpression() {
         consume(LEFT_PAREN, "Expect '(' for function call.");
         consume(RIGHT_PAREN, "Expect ')' for function call.");
         Expr.Input input = new Expr.Input(new Token(INPUT_NATIVE_FUN, "", null, previous().line));
@@ -333,7 +341,9 @@ class Parser {
         consume(DEDENT, "Expect 'dedent' after " + name.lexeme + " body.");
 
         //todo check: members must be: 1 pass OR 1+ (var_def OR func_def)
-        return new Stmt.Class(name, superclass, members);
+        Stmt.Class klass = new Stmt.Class(name, superclass, members);
+        klass.line = name.line;
+        return klass;
     }
     
     private Stmt classMember(Token className) {
@@ -362,7 +372,9 @@ class Parser {
             Token name = consume(peek().type, "Expect " + kind + " name.");
             consume(COLON, "Expect ':' after " + kind + " name.");
             ValueType type = varType(kind);
-            return new Stmt.Var(name, type, null);
+            Stmt.Var var = new Stmt.Var(name, type, null);
+            var.line = name.line;
+            return var;
         }
 
         throw error(peek(), "Unexpected token for " + kind + " identifier.");
@@ -422,11 +434,12 @@ class Parser {
         Expr onTrue = or();
         
         if (match(IF)) {
+            int line = previous().line;
             Expr condition = or();
             consume(ELSE, "Expected 'else' after condition expression.");
             Expr onFalse = ternary();
             onTrue = new Expr.Ternary(onTrue, condition, onFalse);
-            onTrue.line = previous().line;
+            onTrue.line = line;
         }
 
         return onTrue;
@@ -435,6 +448,7 @@ class Parser {
     private Stmt.Block block() {
         consume(NEWLINE, "Expect 'newline' before block.");
         consume(INDENT, "Expect 'indent' before block.");
+        int line = previous().line;
 
         List<Stmt> statements = new ArrayList<>();
         while (!check(DEDENT) && !isAtEnd()) {
@@ -442,7 +456,9 @@ class Parser {
         }
 
         consume(DEDENT, "Expect 'dedent' after block.");
-        return new Stmt.Block(statements);
+        Stmt.Block block = new Stmt.Block(statements);
+        block.line = line;
+        return block;
     }
 
     private List<Stmt> functionBody(String kind) {
@@ -472,21 +488,24 @@ class Parser {
 
     private Stmt globalDeclaration() {
         Token name = consume(IDENTIFIER, "Expect variable name.");
-
+        Stmt.Global global = new Stmt.Global(name);
+        global.line = name.line;
         consume(NEWLINE, "Expect 'newline' after global variable declaration.");
-        return new Stmt.Global(name);
+        return global;
     }
 
     private Stmt nonlocalDeclaration() {
         Token name = consume(IDENTIFIER, "Expect variable name.");
-
+        Stmt.Nonlocal nonlocal = new Stmt.Nonlocal(name);
+        nonlocal.line = name.line;
         consume(NEWLINE, "Expect 'newline' after nonlocal variable declaration.");
-        return new Stmt.Nonlocal(name);
+        return nonlocal;
     }
 
     private Stmt ifStatement() {
         Expr condition = expression();
         consume(COLON, "Expect ':' after if condition.");
+        int line = previous().line;
         Stmt thenBranch = block();
         Stmt elseBranch = null;
 
@@ -499,7 +518,9 @@ class Parser {
             elseBranch = block();
         }
 
-        return new Stmt.If(condition, thenBranch, elseBranch);
+        Stmt.If stmtIf = new Stmt.If(condition, thenBranch, elseBranch);
+        stmtIf.line = line;
+        return stmtIf;
     }
 
     private Expr or() {
@@ -546,9 +567,12 @@ class Parser {
     private Stmt whileStatement() {
         Expr condition = expression();
         consume(COLON, "Expect ':' after condition.");
+        int line = previous().line;
         Stmt.Block body = block();
 
-        return new Stmt.While(condition, body);
+        Stmt.While stmtWhile = new Stmt.While(condition, body);
+        stmtWhile.line = line;
+        return stmtWhile;
     }
 
     private Stmt forStatement() {
@@ -558,7 +582,9 @@ class Parser {
         consume(COLON, "Expect ':' after iterable.");
         Stmt.Block body = block();
         
-        return new Stmt.For(new Expr.Variable(identifier), iterable, body);
+        Stmt.For stmtFor = new Stmt.For(new Expr.Variable(identifier), iterable, body);
+        stmtFor.line = identifier.line;
+        return stmtFor;
     }
 
     private Expr call() {
@@ -566,7 +592,9 @@ class Parser {
 
         while (true) {
             if (match(LEFT_PAREN)) {
+                int line = previous().line;
                 expr = finishCall(expr);
+                expr.line = line;
             } else if (match(DOT)) {
                 Token name = consume(IDENTIFIER,
                         "Expect property name after '.'.");
@@ -599,9 +627,7 @@ class Parser {
         Token paren = consume(RIGHT_PAREN,
                 "Expect ')' after arguments.");
 
-        Expr.Call call = new Expr.Call(callee, paren, arguments);
-        call.line = paren.line;
-        return call;
+        return new Expr.Call(callee, paren, arguments);
     }
 
     private Stmt.Function function(String kind) {
@@ -637,7 +663,9 @@ class Parser {
         consume(INDENT, "Expect 'indent' before " + kind + " body.");
         
         List<Stmt> body = functionBody(kind);
-        return new Stmt.Function(name, parameters, returnType, body);
+        Stmt.Function function = new Stmt.Function(name, parameters, returnType, body);
+        function.line = name.line;
+        return function;
     }
 
     private Stmt returnStatement() {
@@ -647,6 +675,8 @@ class Parser {
             value = expression();
         }
 
-        return new Stmt.Return(keyword, value);
+        Stmt.Return stmtReturn = new Stmt.Return(keyword, value);
+        stmtReturn.line = keyword.line;
+        return stmtReturn;
     }
 }

@@ -1,0 +1,26 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: [int]
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.ListSet
+        inferredType: [int]
+        list:
+          class: Expr.Variable
+          inferredType: [int]
+          name: x
+        index:
+          class: Expr.Literal
+          inferredType: int
+          value: 0
+        value:
+          class: Expr.Literal
+          inferredType: int
+          value: 1

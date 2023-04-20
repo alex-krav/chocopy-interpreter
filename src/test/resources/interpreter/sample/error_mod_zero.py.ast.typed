@@ -1,0 +1,17 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: int
+          left:
+            class: Expr.Literal
+            inferredType: int
+            value: 42
+          operator: "%"
+          right:
+            class: Expr.Literal
+            inferredType: int
+            value: 0

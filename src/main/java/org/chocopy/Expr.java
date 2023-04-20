@@ -25,6 +25,7 @@ abstract class Expr {
         R visitSelfExpr(Self expr);
         R visitUnaryExpr(Unary expr);
         R visitVariableExpr(Variable expr);
+        R visitPrintExpr(Print expr);
     }
 
     static class Assign extends Expr {
@@ -278,6 +279,19 @@ abstract class Expr {
         }
 
         final Token name;
+    }
+
+    static class Print extends Expr {
+        Print(Expr expression) {
+            this.expression = expression;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitPrintExpr(this);
+        }
+
+        final Expr expression;
     }
 
     abstract <R> R accept(Visitor<R> visitor);

@@ -1,0 +1,129 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Literal
+            inferredType: bool
+            value: true
+          operator: "=="
+          right:
+            class: Expr.Literal
+            inferredType: bool
+            value: true
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Literal
+            inferredType: bool
+            value: true
+          operator: "=="
+          right:
+            class: Expr.Literal
+            inferredType: bool
+            value: false
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Literal
+            inferredType: bool
+            value: false
+          operator: "=="
+          right:
+            class: Expr.Literal
+            inferredType: bool
+            value: true
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Literal
+            inferredType: bool
+            value: false
+          operator: "=="
+          right:
+            class: Expr.Literal
+            inferredType: bool
+            value: false
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Literal
+            inferredType: bool
+            value: true
+          operator: "!="
+          right:
+            class: Expr.Literal
+            inferredType: bool
+            value: true
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Literal
+            inferredType: bool
+            value: true
+          operator: "!="
+          right:
+            class: Expr.Literal
+            inferredType: bool
+            value: false
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Literal
+            inferredType: bool
+            value: false
+          operator: "!="
+          right:
+            class: Expr.Literal
+            inferredType: bool
+            value: true
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Literal
+            inferredType: bool
+            value: false
+          operator: "!="
+          right:
+            class: Expr.Literal
+            inferredType: bool
+            value: false

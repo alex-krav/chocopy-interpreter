@@ -1,0 +1,17 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 1
+  - statement:
+      class: Stmt.Print
+      expr:
+        class: Expr.Len
+        expr:
+          class: Expr.Variable
+          inferredType: int
+          name: x

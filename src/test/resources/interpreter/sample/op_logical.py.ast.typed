@@ -1,0 +1,141 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: f
+      params: []
+      returnType: bool
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "f called"
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Literal
+              inferredType: bool
+              value: true
+  - statement:
+      class: Stmt.Function
+      name: g
+      params: []
+      returnType: bool
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "g called"
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Literal
+              inferredType: bool
+              value: false
+  - statement:
+      class: Stmt.If
+      condition:
+        class: Expr.Logical
+        inferredType: bool
+        left:
+          class: Expr.Call
+          inferredType: bool
+          callee:
+            class: Expr.Variable
+            inferredType: [] -> bool
+            name: f
+          arguments: []
+        operator: "or"
+        right:
+          class: Expr.Call
+          inferredType: bool
+          callee:
+            class: Expr.Variable
+            inferredType: [] -> bool
+            name: g
+          arguments: []
+      thenBranch:
+        - statement:
+            class: Stmt.If
+            condition:
+              class: Expr.Logical
+              inferredType: bool
+              left:
+                class: Expr.Call
+                inferredType: bool
+                callee:
+                  class: Expr.Variable
+                  inferredType: [] -> bool
+                  name: g
+                arguments: []
+              operator: "and"
+              right:
+                class: Expr.Call
+                inferredType: bool
+                callee:
+                  class: Expr.Variable
+                  inferredType: [] -> bool
+                  name: f
+                arguments: []
+            thenBranch:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Print
+                    expr:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "Never"
+            elseBranch:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Print
+                    expr:
+                      class: Expr.Unary
+                      inferredType: bool
+                      operator: "not"
+                      operand:
+                        class: Expr.Grouping
+                        expr:
+                          class: Expr.Logical
+                          inferredType: bool
+                          left:
+                            class: Expr.Call
+                            inferredType: bool
+                            callee:
+                              class: Expr.Variable
+                              inferredType: [] -> bool
+                              name: f
+                            arguments: []
+                          operator: "and"
+                          right:
+                            class: Expr.Grouping
+                            expr:
+                              class: Expr.Logical
+                              inferredType: bool
+                              left:
+                                class: Expr.Call
+                                inferredType: bool
+                                callee:
+                                  class: Expr.Variable
+                                  inferredType: [] -> bool
+                                  name: g
+                                arguments: []
+                              operator: "or"
+                              right:
+                                class: Expr.Call
+                                inferredType: bool
+                                callee:
+                                  class: Expr.Variable
+                                  inferredType: [] -> bool
+                                  name: f
+                                arguments: []
+      elseBranch: []

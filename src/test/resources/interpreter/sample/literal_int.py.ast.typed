@@ -1,0 +1,17 @@
+statements:
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Literal
+          inferredType: int
+          value: 42
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Literal
+          inferredType: int
+          value: 65999

@@ -1,0 +1,52 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 1
+  - statement:
+      class: Stmt.While
+      condition:
+        class: Expr.Binary
+        inferredType: bool
+        left:
+          class: Expr.Variable
+          inferredType: int
+          name: x
+        operator: "<"
+        right:
+          class: Expr.Literal
+          inferredType: int
+          value: 10
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Variable
+                inferredType: int
+                name: x
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: int
+                name: x
+              value:
+                class: Expr.Binary
+                inferredType: int
+                left:
+                  class: Expr.Variable
+                  inferredType: int
+                  name: x
+                operator: "+"
+                right:
+                  class: Expr.Literal
+                  inferredType: int
+                  value: 1

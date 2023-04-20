@@ -1,0 +1,157 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: h
+      params:
+        - param:
+            class: Stmt.Var
+            name: msg
+            type: str
+            initializer: None
+      returnType: object
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Variable
+                inferredType: str
+                name: msg
+  - statement:
+      class: Stmt.Function
+      name: g
+      params:
+        - param:
+            class: Stmt.Var
+            name: y
+            type: int
+            initializer: None
+        - param:
+            class: Stmt.Var
+            name: z
+            type: int
+            initializer: None
+      returnType: object
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "start g"
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Variable
+                inferredType: int
+                name: y
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Variable
+                inferredType: int
+                name: z
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Call
+              inferredType: object
+              callee:
+                class: Expr.Variable
+                inferredType: [str] -> object
+                name: h
+              arguments:
+                - argument:
+                    class: Expr.Literal
+                    inferredType: str
+                    value: "h"
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "end g"
+  - statement:
+      class: Stmt.Function
+      name: f
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer: None
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "start f"
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Variable
+                inferredType: int
+                name: x
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Call
+              inferredType: object
+              callee:
+                class: Expr.Variable
+                inferredType: [int, int] -> object
+                name: g
+              arguments:
+                - argument:
+                    class: Expr.Literal
+                    inferredType: int
+                    value: 1
+                - argument:
+                    class: Expr.Variable
+                    inferredType: int
+                    name: x
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "end f"
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Variable
+              inferredType: int
+              name: x
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: int
+          callee:
+            class: Expr.Variable
+            inferredType: [int] -> int
+            name: f
+          arguments:
+            - argument:
+                class: Expr.Literal
+                inferredType: int
+                value: 4

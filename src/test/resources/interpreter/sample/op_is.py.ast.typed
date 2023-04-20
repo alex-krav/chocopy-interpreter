@@ -1,0 +1,202 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: a
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 42
+  - statement:
+      class: Stmt.Var
+      name: a1
+      type: A
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Var
+      name: a2
+      type: A
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Var
+      name: a3
+      type: A
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Var
+      name: a4
+      type: A
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: A
+          name: a1
+        value:
+          class: Expr.Call
+          inferredType: A
+          callee:
+            class: Expr.Variable
+            inferredType: [object] -> <None>
+            name: A
+          arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: A
+          name: a2
+        value:
+          class: Expr.Variable
+          inferredType: A
+          name: a1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: A
+          name: a3
+        value:
+          class: Expr.Call
+          inferredType: A
+          callee:
+            class: Expr.Variable
+            inferredType: [object] -> <None>
+            name: A
+          arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Variable
+            inferredType: A
+            name: a1
+          operator: "is"
+          right:
+            class: Expr.Variable
+            inferredType: A
+            name: a1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Variable
+            inferredType: A
+            name: a1
+          operator: "is"
+          right:
+            class: Expr.Variable
+            inferredType: A
+            name: a2
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Variable
+            inferredType: A
+            name: a1
+          operator: "is"
+          right:
+            class: Expr.Variable
+            inferredType: A
+            name: a3
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Variable
+            inferredType: A
+            name: a1
+          operator: "is"
+          right:
+            class: Expr.Variable
+            inferredType: A
+            name: a4
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Variable
+            inferredType: A
+            name: a1
+          operator: "is"
+          right:
+            class: Expr.Literal
+            inferredType: <None>
+            value: None
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Variable
+            inferredType: A
+            name: a4
+          operator: "is"
+          right:
+            class: Expr.Literal
+            inferredType: <None>
+            value: None
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: bool
+          left:
+            class: Expr.Literal
+            inferredType: <None>
+            value: None
+          operator: "is"
+          right:
+            class: Expr.Literal
+            inferredType: <None>
+            value: None

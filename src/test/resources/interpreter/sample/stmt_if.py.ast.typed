@@ -1,0 +1,43 @@
+statements:
+  - statement:
+      class: Stmt.If
+      condition:
+        class: Expr.Literal
+        inferredType: bool
+        value: false
+      thenBranch:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "No"
+      elseBranch:
+        - statement:
+            class: Stmt.If
+            condition:
+              class: Expr.Literal
+              inferredType: bool
+              value: true
+            thenBranch:
+              - statement:
+                  class: Stmt.If
+                  condition:
+                    class: Expr.Literal
+                    inferredType: bool
+                    value: true
+                  thenBranch:
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Print
+                          expr:
+                            class: Expr.Literal
+                            inferredType: str
+                            value: "Yes"
+                  elseBranch: []
+            elseBranch:
+              - statement:
+                  class: Stmt.Pass

@@ -1,0 +1,7 @@
+statements:
+  - statement:
+      class: Stmt.Print
+      expr:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None

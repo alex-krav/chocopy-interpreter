@@ -1,0 +1,35 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: [int]
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: [int]
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Len
+          expr:
+            class: Expr.Binary
+            inferredType: [int]
+            left:
+              class: Expr.Variable
+              inferredType: [int]
+              name: x
+            operator: "+"
+            right:
+              class: Expr.Variable
+              inferredType: [int]
+              name: y

@@ -92,7 +92,7 @@ public class ResolverTest {
         
         // When
         interpreter = new Interpreter();
-        resolver = new Resolver(interpreter);
+        resolver = new Resolver();
         resolver.resolveScript(statements);
 
         // Then

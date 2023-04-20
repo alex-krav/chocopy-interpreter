@@ -1,0 +1,146 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 0
+  - statement:
+      class: Stmt.Function
+      name: crunch
+      params:
+        - param:
+            class: Stmt.Var
+            name: zz
+            type: [[int]]
+            initializer: None
+      returnType: object
+      body:
+        - statement:
+            class: Stmt.Var
+            name: z
+            type: [int]
+            initializer:
+              class: Expr.Literal
+              inferredType: <None>
+              value: None
+        - statement:
+            class: Stmt.Global
+            name: x
+        - statement:
+            class: Stmt.Function
+            name: make_z
+            params: []
+            returnType: object
+            body:
+              - statement:
+                  class: Stmt.Nonlocal
+                  name: z
+              - statement:
+                  class: Stmt.For
+                  identifier:
+                    class: Expr.Variable
+                    inferredType: [int]
+                    name: z
+                  iterable:
+                    class: Expr.Variable
+                    inferredType: [[int]]
+                    name: zz
+                  body:
+                    - statement:
+                        class: Stmt.Pass
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Call
+              inferredType: object
+              callee:
+                class: Expr.Variable
+                inferredType: [] -> object
+                name: make_z
+              arguments: []
+        - statement:
+            class: Stmt.For
+            identifier:
+              class: Expr.Variable
+              inferredType: int
+              name: x
+            iterable:
+              class: Expr.Variable
+              inferredType: [int]
+              name: z
+            body:
+              - statement:
+                  class: Stmt.Pass
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        inferredType: object
+        callee:
+          class: Expr.Variable
+          inferredType: [[[int]]] -> object
+          name: crunch
+        arguments:
+          - argument:
+              class: Expr.Listing
+              inferredType: [[int]]
+              elements:
+                - element:
+                    class: Expr.Listing
+                    inferredType: [int]
+                    elements:
+                      - element:
+                          class: Expr.Literal
+                          inferredType: int
+                          value: 1
+                      - element:
+                          class: Expr.Literal
+                          inferredType: int
+                          value: 2
+                - element:
+                    class: Expr.Listing
+                    inferredType: [int]
+                    elements:
+                      - element:
+                          class: Expr.Literal
+                          inferredType: int
+                          value: 2
+                      - element:
+                          class: Expr.Literal
+                          inferredType: int
+                          value: 3
+                - element:
+                    class: Expr.Listing
+                    inferredType: [int]
+                    elements:
+                      - element:
+                          class: Expr.Literal
+                          inferredType: int
+                          value: 4
+                      - element:
+                          class: Expr.Literal
+                          inferredType: int
+                          value: 5
+                - element:
+                    class: Expr.Listing
+                    inferredType: [int]
+                    elements:
+                      - element:
+                          class: Expr.Literal
+                          inferredType: int
+                          value: 6
+                      - element:
+                          class: Expr.Literal
+                          inferredType: int
+                          value: 7
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Variable
+          inferredType: int
+          name: x

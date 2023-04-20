@@ -1,0 +1,49 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 42
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 9
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: int
+          left:
+            class: Expr.Variable
+            inferredType: int
+            name: x
+          operator: "//"
+          right:
+            class: Expr.Variable
+            inferredType: int
+            name: y
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Binary
+          inferredType: int
+          left:
+            class: Expr.Variable
+            inferredType: int
+            name: x
+          operator: "%"
+          right:
+            class: Expr.Variable
+            inferredType: int
+            name: y

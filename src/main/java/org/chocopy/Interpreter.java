@@ -1,12 +1,10 @@
 package org.chocopy;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     final Environment globals = new Environment();
     private Environment environment = globals;
-    private final Map<Expr, Integer> locals = new HashMap<>();
 
     Interpreter() {
         globals.define("clock", new ChocoPyCallable() {
@@ -20,20 +18,123 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             }
 
             @Override
-            public String toString() { return "<native fn>"; }
+            public String toString() { return "<native fn clock>"; }
         });
+        globals.define("print", new ChocoPyCallable() {
+            @Override
+            public int arity() { return 1; }
+
+            @Override
+            public Object call(Interpreter interpreter,
+                               List<Object> arguments) {
+                if (arguments.size() != 1) {
+                    throw new RuntimeException("Expected one argument, got " + arguments.size());
+                }
+                System.out.println(arguments.get(0));
+                return null;
+            }
+
+            @Override
+            public String toString() { return "<native fn print>"; }
+        });
+        globals.define("input", new ChocoPyCallable() {
+            
+            private java.util.Scanner scanner = new java.util.Scanner(System.in);
+            
+            @Override
+            public int arity() { return 0; }
+
+            @Override
+            public Object call(Interpreter interpreter,
+                               List<Object> arguments) {
+                if (arguments.size() != 0) {
+                    throw new RuntimeException("Expected 0 arguments, got " + arguments.size());
+                }
+                
+                if (scanner.hasNext()) {
+                    return scanner.nextLine() + "\n";
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public String toString() { return "<native fn input>"; }
+        });
+        globals.define("len", new ChocoPyCallable() {
+            @Override
+            public int arity() { return 1; }
+
+            @Override
+            public Object call(Interpreter interpreter,
+                               List<Object> arguments) {
+                if (arguments.size() != 1) {
+                    throw new RuntimeException("Expected 1 arguments, got " + arguments.size());
+                }
+                Object arg = arguments.get(0);
+                if (arg instanceof String) {
+                    return arg.toString().length();
+                } else if (arg instanceof Expr.Listing) {
+                    return ((Expr.Listing) arg).elements.size();
+                } else {
+                    throw new RuntimeException("Expected string or list");
+                }
+            }
+
+            @Override
+            public String toString() { return "<native fn len>"; }
+        });
+
+        Stmt.Function objectInitFunction = new Stmt.Function(
+                new Token(TokenType.IDSTRING, "__init__", null, -1),
+                Collections.emptyList(),
+                new NoneType(),
+                Collections.singletonList(new Stmt.Pass(new Token(TokenType.PASS, "pass", null, -1)))
+        );
+        ChocoPyFunction objectConstructor = new ChocoPyFunction(objectInitFunction, environment, true);
+        ChocoPyClass objectClass = new ChocoPyClass("object", null, Collections.singletonMap("__init__", objectConstructor), Collections.emptyMap());
+        globals.define("object", objectClass);
+
+        Stmt.Function intInitFunction = new Stmt.Function(
+                new Token(TokenType.IDSTRING, "__init__", null, -1),
+                Collections.emptyList(),
+                new NoneType(),
+                Collections.singletonList(new Stmt.Return(new Token(TokenType.RETURN, "return", null, -1), new Expr.Literal(0)))
+        );
+        ChocoPyFunction intConstructor = new ChocoPyFunction(intInitFunction, environment, true);
+        ChocoPyClass intClass = new ChocoPyClass("int", objectClass, Collections.singletonMap("__init__", intConstructor), Collections.emptyMap());
+        globals.define("int", intClass);
+
+        Stmt.Function boolInitFunction = new Stmt.Function(
+                new Token(TokenType.IDSTRING, "__init__", null, -1),
+                Collections.emptyList(),
+                new NoneType(),
+                Collections.singletonList(new Stmt.Return(new Token(TokenType.RETURN, "return", null, -1), new Expr.Literal(false)))
+        );
+        ChocoPyFunction boolConstructor = new ChocoPyFunction(boolInitFunction, environment, true);
+        ChocoPyClass boolClass = new ChocoPyClass("bool", objectClass, Collections.singletonMap("__init__", boolConstructor), Collections.emptyMap());
+        globals.define("bool", boolClass);
+
+        Stmt.Function strInitFunction = new Stmt.Function(
+                new Token(TokenType.IDSTRING, "__init__", null, -1),
+                Collections.emptyList(),
+                new NoneType(),
+                Collections.singletonList(new Stmt.Return(new Token(TokenType.RETURN, "return", null, -1), new Expr.Literal("")))
+        );
+        ChocoPyFunction strConstructor = new ChocoPyFunction(strInitFunction, environment, true);
+        ChocoPyClass strClass = new ChocoPyClass("str", objectClass, Collections.singletonMap("__init__", strConstructor), Collections.emptyMap());
+        globals.define("str", strClass);
+        
+//        globals.define("<None>", new ClassInfo("<None>", "object"));
+//        globals.define("<Empty>", new ClassInfo("<Empty>", "object"));
     }
 
     @Override
     public Object visitAssignExpr(Expr.Assign expr) {
+        Token name = expr.target.name;
         Object value = evaluate(expr.value);
 
-        Integer distance = locals.get(expr);
-        if (distance != null) {
-            environment.assignAt(distance, expr.target.name, value);
-        } else {
-            globals.assign(expr.target.name, value);
-        }
+        updateVariable(name, value);
 
         return value;
     }
@@ -46,38 +147,62 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         switch (expr.operator.type) {
             case BANG_EQUAL: return !isEqual(left, right);
             case EQUAL_EQUAL: return isEqual(left, right);
+            case IS: return isEqual(left, right);
             case GREATER:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left > (double)right;
+                return (int)left > (int)right;
             case GREATER_EQUAL:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left >= (double)right;
+                return (int)left >= (int)right;
             case LESS:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left < (double)right;
+                return (int)left < (int)right;
             case LESS_EQUAL:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left <= (double)right;
+                return (int)left <= (int)right;
             case MINUS:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left - (double)right;
+                return (int)left - (int)right;
             case PLUS:
-                if (left instanceof Double && right instanceof Double) {
-                    return (double)left + (double)right;
+                if (left == null || right == null) {
+                    ChocoPy.exitCode = 4;
+                    throw new RuntimeError(expr.operator, "Operation on None");
+                }
+                
+                if (left instanceof Integer && right instanceof Integer) {
+                    return (int)left + (int)right;
                 }
 
                 if (left instanceof String && right instanceof String) {
                     return (String)left + (String)right;
                 }
 
-                throw new RuntimeError(expr.operator,
-                        "Operands must be two numbers or two strings.");
+                if (left instanceof List && right instanceof List) {
+                    ((List)left).addAll((List)right);
+                    return left;
+                }
+
+                throw new RuntimeError(expr.operator, "Operands must be numbers, strings or lists.");
+                
             case DOUBLE_SLASH:
                 checkNumberOperands(expr.operator, left, right);
-                return (int)left / (int)right;
+                try {
+                    return (int)left / (int)right;
+                } catch (ArithmeticException e) {
+                    ChocoPy.exitCode = 2;
+                    throw new RuntimeError(expr.operator, "Error: " + e.getMessage());
+                }
+            case PERCENT:
+                checkNumberOperands(expr.operator, left, right);
+                try {
+                    return (int)left % (int)right;
+                } catch (ArithmeticException e) {
+                    ChocoPy.exitCode = 2;
+                    throw new RuntimeError(expr.operator, "Error: " + e.getMessage());
+                }
             case STAR:
                 checkNumberOperands(expr.operator, left, right);
-                return (double)left * (double)right;
+                return (int)left * (int)right;
         }
 
         // Unreachable.
@@ -111,12 +236,15 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Object visitGetExpr(Expr.Get expr) {
         Object object = evaluate(expr.object);
-        if (object instanceof ChocoPyInstance) {
+        
+        if (object == null) {
+            ChocoPy.exitCode = 4;
+            throw new RuntimeError(expr.name, "Operation on None");
+        } else if (object instanceof ChocoPyInstance) {
             return ((ChocoPyInstance) object).get(expr.name);
+        } else {
+            throw new RuntimeError(expr.name, "Only instances have properties.");
         }
-
-        throw new RuntimeError(expr.name,
-                "Only instances have properties.");
     }
 
     @Override
@@ -144,51 +272,125 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitTernaryExpr(Expr.Ternary expr) {
-        return null;
+        if (isTruthy(evaluate(expr.condition))) {
+            return evaluate(expr.onTrue);
+        } else {
+            return evaluate(expr.onFalse);
+        }
     }
 
     @Override
     public Object visitListingExpr(Expr.Listing expr) {
-        return null;
+        if (expr.elements == null) {
+            ChocoPy.exitCode = 4;
+            throw new RuntimeError(expr.line, "Operation on None");
+        }
+        
+        List list = new ArrayList();
+        for (Expr element : expr.elements) {
+            list.add(evaluate(element));
+        }
+        
+        return list;
     }
 
     @Override
     public Object visitIndexExpr(Expr.Index expr) {
-        return null;
+        Object listObject = evaluate(expr.listing);
+        Object idObject = evaluate(expr.id);
+        
+        if (listObject == null || idObject == null) {
+            ChocoPy.exitCode = 4;
+            throw new RuntimeError(expr.line, "Operation on None");
+        }
+
+        Integer id = (Integer) idObject;
+        if (listObject instanceof List) {
+            List list = (List) listObject;
+            if (list.isEmpty() || id < 0 || id >= list.size()) {
+                ChocoPy.exitCode = 3;
+                throw new RuntimeError(expr.line, "Index out of bounds");
+            } else {
+                return list.get(id);
+            }
+        } else if (listObject instanceof String) {
+            String str = (String) listObject;
+            if (str.isEmpty() || id < 0 || id >= str.length()) {
+                ChocoPy.exitCode = 3;
+                throw new RuntimeError(expr.line, "Index out of bounds");
+            } else {
+                return Character.toString(str.charAt(id));
+            }
+        } else {
+            throw new RuntimeError(expr.line, "Expected type 'str' or 'list'.");
+        }
     }
 
     @Override
     public Object visitListSetExpr(Expr.ListSet expr) {
-        return null;
+        Object listObject = evaluate(expr.listing);
+        Object idObject = evaluate(expr.id);
+        Object valueObject = evaluate(expr.value);
+        
+        if (listObject == null || idObject == null) {
+            ChocoPy.exitCode = 4;
+            throw new RuntimeError(expr.line, "Operation on None");
+        }
+        
+        List list = (List) listObject;
+        Integer id = (Integer) idObject;
+
+        if (list.isEmpty() || id < 0 || id >= list.size()) {
+            ChocoPy.exitCode = 3;
+            throw new RuntimeError(expr.line, "Index out of bounds");
+        } else {
+            return list.set(id, valueObject);
+        }
     }
 
     @Override
     public Object visitLenExpr(Expr.Len expr) {
-        return null;
+        Object object = evaluate(expr.expression);
+        
+        if (object instanceof String) {
+            return ((String)object).length();
+        } else if (object instanceof List) {
+            return ((List)object).size();
+        } else {
+            ChocoPy.exitCode = 1;
+            throw new RuntimeError(expr.line, "Invalid argument: expected type 'str' or 'list', got " + object);
+        }
     }
 
     @Override
     public Object visitInputExpr(Expr.Input expr) {
-        return null;
+        Expr.Call inputCall = new Expr.Call(
+                new Expr.Variable(new Token(TokenType.INPUT_NATIVE_FUN, "input", null, expr.line)),
+                new Token(TokenType.RIGHT_PAREN, ")", null, expr.line),
+                Collections.emptyList()
+        );
+        return visitCallExpr(inputCall);
     }
 
     @Override
     public Object visitSetExpr(Expr.Set expr) {
+        Object value = evaluate(expr.value);
         Object object = evaluate(expr.object);
-
-        if (!(object instanceof ChocoPyInstance)) {
-            throw new RuntimeError(expr.name,
-                    "Only instances have fields.");
+        
+        if (object == null) {
+            ChocoPy.exitCode = 4;
+            throw new RuntimeError(expr.line, "Operation on None");
+        } else if (!(object instanceof ChocoPyInstance)) {
+            throw new RuntimeError(expr.name, "Only instances have fields.");
         }
 
-        Object value = evaluate(expr.value);
         ((ChocoPyInstance)object).set(expr.name, value);
         return value;
     }
 
     @Override
     public Object visitSelfExpr(Expr.Self expr) {
-        return lookUpVariable(expr.keyword, expr);
+        return lookUpVariable(expr.keyword);
     }
 
     @Override
@@ -197,7 +399,10 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         if (expr.operator.type == TokenType.MINUS) {
             checkNumberOperand(expr.operator, right);
-            return -(double)right;
+            return -(int)right;
+        } else if (expr.operator.type == TokenType.NOT) {
+            checkBooleanOperand(expr.operator, right);
+            return !(boolean) right;
         }
 
         // Unreachable.
@@ -206,7 +411,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitVariableExpr(Expr.Variable expr) {
-        return lookUpVariable(expr.name, expr);
+        return lookUpVariable(expr.name);
     }
 
     private Object evaluate(Expr expr) {
@@ -227,13 +432,18 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     private void checkNumberOperand(Token operator, Object operand) {
-        if (operand instanceof Double) return;
+        if (operand instanceof Integer) return;
         throw new RuntimeError(operator, "Operand must be a number.");
+    }
+
+    private void checkBooleanOperand(Token operator, Object operand) {
+        if (operand instanceof Boolean) return;
+        throw new RuntimeError(operator, "Operand must be boolean.");
     }
 
     private void checkNumberOperands(Token operator,
                                      Object left, Object right) {
-        if (left instanceof Double && right instanceof Double) return;
+        if (left instanceof Integer && right instanceof Integer) return;
 
         throw new RuntimeError(operator, "Operands must be numbers.");
     }
@@ -245,6 +455,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             }
         } catch (RuntimeError error) {
             ChocoPy.runtimeError(error);
+            System.err.printf("Exited with error code %d%n", ChocoPy.exitCode);
         }
     }
 
@@ -258,7 +469,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     private String stringify(Object object) {
-        if (object == null) return "nil";
+        if (object == null) return "None";
 
         if (object instanceof Double) {
             String text = object.toString();
@@ -266,6 +477,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 text = text.substring(0, text.length() - 2);
             }
             return text;
+        } else if (object instanceof Boolean) {
+            String text = object.toString();
+            return text.substring(0, 1).toUpperCase() + text.substring(1);
         }
 
         return object.toString();
@@ -273,7 +487,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitBlockStmt(Stmt.Block stmt) {
-        executeBlock(stmt.statements, new Environment(environment));
+        for (Stmt statement : stmt.statements) {
+            execute(statement);
+        }
         return null;
     }
 
@@ -289,40 +505,29 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
 
         environment.define(stmt.name.lexeme, null);
-
-        if (stmt.superclass != null) {
-            environment = new Environment(environment);
-            environment.define("super", superclass);
-        }
+        environment = new Environment(environment);
 
         Map<String, ChocoPyFunction> methods = new HashMap<>();
+        Map<String, ChocoPyAttribute> attributes = new HashMap<>();
         for (Stmt member : stmt.members) {
             if (member instanceof Stmt.Function) {
                 Stmt.Function stmtFun = (Stmt.Function) member;
                 ChocoPyFunction function = new ChocoPyFunction(stmtFun, environment,
-                        stmtFun.name.lexeme.equals("init"));
+                        stmtFun.name.lexeme.equals("__init__"));
                 methods.put(stmtFun.name.lexeme, function);
             } else {
-                try {
-                    Field[] allFields = member.getClass().getDeclaredFields();
-                    Field tokenField = Arrays.stream(allFields).filter(f ->
-                            f.getType().equals(Token.class)).findFirst().get();
-                    Token tokenFieldValue = (Token) tokenField.get(member);
-                    throw new RuntimeError(tokenFieldValue, "Not implemented");
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+                Stmt.Var stmtVar = (Stmt.Var) member;
+                Object value = evaluate(stmtVar.initializer);
+                ChocoPyAttribute attr = new ChocoPyAttribute(value);
+                attributes.put(stmtVar.name.lexeme, attr);
             }
         }
 
-        ChocoPyClass klass = new ChocoPyClass(stmt.name.lexeme, (ChocoPyClass)superclass,
-                methods);
+        ChocoPyClass klass = new ChocoPyClass(stmt.name.lexeme, (ChocoPyClass)superclass, methods, attributes);
+        environment.define("self", klass);
+        environment = environment.enclosing;
 
-        if (superclass != null) {
-            environment = environment.enclosing;
-        }
-
-        environment.assign(stmt.name, klass);
+        environment.define(stmt.name.lexeme, klass);
         return null;
     }
 
@@ -350,8 +555,8 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitPrintStmt(Stmt.Print stmt) {
-        Object value = evaluate(stmt.expression);
+    public Void visitPrintExpr(Expr.Print expr) {
+        Object value = evaluate(expr.expression);
         System.out.println(stringify(value));
         return null;
     }
@@ -385,6 +590,29 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitForStmt(Stmt.For stmt) {
+        Object iterableObject = evaluate(stmt.iterable);
+        
+        if (iterableObject == null) {
+            ChocoPy.exitCode = 4;
+            throw new RuntimeError(stmt.line, "Operation on None");
+        } else if (!(iterableObject instanceof List) && !(iterableObject instanceof String)) {
+            throw new RuntimeError(stmt.line, "Iterable must be type 'str' or 'list'");
+        }
+        
+        if (iterableObject instanceof List) {
+            List list = (List) iterableObject;
+            for (Object value : list) {
+                updateVariable(stmt.identifier.name, value);
+                stmt.body.accept(this);
+            }
+        } else if (iterableObject instanceof String) {
+            String str = (String) iterableObject;
+            for (int i = 0; i < str.length(); i++) {
+                updateVariable(stmt.identifier.name, String.valueOf(str.charAt(i)));
+                stmt.body.accept(this);
+            }
+        }
+        
         return null;
     }
 
@@ -395,11 +623,13 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitGlobalStmt(Stmt.Global stmt) {
+        this.environment.define(stmt.name.lexeme, Environment.Scope.GLOBAL);
         return null;
     }
 
     @Override
     public Void visitNonlocalStmt(Stmt.Nonlocal stmt) {
+        this.environment.define(stmt.name.lexeme, Environment.Scope.NONLOCAL);
         return null;
     }
 
@@ -421,16 +651,50 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
     }
 
-    void resolve(Expr expr, int depth) {
-        locals.put(expr, depth);
+    private Object lookUpVariable(Token name) {
+        Environment environment = this.environment;
+        
+        while (environment != null) {
+            if (environment.values.containsKey(name.lexeme)) {
+                Object obj = environment.values.get(name.lexeme);
+                if (obj instanceof Environment.Scope) {
+                    Environment.Scope scope = (Environment.Scope) obj;
+                    if (scope == Environment.Scope.GLOBAL) {
+                        return globals.get(name);
+                    } else if (scope == Environment.Scope.NONLOCAL) {
+                        environment = environment.enclosing;
+                    }
+                } else {
+                    return obj;
+                }
+            } else {
+                environment = environment.enclosing;
+            }
+        }
+        
+        return null;
     }
-
-    private Object lookUpVariable(Token name, Expr expr) {
-        Integer distance = locals.get(expr);
-        if (distance != null) {
-            return environment.getAt(distance, name.lexeme);
-        } else {
-            return globals.get(name);
+    
+    private void updateVariable(Token name, Object value) {
+        Environment environment = this.environment;
+        while (environment != null) {
+            if (environment.values.containsKey(name.lexeme)) {
+                Object obj = environment.values.get(name.lexeme);
+                if (obj instanceof Environment.Scope) {
+                    Environment.Scope scope = (Environment.Scope) obj;
+                    if (scope == Environment.Scope.GLOBAL) {
+                        globals.values.put(name.lexeme, value);
+                        return;
+                    } else if (scope == Environment.Scope.NONLOCAL) {
+                        environment = environment.enclosing;
+                    }
+                } else {
+                    environment.values.put(name.lexeme, value);
+                    return;
+                }
+            } else {
+                environment = environment.enclosing;
+            }
         }
     }
 }

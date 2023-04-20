@@ -1,0 +1,82 @@
+statements:
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: str
+      initializer:
+        class: Expr.Literal
+        inferredType: str
+        value: "abc"
+  - statement:
+      class: Stmt.Var
+      name: a
+      type: str
+      initializer:
+        class: Expr.Literal
+        inferredType: str
+        value: ""
+  - statement:
+      class: Stmt.Function
+      name: str_get
+      params:
+        - param:
+            class: Stmt.Var
+            name: s
+            type: str
+            initializer: None
+        - param:
+            class: Stmt.Var
+            name: i
+            type: int
+            initializer: None
+      returnType: str
+      body:
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Index
+              inferredType: str
+              list:
+                class: Expr.Variable
+                inferredType: str
+                name: s
+              index:
+                class: Expr.Variable
+                inferredType: int
+                name: i
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: str
+          name: a
+        value:
+          class: Expr.Call
+          inferredType: str
+          callee:
+            class: Expr.Variable
+            inferredType: [str, int] -> str
+            name: str_get
+          arguments:
+            - argument:
+                class: Expr.Variable
+                inferredType: str
+                name: x
+            - argument:
+                class: Expr.Unary
+                inferredType: int
+                operator: "-"
+                operand:
+                  class: Expr.Literal
+                  inferredType: int
+                  value: 1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Variable
+          inferredType: str
+          name: a

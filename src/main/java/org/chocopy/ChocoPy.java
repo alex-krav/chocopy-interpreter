@@ -12,6 +12,7 @@ public class ChocoPy {
     private static final Interpreter interpreter = new Interpreter();
     static boolean hadError = false;
     static boolean hadRuntimeError = false;
+    static Integer exitCode;
 
     public static void main(String[] args) throws IOException {
         if (args.length > 1) {
@@ -29,8 +30,8 @@ public class ChocoPy {
         run(new String(bytes, Charset.defaultCharset()));
 
         // Indicate an error in the exit code.
-        if (hadError) System.exit(65);
-        if (hadRuntimeError) System.exit(70);
+        if (hadError) System.exit(exitCode != null ? exitCode : 65);
+        if (hadRuntimeError) System.exit(exitCode != null ? exitCode : 70);
     }
 
     private static void runPrompt() throws IOException {
@@ -63,7 +64,7 @@ public class ChocoPy {
 
 //        System.out.println(new AstPrinter().print(expression));
 
-        Resolver resolver = new Resolver(interpreter);
+        Resolver resolver = new Resolver();
         resolver.resolveScript(statements);
 
         // Stop if there was a resolution error.
@@ -76,10 +77,8 @@ public class ChocoPy {
         report(line, "", message);
     }
 
-    private static void report(int line, String where,
-                               String message) {
-        System.err.println(
-                "[line " + line + "] Error" + where + ": " + message);
+    private static void report(int line, String where, String message) {
+        System.err.printf("[line %d] Error%s: %s%n", line, where, message);
         hadError = true;
     }
 
@@ -106,8 +105,7 @@ public class ChocoPy {
     }
 
     static void runtimeError(RuntimeError error) {
-        System.err.println(error.getMessage() +
-                "\n[line " + error.token.line + "]");
+        System.err.printf("[line %d] %s%n", error.line, error.getMessage());
         hadRuntimeError = true;
     }
 }

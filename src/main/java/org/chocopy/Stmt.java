@@ -13,7 +13,6 @@ abstract class Stmt {
         R visitExpressionStmt(Expression stmt);
         R visitFunctionStmt(Function stmt);
         R visitIfStmt(If stmt);
-        R visitPrintStmt(Print stmt);
         R visitReturnStmt(Return stmt);
         R visitVarStmt(Var stmt);
         R visitWhileStmt(While stmt);
@@ -101,19 +100,6 @@ abstract class Stmt {
         final Expr condition;
         final Stmt thenBranch;
         final Stmt elseBranch;
-    }
-
-    static class Print extends Stmt {
-        Print(Expr expression) {
-            this.expression = expression;
-        }
-
-        @Override
-        <R> R accept(Visitor<R> visitor) {
-            return visitor.visitPrintStmt(this);
-        }
-
-        final Expr expression;
     }
 
     static class Return extends Stmt {
