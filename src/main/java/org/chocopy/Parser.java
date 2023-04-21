@@ -137,7 +137,7 @@ class Parser {
         return call();
     }
     
-    private Expr literal(boolean expected) {
+    private Expr literal() {
         if (match(NONE)) {
             Expr.Literal literal = new Expr.Literal(null);
             literal.line = previous().line;
@@ -159,19 +159,31 @@ class Parser {
             literal.line = previous().line;
             return literal;
         }
-        
-        if (expected) {
-            throw error(peek(), "Expect literal.");
-        } else {
-            throw new RuntimeError(peek(), "Non-literal token. Continue parsing.");
-        }
+
+        throw error(peek(), "Expected literal for var definition.");
     }
 
     private Expr primary() {
-        try {
-            return literal(false);
-        } catch(RuntimeError ignored) {
-            // keep parsing
+        if (match(NONE)) {
+            Expr.Literal literal = new Expr.Literal(null);
+            literal.line = previous().line;
+            return literal;
+        }
+        if (match(TRUE)) {
+            Expr.Literal literal = new Expr.Literal(true);
+            literal.line = previous().line;
+            return literal;
+        }
+        if (match(FALSE)) {
+            Expr.Literal literal = new Expr.Literal(false);
+            literal.line = previous().line;
+            return literal;
+        }
+
+        if (match(NUMBER, STRING, IDSTRING)) {
+            Expr.Literal literal = new Expr.Literal(previous().literal);
+            literal.line = previous().line;
+            return literal;
         }
 
         if (match(SELF)) {
@@ -363,7 +375,7 @@ class Parser {
         Stmt.Var var = typedVarDeclaration(kind);
 
         consume(EQUAL, "Expect '=' after " + kind + " declaration.");
-        var.setInitializer(literal(true));
+        var.setInitializer(literal());
 
         if (!isAtEnd()) consume(NEWLINE, "Expect 'newline' after " + kind + " definition.");
         return var;

@@ -1,0 +1,832 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: int_to_str
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer: None
+      returnType: str
+      body:
+        - statement:
+            class: Stmt.Var
+            name: digits
+            type: [str]
+            initializer:
+              class: Expr.Literal
+              inferredType: <None>
+              value: None
+        - statement:
+            class: Stmt.Var
+            name: result
+            type: str
+            initializer:
+              class: Expr.Literal
+              inferredType: str
+              value: ""
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: [str]
+                name: digits
+              value:
+                class: Expr.Listing
+                inferredType: [str]
+                elements:
+                  - element:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "0"
+                  - element:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "1"
+                  - element:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "2"
+                  - element:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "3"
+                  - element:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "4"
+                  - element:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "5"
+                  - element:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "6"
+                  - element:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "7"
+                  - element:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "8"
+                  - element:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "9"
+        - statement:
+            class: Stmt.If
+            condition:
+              class: Expr.Binary
+              inferredType: bool
+              left:
+                class: Expr.Variable
+                inferredType: int
+                name: x
+              operator: "<"
+              right:
+                class: Expr.Literal
+                inferredType: int
+                value: 0
+            thenBranch:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: str
+                      name: result
+                    value:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "-"
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: x
+                    value:
+                      class: Expr.Unary
+                      inferredType: int
+                      operator: "-"
+                      operand:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: x
+            elseBranch: []
+        - statement:
+            class: Stmt.If
+            condition:
+              class: Expr.Binary
+              inferredType: bool
+              left:
+                class: Expr.Variable
+                inferredType: int
+                name: x
+              operator: ">="
+              right:
+                class: Expr.Literal
+                inferredType: int
+                value: 10
+            thenBranch:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: str
+                      name: result
+                    value:
+                      class: Expr.Binary
+                      inferredType: str
+                      left:
+                        class: Expr.Variable
+                        inferredType: str
+                        name: result
+                      operator: "+"
+                      right:
+                        class: Expr.Call
+                        inferredType: str
+                        callee:
+                          class: Expr.Variable
+                          inferredType: [int] -> str
+                          name: int_to_str
+                        arguments:
+                          - argument:
+                              class: Expr.Binary
+                              inferredType: int
+                              left:
+                                class: Expr.Variable
+                                inferredType: int
+                                name: x
+                              operator: "//"
+                              right:
+                                class: Expr.Literal
+                                inferredType: int
+                                value: 10
+            elseBranch: []
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: str
+                name: result
+              value:
+                class: Expr.Binary
+                inferredType: str
+                left:
+                  class: Expr.Variable
+                  inferredType: str
+                  name: result
+                operator: "+"
+                right:
+                  class: Expr.Index
+                  inferredType: str
+                  list:
+                    class: Expr.Variable
+                    inferredType: [str]
+                    name: digits
+                  index:
+                    class: Expr.Binary
+                    inferredType: int
+                    left:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: x
+                    operator: "%"
+                    right:
+                      class: Expr.Literal
+                      inferredType: int
+                      value: 10
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Variable
+              inferredType: str
+              name: result
+  - statement:
+      class: Stmt.Function
+      name: str_to_int
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: str
+            initializer: None
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Var
+            name: result
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+        - statement:
+            class: Stmt.Var
+            name: digit
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+        - statement:
+            class: Stmt.Var
+            name: char
+            type: str
+            initializer:
+              class: Expr.Literal
+              inferredType: str
+              value: ""
+        - statement:
+            class: Stmt.Var
+            name: sign
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 1
+        - statement:
+            class: Stmt.Var
+            name: first_char
+            type: bool
+            initializer:
+              class: Expr.Literal
+              inferredType: bool
+              value: true
+        - statement:
+            class: Stmt.For
+            identifier:
+              class: Expr.Variable
+              inferredType: str
+              name: char
+            iterable:
+              class: Expr.Variable
+              inferredType: str
+              name: x
+            body:
+              - statement:
+                  class: Stmt.If
+                  condition:
+                    class: Expr.Binary
+                    inferredType: bool
+                    left:
+                      class: Expr.Variable
+                      inferredType: str
+                      name: char
+                    operator: "=="
+                    right:
+                      class: Expr.Literal
+                      inferredType: str
+                      value: "-"
+                  thenBranch:
+                    - statement:
+                        class: Stmt.If
+                        condition:
+                          class: Expr.Unary
+                          inferredType: bool
+                          operator: "not"
+                          operand:
+                            class: Expr.Variable
+                            inferredType: bool
+                            name: first_char
+                        thenBranch:
+                          - statement:
+                              class: Stmt.Return
+                              value:
+                                class: Expr.Literal
+                                inferredType: int
+                                value: 0
+                        elseBranch: []
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Assign
+                          target:
+                            class: Expr.Variable
+                            inferredType: int
+                            name: sign
+                          value:
+                            class: Expr.Unary
+                            inferredType: int
+                            operator: "-"
+                            operand:
+                              class: Expr.Literal
+                              inferredType: int
+                              value: 1
+                  elseBranch:
+                    - statement:
+                        class: Stmt.If
+                        condition:
+                          class: Expr.Binary
+                          inferredType: bool
+                          left:
+                            class: Expr.Variable
+                            inferredType: str
+                            name: char
+                          operator: "=="
+                          right:
+                            class: Expr.Literal
+                            inferredType: str
+                            value: "0"
+                        thenBranch:
+                          - statement:
+                              class: Stmt.Expression
+                              expr:
+                                class: Expr.Assign
+                                target:
+                                  class: Expr.Variable
+                                  inferredType: int
+                                  name: digit
+                                value:
+                                  class: Expr.Literal
+                                  inferredType: int
+                                  value: 0
+                        elseBranch:
+                          - statement:
+                              class: Stmt.If
+                              condition:
+                                class: Expr.Binary
+                                inferredType: bool
+                                left:
+                                  class: Expr.Variable
+                                  inferredType: str
+                                  name: char
+                                operator: "=="
+                                right:
+                                  class: Expr.Literal
+                                  inferredType: str
+                                  value: "1"
+                              thenBranch:
+                                - statement:
+                                    class: Stmt.Expression
+                                    expr:
+                                      class: Expr.Assign
+                                      target:
+                                        class: Expr.Variable
+                                        inferredType: int
+                                        name: digit
+                                      value:
+                                        class: Expr.Literal
+                                        inferredType: int
+                                        value: 1
+                              elseBranch:
+                                - statement:
+                                    class: Stmt.If
+                                    condition:
+                                      class: Expr.Binary
+                                      inferredType: bool
+                                      left:
+                                        class: Expr.Variable
+                                        inferredType: str
+                                        name: char
+                                      operator: "=="
+                                      right:
+                                        class: Expr.Literal
+                                        inferredType: str
+                                        value: "2"
+                                    thenBranch:
+                                      - statement:
+                                          class: Stmt.Expression
+                                          expr:
+                                            class: Expr.Assign
+                                            target:
+                                              class: Expr.Variable
+                                              inferredType: int
+                                              name: digit
+                                            value:
+                                              class: Expr.Literal
+                                              inferredType: int
+                                              value: 2
+                                    elseBranch:
+                                      - statement:
+                                          class: Stmt.If
+                                          condition:
+                                            class: Expr.Binary
+                                            inferredType: bool
+                                            left:
+                                              class: Expr.Variable
+                                              inferredType: str
+                                              name: char
+                                            operator: "=="
+                                            right:
+                                              class: Expr.Literal
+                                              inferredType: str
+                                              value: "3"
+                                          thenBranch:
+                                            - statement:
+                                                class: Stmt.Expression
+                                                expr:
+                                                  class: Expr.Assign
+                                                  target:
+                                                    class: Expr.Variable
+                                                    inferredType: int
+                                                    name: digit
+                                                  value:
+                                                    class: Expr.Literal
+                                                    inferredType: int
+                                                    value: 3
+                                          elseBranch:
+                                            - statement:
+                                                class: Stmt.If
+                                                condition:
+                                                  class: Expr.Binary
+                                                  inferredType: bool
+                                                  left:
+                                                    class: Expr.Variable
+                                                    inferredType: str
+                                                    name: char
+                                                  operator: "=="
+                                                  right:
+                                                    class: Expr.Literal
+                                                    inferredType: str
+                                                    value: "3"
+                                                thenBranch:
+                                                  - statement:
+                                                      class: Stmt.Expression
+                                                      expr:
+                                                        class: Expr.Assign
+                                                        target:
+                                                          class: Expr.Variable
+                                                          inferredType: int
+                                                          name: digit
+                                                        value:
+                                                          class: Expr.Literal
+                                                          inferredType: int
+                                                          value: 3
+                                                elseBranch:
+                                                  - statement:
+                                                      class: Stmt.If
+                                                      condition:
+                                                        class: Expr.Binary
+                                                        inferredType: bool
+                                                        left:
+                                                          class: Expr.Variable
+                                                          inferredType: str
+                                                          name: char
+                                                        operator: "=="
+                                                        right:
+                                                          class: Expr.Literal
+                                                          inferredType: str
+                                                          value: "4"
+                                                      thenBranch:
+                                                        - statement:
+                                                            class: Stmt.Expression
+                                                            expr:
+                                                              class: Expr.Assign
+                                                              target:
+                                                                class: Expr.Variable
+                                                                inferredType: int
+                                                                name: digit
+                                                              value:
+                                                                class: Expr.Literal
+                                                                inferredType: int
+                                                                value: 4
+                                                      elseBranch:
+                                                        - statement:
+                                                            class: Stmt.If
+                                                            condition:
+                                                              class: Expr.Binary
+                                                              inferredType: bool
+                                                              left:
+                                                                class: Expr.Variable
+                                                                inferredType: str
+                                                                name: char
+                                                              operator: "=="
+                                                              right:
+                                                                class: Expr.Literal
+                                                                inferredType: str
+                                                                value: "5"
+                                                            thenBranch:
+                                                              - statement:
+                                                                  class: Stmt.Expression
+                                                                  expr:
+                                                                    class: Expr.Assign
+                                                                    target:
+                                                                      class: Expr.Variable
+                                                                      inferredType: int
+                                                                      name: digit
+                                                                    value:
+                                                                      class: Expr.Literal
+                                                                      inferredType: int
+                                                                      value: 5
+                                                            elseBranch:
+                                                              - statement:
+                                                                  class: Stmt.If
+                                                                  condition:
+                                                                    class: Expr.Binary
+                                                                    inferredType: bool
+                                                                    left:
+                                                                      class: Expr.Variable
+                                                                      inferredType: str
+                                                                      name: char
+                                                                    operator: "=="
+                                                                    right:
+                                                                      class: Expr.Literal
+                                                                      inferredType: str
+                                                                      value: "6"
+                                                                  thenBranch:
+                                                                    - statement:
+                                                                        class: Stmt.Expression
+                                                                        expr:
+                                                                          class: Expr.Assign
+                                                                          target:
+                                                                            class: Expr.Variable
+                                                                            inferredType: int
+                                                                            name: digit
+                                                                          value:
+                                                                            class: Expr.Literal
+                                                                            inferredType: int
+                                                                            value: 6
+                                                                  elseBranch:
+                                                                    - statement:
+                                                                        class: Stmt.If
+                                                                        condition:
+                                                                          class: Expr.Binary
+                                                                          inferredType: bool
+                                                                          left:
+                                                                            class: Expr.Variable
+                                                                            inferredType: str
+                                                                            name: char
+                                                                          operator: "=="
+                                                                          right:
+                                                                            class: Expr.Literal
+                                                                            inferredType: str
+                                                                            value: "7"
+                                                                        thenBranch:
+                                                                          - statement:
+                                                                              class: Stmt.Expression
+                                                                              expr:
+                                                                                class: Expr.Assign
+                                                                                target:
+                                                                                  class: Expr.Variable
+                                                                                  inferredType: int
+                                                                                  name: digit
+                                                                                value:
+                                                                                  class: Expr.Literal
+                                                                                  inferredType: int
+                                                                                  value: 7
+                                                                        elseBranch:
+                                                                          - statement:
+                                                                              class: Stmt.If
+                                                                              condition:
+                                                                                class: Expr.Binary
+                                                                                inferredType: bool
+                                                                                left:
+                                                                                  class: Expr.Variable
+                                                                                  inferredType: str
+                                                                                  name: char
+                                                                                operator: "=="
+                                                                                right:
+                                                                                  class: Expr.Literal
+                                                                                  inferredType: str
+                                                                                  value: "8"
+                                                                              thenBranch:
+                                                                                - statement:
+                                                                                    class: Stmt.Expression
+                                                                                    expr:
+                                                                                      class: Expr.Assign
+                                                                                      target:
+                                                                                        class: Expr.Variable
+                                                                                        inferredType: int
+                                                                                        name: digit
+                                                                                      value:
+                                                                                        class: Expr.Literal
+                                                                                        inferredType: int
+                                                                                        value: 8
+                                                                              elseBranch:
+                                                                                - statement:
+                                                                                    class: Stmt.If
+                                                                                    condition:
+                                                                                      class: Expr.Binary
+                                                                                      inferredType: bool
+                                                                                      left:
+                                                                                        class: Expr.Variable
+                                                                                        inferredType: str
+                                                                                        name: char
+                                                                                      operator: "=="
+                                                                                      right:
+                                                                                        class: Expr.Literal
+                                                                                        inferredType: str
+                                                                                        value: "9"
+                                                                                    thenBranch:
+                                                                                      - statement:
+                                                                                          class: Stmt.Expression
+                                                                                          expr:
+                                                                                            class: Expr.Assign
+                                                                                            target:
+                                                                                              class: Expr.Variable
+                                                                                              inferredType: int
+                                                                                              name: digit
+                                                                                            value:
+                                                                                              class: Expr.Literal
+                                                                                              inferredType: int
+                                                                                              value: 9
+                                                                                    elseBranch:
+                                                                                      - statement:
+                                                                                          class: Stmt.Return
+                                                                                          value:
+                                                                                            class: Expr.Literal
+                                                                                            inferredType: int
+                                                                                            value: 0
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: bool
+                      name: first_char
+                    value:
+                      class: Expr.Literal
+                      inferredType: bool
+                      value: false
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: result
+                    value:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Binary
+                        inferredType: int
+                        left:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: result
+                        operator: "*"
+                        right:
+                          class: Expr.Literal
+                          inferredType: int
+                          value: 10
+                      operator: "+"
+                      right:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: digit
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Binary
+              inferredType: int
+              left:
+                class: Expr.Variable
+                inferredType: int
+                name: result
+              operator: "*"
+              right:
+                class: Expr.Variable
+                inferredType: int
+                name: sign
+  - statement:
+      class: Stmt.Var
+      name: c
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 42
+  - statement:
+      class: Stmt.Var
+      name: n
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 10
+  - statement:
+      class: Stmt.Var
+      name: s
+      type: str
+      initializer:
+        class: Expr.Literal
+        inferredType: str
+        value: ""
+  - statement:
+      class: Stmt.Var
+      name: i
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 0
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: int
+          name: i
+        value:
+          class: Expr.Binary
+          inferredType: int
+          left:
+            class: Expr.Unary
+            inferredType: int
+            operator: "-"
+            operand:
+              class: Expr.Variable
+              inferredType: int
+              name: n
+          operator: "*"
+          right:
+            class: Expr.Variable
+            inferredType: int
+            name: c
+  - statement:
+      class: Stmt.While
+      condition:
+        class: Expr.Binary
+        inferredType: bool
+        left:
+          class: Expr.Variable
+          inferredType: int
+          name: i
+        operator: "<="
+        right:
+          class: Expr.Binary
+          inferredType: int
+          left:
+            class: Expr.Variable
+            inferredType: int
+            name: n
+          operator: "*"
+          right:
+            class: Expr.Variable
+            inferredType: int
+            name: c
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: str
+                name: s
+              value:
+                class: Expr.Call
+                inferredType: str
+                callee:
+                  class: Expr.Variable
+                  inferredType: [int] -> str
+                  name: int_to_str
+                arguments:
+                  - argument:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: i
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Variable
+                inferredType: str
+                name: s
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: int
+                name: i
+              value:
+                class: Expr.Binary
+                inferredType: int
+                left:
+                  class: Expr.Call
+                  inferredType: int
+                  callee:
+                    class: Expr.Variable
+                    inferredType: [str] -> int
+                    name: str_to_int
+                  arguments:
+                    - argument:
+                        class: Expr.Variable
+                        inferredType: str
+                        name: s
+                operator: "+"
+                right:
+                  class: Expr.Variable
+                  inferredType: int
+                  name: c

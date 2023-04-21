@@ -1,0 +1,224 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: exp
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer: None
+        - param:
+            class: Stmt.Var
+            name: y
+            type: int
+            initializer: None
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Var
+            name: a
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+        - statement:
+            class: Stmt.Function
+            name: f
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: i
+                  type: int
+                  initializer: None
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Nonlocal
+                  name: a
+              - statement:
+                  class: Stmt.Function
+                  name: geta
+                  params: []
+                  returnType: int
+                  body:
+                    - statement:
+                        class: Stmt.Return
+                        value:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: a
+              - statement:
+                  class: Stmt.If
+                  condition:
+                    class: Expr.Binary
+                    inferredType: bool
+                    left:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: i
+                    operator: "<="
+                    right:
+                      class: Expr.Literal
+                      inferredType: int
+                      value: 0
+                  thenBranch:
+                    - statement:
+                        class: Stmt.Return
+                        value:
+                          class: Expr.Call
+                          inferredType: int
+                          callee:
+                            class: Expr.Variable
+                            inferredType: [] -> int
+                            name: geta
+                          arguments: []
+                  elseBranch:
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Assign
+                          target:
+                            class: Expr.Variable
+                            inferredType: int
+                            name: a
+                          value:
+                            class: Expr.Binary
+                            inferredType: int
+                            left:
+                              class: Expr.Variable
+                              inferredType: int
+                              name: a
+                            operator: "*"
+                            right:
+                              class: Expr.Variable
+                              inferredType: int
+                              name: x
+                    - statement:
+                        class: Stmt.Return
+                        value:
+                          class: Expr.Call
+                          inferredType: int
+                          callee:
+                            class: Expr.Variable
+                            inferredType: [int] -> int
+                            name: f
+                          arguments:
+                            - argument:
+                                class: Expr.Binary
+                                inferredType: int
+                                left:
+                                  class: Expr.Variable
+                                  inferredType: int
+                                  name: i
+                                operator: "-"
+                                right:
+                                  class: Expr.Literal
+                                  inferredType: int
+                                  value: 1
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: int
+                name: a
+              value:
+                class: Expr.Literal
+                inferredType: int
+                value: 1
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Call
+              inferredType: int
+              callee:
+                class: Expr.Variable
+                inferredType: [int] -> int
+                name: f
+              arguments:
+                - argument:
+                    class: Expr.Variable
+                    inferredType: int
+                    name: y
+  - statement:
+      class: Stmt.Var
+      name: n
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 42
+  - statement:
+      class: Stmt.Var
+      name: i
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 0
+  - statement:
+      class: Stmt.While
+      condition:
+        class: Expr.Binary
+        inferredType: bool
+        left:
+          class: Expr.Variable
+          inferredType: int
+          name: i
+        operator: "<="
+        right:
+          class: Expr.Variable
+          inferredType: int
+          name: n
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Call
+                inferredType: int
+                callee:
+                  class: Expr.Variable
+                  inferredType: [int, int] -> int
+                  name: exp
+                arguments:
+                  - argument:
+                      class: Expr.Literal
+                      inferredType: int
+                      value: 2
+                  - argument:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: i
+                      operator: "%"
+                      right:
+                        class: Expr.Literal
+                        inferredType: int
+                        value: 31
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: int
+                name: i
+              value:
+                class: Expr.Binary
+                inferredType: int
+                left:
+                  class: Expr.Variable
+                  inferredType: int
+                  name: i
+                operator: "+"
+                right:
+                  class: Expr.Literal
+                  inferredType: int
+                  value: 1

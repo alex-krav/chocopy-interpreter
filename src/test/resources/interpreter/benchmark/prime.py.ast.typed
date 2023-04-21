@@ -1,0 +1,276 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: is_prime
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer: None
+      returnType: bool
+      body:
+        - statement:
+            class: Stmt.Var
+            name: div
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 2
+        - statement:
+            class: Stmt.While
+            condition:
+              class: Expr.Binary
+              inferredType: bool
+              left:
+                class: Expr.Variable
+                inferredType: int
+                name: div
+              operator: "<"
+              right:
+                class: Expr.Variable
+                inferredType: int
+                name: x
+            body:
+              - statement:
+                  class: Stmt.If
+                  condition:
+                    class: Expr.Binary
+                    inferredType: bool
+                    left:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: x
+                      operator: "%"
+                      right:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: div
+                    operator: "=="
+                    right:
+                      class: Expr.Literal
+                      inferredType: int
+                      value: 0
+                  thenBranch:
+                    - statement:
+                        class: Stmt.Return
+                        value:
+                          class: Expr.Literal
+                          inferredType: bool
+                          value: false
+                  elseBranch: []
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: div
+                    value:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: div
+                      operator: "+"
+                      right:
+                        class: Expr.Literal
+                        inferredType: int
+                        value: 1
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Literal
+              inferredType: bool
+              value: true
+  - statement:
+      class: Stmt.Function
+      name: get_prime
+      params:
+        - param:
+            class: Stmt.Var
+            name: n
+            type: int
+            initializer: None
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.Var
+            name: candidate
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 2
+        - statement:
+            class: Stmt.Var
+            name: found
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+        - statement:
+            class: Stmt.While
+            condition:
+              class: Expr.Literal
+              inferredType: bool
+              value: true
+            body:
+              - statement:
+                  class: Stmt.If
+                  condition:
+                    class: Expr.Call
+                    inferredType: bool
+                    callee:
+                      class: Expr.Variable
+                      inferredType: [int] -> bool
+                      name: is_prime
+                    arguments:
+                      - argument:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: candidate
+                  thenBranch:
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Assign
+                          target:
+                            class: Expr.Variable
+                            inferredType: int
+                            name: found
+                          value:
+                            class: Expr.Binary
+                            inferredType: int
+                            left:
+                              class: Expr.Variable
+                              inferredType: int
+                              name: found
+                            operator: "+"
+                            right:
+                              class: Expr.Literal
+                              inferredType: int
+                              value: 1
+                    - statement:
+                        class: Stmt.If
+                        condition:
+                          class: Expr.Binary
+                          inferredType: bool
+                          left:
+                            class: Expr.Variable
+                            inferredType: int
+                            name: found
+                          operator: "=="
+                          right:
+                            class: Expr.Variable
+                            inferredType: int
+                            name: n
+                        thenBranch:
+                          - statement:
+                              class: Stmt.Return
+                              value:
+                                class: Expr.Variable
+                                inferredType: int
+                                name: candidate
+                        elseBranch: []
+                  elseBranch: []
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: candidate
+                    value:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: candidate
+                      operator: "+"
+                      right:
+                        class: Expr.Literal
+                        inferredType: int
+                        value: 1
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+  - statement:
+      class: Stmt.Var
+      name: n
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 15
+  - statement:
+      class: Stmt.Var
+      name: i
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 1
+  - statement:
+      class: Stmt.While
+      condition:
+        class: Expr.Binary
+        inferredType: bool
+        left:
+          class: Expr.Variable
+          inferredType: int
+          name: i
+        operator: "<="
+        right:
+          class: Expr.Variable
+          inferredType: int
+          name: n
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Call
+                inferredType: int
+                callee:
+                  class: Expr.Variable
+                  inferredType: [int] -> int
+                  name: get_prime
+                arguments:
+                  - argument:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: i
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: int
+                name: i
+              value:
+                class: Expr.Binary
+                inferredType: int
+                left:
+                  class: Expr.Variable
+                  inferredType: int
+                  name: i
+                operator: "+"
+                right:
+                  class: Expr.Literal
+                  inferredType: int
+                  value: 1

@@ -58,7 +58,6 @@ public class InterpreterTest {
 
     @ParameterizedTest
     @MethodSource("testFilesForBenchmark")
-    @Disabled
     public void testBenchmark(Path inputPath) throws IOException {
         test(inputPath);
     }

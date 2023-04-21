@@ -1,0 +1,1038 @@
+statements:
+  - statement:
+      class: Stmt.Class
+      name: Vector
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: items
+            type: [int]
+            initializer:
+              class: Expr.Literal
+              inferredType: <None>
+              value: None
+        - member:
+            class: Stmt.Var
+            name: size
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+        - member:
+            class: Stmt.Function
+            name: __init__
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: Vector
+                  initializer: None
+            returnType: <None>
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Set
+                    object:
+                      name: self
+                      inferredType: Vector
+                    name: items
+                    value:
+                      class: Expr.Listing
+                      inferredType: [int]
+                      elements:
+                        - element:
+                            class: Expr.Literal
+                            inferredType: int
+                            value: 0
+        - member:
+            class: Stmt.Function
+            name: capacity
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: Vector
+                  initializer: None
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Len
+                    expr:
+                      class: Expr.Get
+                      inferredType: [int]
+                      object:
+                        name: self
+                        inferredType: Vector
+                      name: items
+        - member:
+            class: Stmt.Function
+            name: increase_capacity
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: Vector
+                  initializer: None
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Set
+                    object:
+                      name: self
+                      inferredType: Vector
+                    name: items
+                    value:
+                      class: Expr.Binary
+                      inferredType: [int]
+                      left:
+                        class: Expr.Get
+                        inferredType: [int]
+                        object:
+                          name: self
+                          inferredType: Vector
+                        name: items
+                      operator: "+"
+                      right:
+                        class: Expr.Listing
+                        inferredType: [int]
+                        elements:
+                          - element:
+                              class: Expr.Literal
+                              inferredType: int
+                              value: 0
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Call
+                    inferredType: int
+                    callee:
+                      class: Expr.Get
+                      inferredType: [Vector] -> int
+                      object:
+                        name: self
+                        inferredType: Vector
+                      name: capacity
+                    arguments: []
+        - member:
+            class: Stmt.Function
+            name: append
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: Vector
+                  initializer: None
+              - param:
+                  class: Stmt.Var
+                  name: item
+                  type: int
+                  initializer: None
+            returnType: object
+            body:
+              - statement:
+                  class: Stmt.If
+                  condition:
+                    class: Expr.Binary
+                    inferredType: bool
+                    left:
+                      class: Expr.Get
+                      inferredType: int
+                      object:
+                        name: self
+                        inferredType: Vector
+                      name: size
+                    operator: "=="
+                    right:
+                      class: Expr.Call
+                      inferredType: int
+                      callee:
+                        class: Expr.Get
+                        inferredType: [Vector] -> int
+                        object:
+                          name: self
+                          inferredType: Vector
+                        name: capacity
+                      arguments: []
+                  thenBranch:
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Call
+                          inferredType: int
+                          callee:
+                            class: Expr.Get
+                            inferredType: [Vector] -> int
+                            object:
+                              name: self
+                              inferredType: Vector
+                            name: increase_capacity
+                          arguments: []
+                  elseBranch: []
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.ListSet
+                    inferredType: [int]
+                    list:
+                      class: Expr.Get
+                      inferredType: [int]
+                      object:
+                        name: self
+                        inferredType: Vector
+                      name: items
+                    index:
+                      class: Expr.Get
+                      inferredType: int
+                      object:
+                        name: self
+                        inferredType: Vector
+                      name: size
+                    value:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: item
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Set
+                    object:
+                      name: self
+                      inferredType: Vector
+                    name: size
+                    value:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Get
+                        inferredType: int
+                        object:
+                          name: self
+                          inferredType: Vector
+                        name: size
+                      operator: "+"
+                      right:
+                        class: Expr.Literal
+                        inferredType: int
+                        value: 1
+        - member:
+            class: Stmt.Function
+            name: append_all
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: Vector
+                  initializer: None
+              - param:
+                  class: Stmt.Var
+                  name: new_items
+                  type: [int]
+                  initializer: None
+            returnType: object
+            body:
+              - statement:
+                  class: Stmt.Var
+                  name: item
+                  type: int
+                  initializer:
+                    class: Expr.Literal
+                    inferredType: int
+                    value: 0
+              - statement:
+                  class: Stmt.For
+                  identifier:
+                    class: Expr.Variable
+                    inferredType: int
+                    name: item
+                  iterable:
+                    class: Expr.Variable
+                    inferredType: [int]
+                    name: new_items
+                  body:
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Call
+                          inferredType: object
+                          callee:
+                            class: Expr.Get
+                            inferredType: [Vector, int] -> object
+                            object:
+                              name: self
+                              inferredType: Vector
+                            name: append
+                          arguments:
+                            - argument:
+                                class: Expr.Variable
+                                inferredType: int
+                                name: item
+        - member:
+            class: Stmt.Function
+            name: remove_at
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: Vector
+                  initializer: None
+              - param:
+                  class: Stmt.Var
+                  name: idx
+                  type: int
+                  initializer: None
+            returnType: object
+            body:
+              - statement:
+                  class: Stmt.If
+                  condition:
+                    class: Expr.Binary
+                    inferredType: bool
+                    left:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: idx
+                    operator: "<"
+                    right:
+                      class: Expr.Literal
+                      inferredType: int
+                      value: 0
+                  thenBranch:
+                    - statement:
+                        class: Stmt.Return
+                        value: None
+                  elseBranch: []
+              - statement:
+                  class: Stmt.While
+                  condition:
+                    class: Expr.Binary
+                    inferredType: bool
+                    left:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: idx
+                    operator: "<"
+                    right:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Get
+                        inferredType: int
+                        object:
+                          name: self
+                          inferredType: Vector
+                        name: size
+                      operator: "-"
+                      right:
+                        class: Expr.Literal
+                        inferredType: int
+                        value: 1
+                  body:
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.ListSet
+                          inferredType: [int]
+                          list:
+                            class: Expr.Get
+                            inferredType: [int]
+                            object:
+                              name: self
+                              inferredType: Vector
+                            name: items
+                          index:
+                            class: Expr.Variable
+                            inferredType: int
+                            name: idx
+                          value:
+                            class: Expr.Index
+                            inferredType: int
+                            list:
+                              class: Expr.Get
+                              inferredType: [int]
+                              object:
+                                name: self
+                                inferredType: Vector
+                              name: items
+                            index:
+                              class: Expr.Binary
+                              inferredType: int
+                              left:
+                                class: Expr.Variable
+                                inferredType: int
+                                name: idx
+                              operator: "+"
+                              right:
+                                class: Expr.Literal
+                                inferredType: int
+                                value: 1
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Assign
+                          target:
+                            class: Expr.Variable
+                            inferredType: int
+                            name: idx
+                          value:
+                            class: Expr.Binary
+                            inferredType: int
+                            left:
+                              class: Expr.Variable
+                              inferredType: int
+                              name: idx
+                            operator: "+"
+                            right:
+                              class: Expr.Literal
+                              inferredType: int
+                              value: 1
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Set
+                    object:
+                      name: self
+                      inferredType: Vector
+                    name: size
+                    value:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Get
+                        inferredType: int
+                        object:
+                          name: self
+                          inferredType: Vector
+                        name: size
+                      operator: "-"
+                      right:
+                        class: Expr.Literal
+                        inferredType: int
+                        value: 1
+        - member:
+            class: Stmt.Function
+            name: get
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: Vector
+                  initializer: None
+              - param:
+                  class: Stmt.Var
+                  name: idx
+                  type: int
+                  initializer: None
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Index
+                    inferredType: int
+                    list:
+                      class: Expr.Get
+                      inferredType: [int]
+                      object:
+                        name: self
+                        inferredType: Vector
+                      name: items
+                    index:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: idx
+        - member:
+            class: Stmt.Function
+            name: length
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: Vector
+                  initializer: None
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Get
+                    inferredType: int
+                    object:
+                      name: self
+                      inferredType: Vector
+                    name: size
+  - statement:
+      class: Stmt.Class
+      name: DoublingVector
+      superClass: Vector
+      members:
+        - member:
+            class: Stmt.Var
+            name: doubling_limit
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 1000
+        - member:
+            class: Stmt.Function
+            name: increase_capacity
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: DoublingVector
+                  initializer: None
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.If
+                  condition:
+                    class: Expr.Grouping
+                    expr:
+                      class: Expr.Binary
+                      inferredType: bool
+                      left:
+                        class: Expr.Call
+                        inferredType: int
+                        callee:
+                          class: Expr.Get
+                          inferredType: [Vector] -> int
+                          object:
+                            name: self
+                            inferredType: DoublingVector
+                          name: capacity
+                        arguments: []
+                      operator: "<="
+                      right:
+                        class: Expr.Binary
+                        inferredType: int
+                        left:
+                          class: Expr.Get
+                          inferredType: int
+                          object:
+                            name: self
+                            inferredType: DoublingVector
+                          name: doubling_limit
+                        operator: "//"
+                        right:
+                          class: Expr.Literal
+                          inferredType: int
+                          value: 2
+                  thenBranch:
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Set
+                          object:
+                            name: self
+                            inferredType: DoublingVector
+                          name: items
+                          value:
+                            class: Expr.Binary
+                            inferredType: [int]
+                            left:
+                              class: Expr.Get
+                              inferredType: [int]
+                              object:
+                                name: self
+                                inferredType: DoublingVector
+                              name: items
+                            operator: "+"
+                            right:
+                              class: Expr.Get
+                              inferredType: [int]
+                              object:
+                                name: self
+                                inferredType: DoublingVector
+                              name: items
+                  elseBranch:
+                    - statement:
+                        class: Stmt.Expression
+                        expr:
+                          class: Expr.Set
+                          object:
+                            name: self
+                            inferredType: DoublingVector
+                          name: items
+                          value:
+                            class: Expr.Binary
+                            inferredType: [int]
+                            left:
+                              class: Expr.Get
+                              inferredType: [int]
+                              object:
+                                name: self
+                                inferredType: DoublingVector
+                              name: items
+                            operator: "+"
+                            right:
+                              class: Expr.Listing
+                              inferredType: [int]
+                              elements:
+                                - element:
+                                    class: Expr.Literal
+                                    inferredType: int
+                                    value: 0
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Call
+                    inferredType: int
+                    callee:
+                      class: Expr.Get
+                      inferredType: [Vector] -> int
+                      object:
+                        name: self
+                        inferredType: DoublingVector
+                      name: capacity
+                    arguments: []
+  - statement:
+      class: Stmt.Function
+      name: vrange
+      params:
+        - param:
+            class: Stmt.Var
+            name: i
+            type: int
+            initializer: None
+        - param:
+            class: Stmt.Var
+            name: j
+            type: int
+            initializer: None
+      returnType: Vector
+      body:
+        - statement:
+            class: Stmt.Var
+            name: v
+            type: Vector
+            initializer:
+              class: Expr.Literal
+              inferredType: <None>
+              value: None
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: Vector
+                name: v
+              value:
+                class: Expr.Call
+                inferredType: DoublingVector
+                callee:
+                  class: Expr.Variable
+                  inferredType: [Vector] -> <None>
+                  name: DoublingVector
+                arguments: []
+        - statement:
+            class: Stmt.While
+            condition:
+              class: Expr.Binary
+              inferredType: bool
+              left:
+                class: Expr.Variable
+                inferredType: int
+                name: i
+              operator: "<"
+              right:
+                class: Expr.Variable
+                inferredType: int
+                name: j
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Call
+                    inferredType: object
+                    callee:
+                      class: Expr.Get
+                      inferredType: [Vector, int] -> object
+                      object:
+                        class: Expr.Variable
+                        inferredType: Vector
+                        name: v
+                      name: append
+                    arguments:
+                      - argument:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: i
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: i
+                    value:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: i
+                      operator: "+"
+                      right:
+                        class: Expr.Literal
+                        inferredType: int
+                        value: 1
+        - statement:
+            class: Stmt.Return
+            value:
+              class: Expr.Variable
+              inferredType: Vector
+              name: v
+  - statement:
+      class: Stmt.Function
+      name: sieve
+      params:
+        - param:
+            class: Stmt.Var
+            name: v
+            type: Vector
+            initializer: None
+      returnType: object
+      body:
+        - statement:
+            class: Stmt.Var
+            name: i
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+        - statement:
+            class: Stmt.Var
+            name: j
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+        - statement:
+            class: Stmt.Var
+            name: k
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 0
+        - statement:
+            class: Stmt.While
+            condition:
+              class: Expr.Binary
+              inferredType: bool
+              left:
+                class: Expr.Variable
+                inferredType: int
+                name: i
+              operator: "<"
+              right:
+                class: Expr.Call
+                inferredType: int
+                callee:
+                  class: Expr.Get
+                  inferredType: [Vector] -> int
+                  object:
+                    class: Expr.Variable
+                    inferredType: Vector
+                    name: v
+                  name: length
+                arguments: []
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: k
+                    value:
+                      class: Expr.Call
+                      inferredType: int
+                      callee:
+                        class: Expr.Get
+                        inferredType: [Vector, int] -> int
+                        object:
+                          class: Expr.Variable
+                          inferredType: Vector
+                          name: v
+                        name: get
+                      arguments:
+                        - argument:
+                            class: Expr.Variable
+                            inferredType: int
+                            name: i
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: j
+                    value:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: i
+                      operator: "+"
+                      right:
+                        class: Expr.Literal
+                        inferredType: int
+                        value: 1
+              - statement:
+                  class: Stmt.While
+                  condition:
+                    class: Expr.Binary
+                    inferredType: bool
+                    left:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: j
+                    operator: "<"
+                    right:
+                      class: Expr.Call
+                      inferredType: int
+                      callee:
+                        class: Expr.Get
+                        inferredType: [Vector] -> int
+                        object:
+                          class: Expr.Variable
+                          inferredType: Vector
+                          name: v
+                        name: length
+                      arguments: []
+                  body:
+                    - statement:
+                        class: Stmt.If
+                        condition:
+                          class: Expr.Binary
+                          inferredType: bool
+                          left:
+                            class: Expr.Binary
+                            inferredType: int
+                            left:
+                              class: Expr.Call
+                              inferredType: int
+                              callee:
+                                class: Expr.Get
+                                inferredType: [Vector, int] -> int
+                                object:
+                                  class: Expr.Variable
+                                  inferredType: Vector
+                                  name: v
+                                name: get
+                              arguments:
+                                - argument:
+                                    class: Expr.Variable
+                                    inferredType: int
+                                    name: j
+                            operator: "%"
+                            right:
+                              class: Expr.Variable
+                              inferredType: int
+                              name: k
+                          operator: "=="
+                          right:
+                            class: Expr.Literal
+                            inferredType: int
+                            value: 0
+                        thenBranch:
+                          - statement:
+                              class: Stmt.Expression
+                              expr:
+                                class: Expr.Call
+                                inferredType: object
+                                callee:
+                                  class: Expr.Get
+                                  inferredType: [Vector, int] -> object
+                                  object:
+                                    class: Expr.Variable
+                                    inferredType: Vector
+                                    name: v
+                                  name: remove_at
+                                arguments:
+                                  - argument:
+                                      class: Expr.Variable
+                                      inferredType: int
+                                      name: j
+                        elseBranch:
+                          - statement:
+                              class: Stmt.Expression
+                              expr:
+                                class: Expr.Assign
+                                target:
+                                  class: Expr.Variable
+                                  inferredType: int
+                                  name: j
+                                value:
+                                  class: Expr.Binary
+                                  inferredType: int
+                                  left:
+                                    class: Expr.Variable
+                                    inferredType: int
+                                    name: j
+                                  operator: "+"
+                                  right:
+                                    class: Expr.Literal
+                                    inferredType: int
+                                    value: 1
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Assign
+                    target:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: i
+                    value:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: i
+                      operator: "+"
+                      right:
+                        class: Expr.Literal
+                        inferredType: int
+                        value: 1
+  - statement:
+      class: Stmt.Var
+      name: n
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 50
+  - statement:
+      class: Stmt.Var
+      name: v
+      type: Vector
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Var
+      name: i
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 0
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: Vector
+          name: v
+        value:
+          class: Expr.Call
+          inferredType: Vector
+          callee:
+            class: Expr.Variable
+            inferredType: [int, int] -> Vector
+            name: vrange
+          arguments:
+            - argument:
+                class: Expr.Literal
+                inferredType: int
+                value: 2
+            - argument:
+                class: Expr.Variable
+                inferredType: int
+                name: n
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        inferredType: object
+        callee:
+          class: Expr.Variable
+          inferredType: [Vector] -> object
+          name: sieve
+        arguments:
+          - argument:
+              class: Expr.Variable
+              inferredType: Vector
+              name: v
+  - statement:
+      class: Stmt.While
+      condition:
+        class: Expr.Binary
+        inferredType: bool
+        left:
+          class: Expr.Variable
+          inferredType: int
+          name: i
+        operator: "<"
+        right:
+          class: Expr.Call
+          inferredType: int
+          callee:
+            class: Expr.Get
+            inferredType: [Vector] -> int
+            object:
+              class: Expr.Variable
+              inferredType: Vector
+              name: v
+            name: length
+          arguments: []
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Call
+                inferredType: int
+                callee:
+                  class: Expr.Get
+                  inferredType: [Vector, int] -> int
+                  object:
+                    class: Expr.Variable
+                    inferredType: Vector
+                    name: v
+                  name: get
+                arguments:
+                  - argument:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: i
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Assign
+              target:
+                class: Expr.Variable
+                inferredType: int
+                name: i
+              value:
+                class: Expr.Binary
+                inferredType: int
+                left:
+                  class: Expr.Variable
+                  inferredType: int
+                  name: i
+                operator: "+"
+                right:
+                  class: Expr.Literal
+                  inferredType: int
+                  value: 1
