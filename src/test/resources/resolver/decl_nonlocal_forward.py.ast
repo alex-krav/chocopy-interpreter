@@ -50,10 +50,12 @@ statements:
               class: Expr.Variable
               name: x
   - statement:
-      class: Stmt.Print
+      class: Stmt.Expression
       expr:
-        class: Expr.Call
-        callee:
-          class: Expr.Variable
-          name: outer
-        arguments: []
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          callee:
+            class: Expr.Variable
+            name: outer
+          arguments: []

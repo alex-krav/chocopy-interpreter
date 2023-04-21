@@ -25,7 +25,9 @@ statements:
               value: 3
       body:
         - statement:
-            class: Stmt.Print
+            class: Stmt.Expression
             expr:
-              class: Expr.Variable
-              name: x
+              class: Expr.Print
+              expr:
+                class: Expr.Variable
+                name: x

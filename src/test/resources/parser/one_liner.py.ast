@@ -1,6 +1,8 @@
 statements:
   - statement:
-      class: Stmt.Print
+      class: Stmt.Expression
       expr:
-        class: Expr.Literal
-        value: "hello"
+        class: Expr.Print
+        expr:
+          class: Expr.Literal
+          value: "hello"

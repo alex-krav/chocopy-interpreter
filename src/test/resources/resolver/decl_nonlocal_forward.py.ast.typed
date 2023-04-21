@@ -57,12 +57,14 @@ statements:
               inferredType: int
               name: x
   - statement:
-      class: Stmt.Print
+      class: Stmt.Expression
       expr:
-        class: Expr.Call
-        inferredType: int
-        callee:
-          class: Expr.Variable
-          inferredType: [] -> int
-          name: outer
-        arguments: []
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: int
+          callee:
+            class: Expr.Variable
+            inferredType: [] -> int
+            name: outer
+          arguments: []

@@ -25,10 +25,12 @@ statements:
             name: Foo
           arguments: []
   - statement:
-      class: Stmt.Print
+      class: Stmt.Expression
       expr:
-        class: Expr.Get
-        object:
-          class: Expr.Variable
-          name: f
-        name: x
+        class: Expr.Print
+        expr:
+          class: Expr.Get
+          object:
+            class: Expr.Variable
+            name: f
+          name: x

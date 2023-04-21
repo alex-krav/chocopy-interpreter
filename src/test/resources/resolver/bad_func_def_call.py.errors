@@ -3,5 +3,5 @@
 [line 10] Error: Expected type 'bool', got type 'int'
 [line 11] Error: Expected type 'str', got type 'int'
 [line 11] Error: Expected type 'bool', got type 'str'
-[line 12] Error at 'baz': Callable not defined: baz
+[line 12] Error at 'baz': Identifier not defined in current scope: baz
 [line 12] Error: Not a function: baz

@@ -65,10 +65,12 @@ statements:
               class: Expr.Literal
               value: 1
   - statement:
-      class: Stmt.Print
+      class: Stmt.Expression
       expr:
-        class: Expr.Get
-        object:
-          class: Expr.Variable
-          name: f
-        name: x
+        class: Expr.Print
+        expr:
+          class: Expr.Get
+          object:
+            class: Expr.Variable
+            name: f
+          name: x

@@ -260,7 +260,9 @@ class Parser {
         if (match(FOR)) return forStatement();
 
         Stmt stmt = simpleStatement();
-        if (!isAtEnd()) consume(NEWLINE, "Expect 'newline' after simple statement."); //todo: consume DEDENT or EOF
+        if (!isAtEnd() && !checkTwo(DEDENT, EOF)) {
+            consume(NEWLINE, "Expect 'newline' after simple statement.");
+        }
         return stmt;
     }
     

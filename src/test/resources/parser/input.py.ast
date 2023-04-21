@@ -49,10 +49,12 @@ statements:
           value: 0
       body:
         - statement:
-            class: Stmt.Print
+            class: Stmt.Expression
             expr:
-              class: Expr.Variable
-              name: s
+              class: Expr.Print
+              expr:
+                class: Expr.Variable
+                name: s
         - statement:
             class: Stmt.Expression
             expr:

@@ -276,25 +276,27 @@ statements:
                     class: Expr.Literal
                     value: "Nope"
   - statement:
-      class: Stmt.Print
+      class: Stmt.Expression
       expr:
-        class: Expr.Call
-        callee:
-          class: Expr.Get
-          object:
-            class: Expr.Call
-            callee:
-              class: Expr.Variable
-              name: bar
-            arguments: []
-          name: baz
-        arguments:
-          - argument:
-              class: Expr.Listing
-              elements:
-                - element:
-                    class: Expr.Literal
-                    value: 1
-                - element:
-                    class: Expr.Literal
-                    value: 2
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          callee:
+            class: Expr.Get
+            object:
+              class: Expr.Call
+              callee:
+                class: Expr.Variable
+                name: bar
+              arguments: []
+            name: baz
+          arguments:
+            - argument:
+                class: Expr.Listing
+                elements:
+                  - element:
+                      class: Expr.Literal
+                      value: 1
+                  - element:
+                      class: Expr.Literal
+                      value: 2

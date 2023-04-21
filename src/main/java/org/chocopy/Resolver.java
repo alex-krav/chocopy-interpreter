@@ -353,19 +353,24 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.id);
         resolve(expr.value);
         
-        if (expr.listing.inferredType instanceof StrType) {
+        ValueType listType = expr.listing.inferredType;
+        
+        if (listType instanceof StrType) {
             ChocoPy.error(expr.line ,"Cannot assign to index of string");
+        } else if (!(listType instanceof ListValueType)) {
+            ChocoPy.error(expr.line ,"Expected type 'list', got type '" + listType + "'");
+        } else {
+            if (!canAssign(expr.value.inferredType, ((ListValueType) listType).getElementType())) {
+                ChocoPy.error(expr.line ,String.format("Expected type '%s', got type '%s'",
+                        ((ListValueType) listType).getElementType(), expr.value.inferredType));
+            }
         }
+        
         if (!(expr.id.inferredType instanceof IntType)) {
             ChocoPy.error(expr.line, "Expected index of type 'int', got type '" + expr.id.inferredType + "'");
         }
-        if (expr.listing.inferredType instanceof ListValueType 
-                && !canAssign(expr.value.inferredType, ((ListValueType) expr.listing.inferredType).getElementType())) {
-            ChocoPy.error(expr.line ,String.format("Expected type '%s', got type '%s'", 
-                    ((ListValueType) expr.listing.inferredType).getElementType(), expr.value.inferredType));
-        }
         
-        expr.inferredType = expr.listing.inferredType;
+        expr.inferredType = listType;
         return null;
     }
 
@@ -853,10 +858,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         }
 
         if (stmt.value != null) {
-            if (currentFunction == FunctionType.INITIALIZER) {
-                ChocoPy.error(stmt.keyword,
-                        "Can't return a value from an initializer.");
-            }
 
             resolve(stmt.value);
 

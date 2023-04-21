@@ -17,7 +17,9 @@ statements:
           class: Expr.Literal
           value: 2
   - statement:
-      class: Stmt.Print
+      class: Stmt.Expression
       expr:
-        class: Expr.Variable
-        name: x
+        class: Expr.Print
+        expr:
+          class: Expr.Variable
+          name: x

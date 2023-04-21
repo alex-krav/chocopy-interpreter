@@ -45,8 +45,10 @@ statements:
           name: set_x
         arguments: []
   - statement:
-      class: Stmt.Print
+      class: Stmt.Expression
       expr:
-        class: Expr.Variable
-        inferredType: int
-        name: x
+        class: Expr.Print
+        expr:
+          class: Expr.Variable
+          inferredType: int
+          name: x

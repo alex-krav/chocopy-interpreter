@@ -12,10 +12,12 @@ statements:
           value: 2
       thenBranch:
         - statement:
-            class: Stmt.Print
+            class: Stmt.Expression
             expr:
-              class: Expr.Literal
-              value: 1
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                value: 1
       elseBranch:
         - statement:
             class: Stmt.If
@@ -30,10 +32,12 @@ statements:
                 value: 4
             thenBranch:
               - statement:
-                  class: Stmt.Print
+                  class: Stmt.Expression
                   expr:
-                    class: Expr.Literal
-                    value: 2
+                    class: Expr.Print
+                    expr:
+                      class: Expr.Literal
+                      value: 2
             elseBranch:
               - statement:
                   class: Stmt.If
@@ -42,13 +46,17 @@ statements:
                     value: true
                   thenBranch:
                     - statement:
-                        class: Stmt.Print
+                        class: Stmt.Expression
                         expr:
-                          class: Expr.Literal
-                          value: 3
+                          class: Expr.Print
+                          expr:
+                            class: Expr.Literal
+                            value: 3
                   elseBranch:
                     - statement:
-                        class: Stmt.Print
+                        class: Stmt.Expression
                         expr:
-                          class: Expr.Literal
-                          value: 4
+                          class: Expr.Print
+                          expr:
+                            class: Expr.Literal
+                            value: 4

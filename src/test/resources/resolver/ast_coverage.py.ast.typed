@@ -331,32 +331,34 @@ statements:
                     inferredType: str
                     value: "Nope"
   - statement:
-      class: Stmt.Print
+      class: Stmt.Expression
       expr:
-        class: Expr.Call
-        inferredType: str
-        callee:
-          class: Expr.Get
-          inferredType: [bar, [int]] -> str
-          object:
-            class: Expr.Call
-            inferredType: bar
-            callee:
-              class: Expr.Variable
-              inferredType: [object] -> <None>
-              name: bar
-            arguments: []
-          name: baz
-        arguments:
-          - argument:
-              class: Expr.Listing
-              inferredType: [int]
-              elements:
-                - element:
-                    class: Expr.Literal
-                    inferredType: int
-                    value: 1
-                - element:
-                    class: Expr.Literal
-                    inferredType: int
-                    value: 2
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: str
+          callee:
+            class: Expr.Get
+            inferredType: [bar, [int]] -> str
+            object:
+              class: Expr.Call
+              inferredType: bar
+              callee:
+                class: Expr.Variable
+                inferredType: [object] -> <None>
+                name: bar
+              arguments: []
+            name: baz
+          arguments:
+            - argument:
+                class: Expr.Listing
+                inferredType: [int]
+                elements:
+                  - element:
+                      class: Expr.Literal
+                      inferredType: int
+                      value: 1
+                  - element:
+                      class: Expr.Literal
+                      inferredType: int
+                      value: 2
