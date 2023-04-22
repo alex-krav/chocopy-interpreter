@@ -9,15 +9,7 @@ class ChocoPyInstance {
 
     @Override
     public String toString() {
-        if (klass.name.equals("int")) {
-            return "0";
-        } else if (klass.name.equals("str")) {
-            return "";
-        } else if (klass.name.equals("bool")) {
-            return "False";
-        } else {
-            return klass.name + " instance";
-        }
+        return klass.name + " instance";
     }
 
     Object get(Token name) {

@@ -1,0 +1,82 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: factorial
+      params:
+        - param:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer: None
+      returnType: int
+      body:
+        - statement:
+            class: Stmt.If
+            condition:
+              class: Expr.Binary
+              inferredType: bool
+              left:
+                class: Expr.Variable
+                inferredType: int
+                name: x
+              operator: "=="
+              right:
+                class: Expr.Literal
+                inferredType: int
+                value: 1
+            thenBranch:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Literal
+                    inferredType: int
+                    value: 1
+            elseBranch:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Grouping
+                    expr:
+                      class: Expr.Binary
+                      inferredType: int
+                      left:
+                        class: Expr.Variable
+                        inferredType: int
+                        name: x
+                      operator: "*"
+                      right:
+                        class: Expr.Call
+                        inferredType: int
+                        callee:
+                          class: Expr.Variable
+                          inferredType: [int] -> int
+                          name: factorial
+                        arguments:
+                          - argument:
+                              class: Expr.Binary
+                              inferredType: int
+                              left:
+                                class: Expr.Variable
+                                inferredType: int
+                                name: x
+                              operator: "-"
+                              right:
+                                class: Expr.Literal
+                                inferredType: int
+                                value: 1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Print
+        expr:
+          class: Expr.Call
+          inferredType: int
+          callee:
+            class: Expr.Variable
+            inferredType: [int] -> int
+            name: factorial
+          arguments:
+            - argument:
+                class: Expr.Literal
+                inferredType: int
+                value: 3

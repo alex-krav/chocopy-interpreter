@@ -272,7 +272,7 @@ class Parser {
         if (match(FOR)) return forStatement();
 
         Stmt stmt = simpleStatement();
-        if (!isAtEnd() && !checkTwo(DEDENT, EOF)) {
+        if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
             consume(NEWLINE, "Expect 'newline' after simple statement.");
         }
         return stmt;
@@ -354,7 +354,6 @@ class Parser {
 
         consume(DEDENT, "Expect 'dedent' after " + name.lexeme + " body.");
 
-        //todo check: members must be: 1 pass OR 1+ (var_def OR func_def)
         Stmt.Class klass = new Stmt.Class(name, superclass, members);
         klass.line = name.line;
         return klass;
@@ -362,7 +361,9 @@ class Parser {
     
     private Stmt classMember(Token className) {
         if (match(PASS)) {
-            if (!isAtEnd()) consume(NEWLINE, "Expect 'newline' after pass statement.");
+            if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
+                consume(NEWLINE, "Expect 'newline' after pass statement.");
+            }
             return new Stmt.Pass(new Token(PASS, "pass", null, previous().line));
         }
         if (check(IDENTIFIER)) return varDefinition("class field");
@@ -377,7 +378,9 @@ class Parser {
         consume(EQUAL, "Expect '=' after " + kind + " declaration.");
         var.setInitializer(literal());
 
-        if (!isAtEnd()) consume(NEWLINE, "Expect 'newline' after " + kind + " definition.");
+        if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
+            consume(NEWLINE, "Expect 'newline' after " + kind + " definition.");
+        }
         return var;
     }
     
@@ -504,7 +507,9 @@ class Parser {
         Token name = consume(IDENTIFIER, "Expect variable name.");
         Stmt.Global global = new Stmt.Global(name);
         global.line = name.line;
-        consume(NEWLINE, "Expect 'newline' after global variable declaration.");
+        if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
+            consume(NEWLINE, "Expect 'newline' after global variable declaration.");
+        }
         return global;
     }
 
@@ -512,7 +517,9 @@ class Parser {
         Token name = consume(IDENTIFIER, "Expect variable name.");
         Stmt.Nonlocal nonlocal = new Stmt.Nonlocal(name);
         nonlocal.line = name.line;
-        consume(NEWLINE, "Expect 'newline' after nonlocal variable declaration.");
+        if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
+            consume(NEWLINE, "Expect 'newline' after nonlocal variable declaration.");
+        }
         return nonlocal;
     }
 

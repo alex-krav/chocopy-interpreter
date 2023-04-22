@@ -32,6 +32,12 @@ class ChocoPyClass implements ChocoPyCallable {
 
     @Override
     public Object call(Interpreter interpreter, List<Object> arguments) {
+        switch(this.name) {
+            case("int"): return 0;
+            case("str"): return "";
+            case("bool"): return false;
+            case("object"): return null;
+        }
         ChocoPyInstance instance = new ChocoPyInstance(this);
         ChocoPyFunction initializer = findMethod("__init__");
         if (initializer != null) {

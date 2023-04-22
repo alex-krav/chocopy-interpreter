@@ -1,25 +1,13 @@
 package org.chocopy;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     final Environment globals = new Environment();
     private Environment environment = globals;
 
     Interpreter() {
-        globals.define("clock", new ChocoPyCallable() {
-            @Override
-            public int arity() { return 0; }
-
-            @Override
-            public Object call(Interpreter interpreter,
-                               List<Object> arguments) {
-                return (double)System.currentTimeMillis() / 1000.0;
-            }
-
-            @Override
-            public String toString() { return "<native fn clock>"; }
-        });
         globals.define("print", new ChocoPyCallable() {
             @Override
             public int arity() { return 1; }
@@ -35,11 +23,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             }
 
             @Override
-            public String toString() { return "<native fn print>"; }
+            public String toString() { return "native print"; }
         });
         globals.define("input", new ChocoPyCallable() {
             
             private java.util.Scanner scanner = new java.util.Scanner(System.in);
+            private static final Pattern pattern = Pattern.compile("^(?=\\s*\\S).*$");
             
             @Override
             public int arity() { return 0; }
@@ -51,15 +40,20 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                     throw new RuntimeException("Expected 0 arguments, got " + arguments.size());
                 }
                 
-                if (scanner.hasNext()) {
-                    return scanner.nextLine() + "\n";
+                if (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if (line.length() > 0) {
+                        return line + "\n";
+                    } else {
+                        return "";
+                    }
                 } else {
                     return "";
                 }
             }
 
             @Override
-            public String toString() { return "<native fn input>"; }
+            public String toString() { return "native input"; }
         });
         globals.define("len", new ChocoPyCallable() {
             @Override
@@ -77,12 +71,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 } else if (arg instanceof Expr.Listing) {
                     return ((Expr.Listing) arg).elements.size();
                 } else {
-                    throw new RuntimeException("Expected string or list");
+                    throw new RuntimeException("Expected type 'str' or 'list'");
                 }
             }
 
             @Override
-            public String toString() { return "<native fn len>"; }
+            public String toString() { return "native len"; }
         });
 
         Stmt.Function objectInitFunction = new Stmt.Function(
@@ -328,9 +322,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitListSetExpr(Expr.ListSet expr) {
-        Object listObject = evaluate(expr.listing);
-        Object idObject = evaluate(expr.id);
         Object valueObject = evaluate(expr.value);
+        Object idObject = evaluate(expr.id);
+        Object listObject = evaluate(expr.listing);
         
         if (listObject == null || idObject == null) {
             ChocoPy.exitCode = 4;
@@ -510,7 +504,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         Map<String, ChocoPyFunction> methods = new HashMap<>();
         Map<String, ChocoPyAttribute> attributes = new HashMap<>();
         for (Stmt member : stmt.members) {
-            if (member instanceof Stmt.Function) {
+            if (member instanceof Stmt.Pass) {
+                continue;
+            } else if (member instanceof Stmt.Function) {
                 Stmt.Function stmtFun = (Stmt.Function) member;
                 ChocoPyFunction function = new ChocoPyFunction(stmtFun, environment,
                         stmtFun.name.lexeme.equals("__init__"));

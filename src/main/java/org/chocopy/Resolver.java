@@ -29,8 +29,8 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitAssignExpr(Expr.Assign expr) {
-        resolve(expr.target);
         resolve(expr.value);
+        resolve(expr.target);
         
         ValueType targetType = expr.target.inferredType;
         ValueType valueType = expr.value.inferredType;
@@ -349,9 +349,9 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitListSetExpr(Expr.ListSet expr) {
-        resolve(expr.listing);
-        resolve(expr.id);
         resolve(expr.value);
+        resolve(expr.id);
+        resolve(expr.listing);
         
         ValueType listType = expr.listing.inferredType;
         

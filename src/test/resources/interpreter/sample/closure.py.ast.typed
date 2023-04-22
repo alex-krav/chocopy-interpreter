@@ -1,0 +1,58 @@
+statements:
+  - statement:
+      class: Stmt.Function
+      name: greet
+      params:
+        - param:
+            class: Stmt.Var
+            name: name
+            type: str
+            initializer: None
+      returnType: <None>
+      body:
+        - statement:
+            class: Stmt.Function
+            name: display_name
+            params: []
+            returnType: <None>
+            body:
+              - statement:
+                  class: Stmt.Expression
+                  expr:
+                    class: Expr.Print
+                    expr:
+                      class: Expr.Binary
+                      inferredType: str
+                      left:
+                        class: Expr.Literal
+                        inferredType: str
+                        value: "Hi, "
+                      operator: "+"
+                      right:
+                        class: Expr.Variable
+                        inferredType: str
+                        name: name
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Call
+              inferredType: <None>
+              callee:
+                class: Expr.Variable
+                inferredType: [] -> <None>
+                name: display_name
+              arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Call
+        inferredType: <None>
+        callee:
+          class: Expr.Variable
+          inferredType: [str] -> <None>
+          name: greet
+        arguments:
+          - argument:
+              class: Expr.Literal
+              inferredType: str
+              value: "Oleks"
