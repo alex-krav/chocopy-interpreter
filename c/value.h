@@ -1,5 +1,5 @@
-#ifndef cchocopy_value_h
-#define cchocopy_value_h
+#ifndef chocopy_value_h
+#define chocopy_value_h
 
 #include "common.h"
 
