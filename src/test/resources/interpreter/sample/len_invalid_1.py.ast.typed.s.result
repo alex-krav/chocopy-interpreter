@@ -1,2 +1,2 @@
-[line 3] Invalid argument: expected type 'str' or 'list', got null
+[line 3] Invalid argument: expected type 'str' or 'list', got None
 Exited with error code 1

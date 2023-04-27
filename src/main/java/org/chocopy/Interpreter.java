@@ -1,7 +1,6 @@
 package org.chocopy;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     final Environment globals = new Environment();
@@ -15,10 +14,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             @Override
             public Object call(Interpreter interpreter,
                                List<Object> arguments) {
-                if (arguments.size() != 1) {
-                    throw new RuntimeException("Expected one argument, got " + arguments.size());
-                }
-                System.out.println(arguments.get(0));
+                System.out.println(stringify(arguments.get(0)));
                 return null;
             }
 
@@ -28,7 +24,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         globals.define("input", new ChocoPyCallable() {
             
             private java.util.Scanner scanner = new java.util.Scanner(System.in);
-            private static final Pattern pattern = Pattern.compile("^(?=\\s*\\S).*$");
             
             @Override
             public int arity() { return 0; }
@@ -36,17 +31,8 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             @Override
             public Object call(Interpreter interpreter,
                                List<Object> arguments) {
-                if (arguments.size() != 0) {
-                    throw new RuntimeException("Expected 0 arguments, got " + arguments.size());
-                }
-                
                 if (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    if (line.length() > 0) {
-                        return line + "\n";
-                    } else {
-                        return "";
-                    }
+                    return scanner.nextLine() + "\n";
                 } else {
                     return "";
                 }
@@ -62,16 +48,13 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             @Override
             public Object call(Interpreter interpreter,
                                List<Object> arguments) {
-                if (arguments.size() != 1) {
-                    throw new RuntimeException("Expected 1 arguments, got " + arguments.size());
-                }
                 Object arg = arguments.get(0);
                 if (arg instanceof String) {
                     return arg.toString().length();
-                } else if (arg instanceof Expr.Listing) {
-                    return ((Expr.Listing) arg).elements.size();
-                } else {
-                    throw new RuntimeException("Expected type 'str' or 'list'");
+                } else if (arg instanceof List) {
+                    return ((List<?>) arg).size();
+                } else  {
+                    throw new RuntimeException();
                 }
             }
 
@@ -346,14 +329,17 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Object visitLenExpr(Expr.Len expr) {
         Object object = evaluate(expr.expression);
         
-        if (object instanceof String) {
-            return ((String)object).length();
-        } else if (object instanceof List) {
-            return ((List)object).size();
-        } else {
+        if (object == null) {
             ChocoPy.exitCode = 1;
-            throw new RuntimeError(expr.line, "Invalid argument: expected type 'str' or 'list', got " + object);
+            throw new RuntimeError(expr.line, "Invalid argument: expected type 'str' or 'list', got None");
         }
+
+        Expr.Call lenCall = new Expr.Call(
+                new Expr.Variable(new Token(TokenType.LEN_NATIVE_FUN, "len", null, expr.line)),
+                new Token(TokenType.RIGHT_PAREN, ")", null, expr.line),
+                Collections.singletonList(expr.expression)
+        );
+        return visitCallExpr(lenCall);
     }
 
     @Override
@@ -453,25 +439,10 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
     }
 
-    void interpret(Expr expression) {
-        try {
-            Object value = evaluate(expression);
-            System.out.println(stringify(value));
-        } catch (RuntimeError error) {
-            ChocoPy.runtimeError(error);
-        }
-    }
-
     private String stringify(Object object) {
         if (object == null) return "None";
 
-        if (object instanceof Double) {
-            String text = object.toString();
-            if (text.endsWith(".0")) {
-                text = text.substring(0, text.length() - 2);
-            }
-            return text;
-        } else if (object instanceof Boolean) {
+        if (object instanceof Boolean) {
             String text = object.toString();
             return text.substring(0, 1).toUpperCase() + text.substring(1);
         }
@@ -552,8 +523,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitPrintExpr(Expr.Print expr) {
-        Object value = evaluate(expr.expression);
-        System.out.println(stringify(value));
+        Expr.Call printCall = new Expr.Call(
+                new Expr.Variable(new Token(TokenType.PRINT_NATIVE_FUN, "print", null, expr.line)),
+                new Token(TokenType.RIGHT_PAREN, ")", null, expr.line),
+                Collections.singletonList(expr.expression)
+        );
+        visitCallExpr(printCall);
         return null;
     }
 
@@ -591,8 +566,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         if (iterableObject == null) {
             ChocoPy.exitCode = 4;
             throw new RuntimeError(stmt.line, "Operation on None");
-        } else if (!(iterableObject instanceof List) && !(iterableObject instanceof String)) {
-            throw new RuntimeError(stmt.line, "Iterable must be type 'str' or 'list'");
         }
         
         if (iterableObject instanceof List) {
