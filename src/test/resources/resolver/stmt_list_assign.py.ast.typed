@@ -82,17 +82,23 @@ statements:
           inferredType: int
           value: 1
         value:
-          class: Expr.ListSet
+          class: Expr.Literal
+          inferredType: int
+          value: 4
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.ListSet
+        inferredType: [object]
+        list:
+          class: Expr.Variable
           inferredType: [object]
-          list:
-            class: Expr.Variable
-            inferredType: [object]
-            name: y
-          index:
-            class: Expr.Literal
-            inferredType: int
-            value: 0
-          value:
-            class: Expr.Literal
-            inferredType: int
-            value: 4
+          name: y
+        index:
+          class: Expr.Literal
+          inferredType: int
+          value: 0
+        value:
+          class: Expr.Literal
+          inferredType: int
+          value: 4

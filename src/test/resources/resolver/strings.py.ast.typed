@@ -71,12 +71,18 @@ statements:
           inferredType: str
           name: x
         value:
-          class: Expr.Assign
-          target:
-            class: Expr.Variable
-            inferredType: str
-            name: y
-          value:
-            class: Expr.Variable
-            inferredType: str
-            name: z
+          class: Expr.Variable
+          inferredType: str
+          name: z
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: str
+          name: y
+        value:
+          class: Expr.Variable
+          inferredType: str
+          name: z

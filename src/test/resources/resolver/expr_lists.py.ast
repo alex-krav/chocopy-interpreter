@@ -116,13 +116,21 @@ statements:
           class: Expr.Variable
           name: o
         value:
-          class: Expr.Assign
-          target:
-            class: Expr.Variable
-            name: x
-          value:
-            class: Expr.Listing
-            elements:
-              - element:
-                  class: Expr.Literal
-                  value: 1
+          class: Expr.Listing
+          elements:
+            - element:
+                class: Expr.Literal
+                value: 1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: x
+        value:
+          class: Expr.Listing
+          elements:
+            - element:
+                class: Expr.Literal
+                value: 1

@@ -108,7 +108,8 @@ public class ScannerTest {
         List<Token> tokens = scanner.scanTokens();
 
         // Then
-        if (errContent.size() > 0) {
+        if (ChocoPy.errors.size() > 0) {
+            ChocoPy.errors.forEach(System.err::println);
             assertEquals(errors, errContent.toString());
         } else {
             assertEquals(tokensNumber, tokens.size());
@@ -147,7 +148,8 @@ public class ScannerTest {
         }
 
         // Then
-        if (errContent.size() > 0) {
+        if (ChocoPy.errors.size() > 0) {
+            ChocoPy.errors.forEach(System.err::println);
             bytes = Files.readAllBytes(Path.of(inputPath + ".errors"));
             String error = new String(bytes, Charset.defaultCharset());
             assertEquals(error, errContent.toString());

@@ -1,11 +1,10 @@
 package org.chocopy;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChocoPy {
@@ -13,15 +12,15 @@ public class ChocoPy {
     static boolean hadError = false;
     static boolean hadRuntimeError = false;
     static Integer exitCode;
+    static List<String> errors = new ArrayList<>();
+    static List<String> runtimeErrors = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        if (args.length > 1) {
-            System.out.println("Usage: chocopy [script]");
-            System.exit(64);
-        } else if (args.length == 1) {
+        if (args.length == 1) {
             runFile(args[0]);
         } else {
-            runPrompt();
+            System.out.println("Usage: chocopy [script]");
+            System.exit(64);
         }
     }
 
@@ -30,20 +29,13 @@ public class ChocoPy {
         run(new String(bytes, Charset.defaultCharset()));
 
         // Indicate an error in the exit code.
-        if (hadError) System.exit(exitCode != null ? exitCode : 65);
-        if (hadRuntimeError) System.exit(exitCode != null ? exitCode : 70);
-    }
-
-    private static void runPrompt() throws IOException {
-        InputStreamReader input = new InputStreamReader(System.in);
-        BufferedReader reader = new BufferedReader(input);
-
-        for (;;) {
-            System.out.print("> ");
-            String line = reader.readLine();
-            if (line == null) break;
-            run(line);
-            hadError = false;
+        if (hadError) {
+            errors.forEach(System.err::println);
+            System.exit(exitCode != null ? exitCode : 65);
+        }
+        if (hadRuntimeError) {
+            runtimeErrors.forEach(System.err::println);
+            System.exit(exitCode != null ? exitCode : 70);
         }
     }
 
@@ -51,18 +43,11 @@ public class ChocoPy {
         Scanner scanner = new Scanner(source);
         List<Token> tokens = scanner.scanTokens();
 
-        // For now, just print the tokens.
-//        for (Token token : tokens) {
-//            System.out.println(token);
-//        }
-
         Parser parser = new Parser(tokens);
         List<Stmt> statements = parser.parse();
 
         // Stop if there was a syntax error.
         if (hadError) return;
-
-//        System.out.println(new AstPrinter().print(expression));
 
         Resolver resolver = new Resolver();
         resolver.resolveScript(statements);
@@ -78,7 +63,12 @@ public class ChocoPy {
     }
 
     private static void report(int line, String where, String message) {
-        System.err.printf("[line %d] Error%s: %s%n", line, where, message);
+        int errorsSize = errors.size();
+        String errMsg = String.format("[line %d] Error%s: %s", line, where, message);
+        
+        if (errorsSize == 0 || !errors.get(errorsSize - 1).equals(errMsg)) {
+            errors.add(errMsg);
+        }
         hadError = true;
     }
 
@@ -105,7 +95,12 @@ public class ChocoPy {
     }
 
     static void runtimeError(RuntimeError error) {
-        System.err.printf("[line %d] %s%n", error.line, error.getMessage());
+        int runtimeErrorsSize = runtimeErrors.size();
+        String errMsg = String.format("[line %d] %s", error.line, error.getMessage());
+        
+        if (runtimeErrorsSize == 0 || !runtimeErrors.get(runtimeErrorsSize - 1).equals(errMsg)) {
+            runtimeErrors.add(errMsg);
+        }
         hadRuntimeError = true;
     }
 }

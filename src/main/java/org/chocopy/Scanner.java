@@ -57,6 +57,8 @@ class Scanner {
     Scanner(String source) {
         this.source = source;
         this.indentation.push(0);
+        ChocoPy.errors = new ArrayList<>();
+        ChocoPy.runtimeErrors = new ArrayList<>();
     }
 
     List<Token> scanTokens() {

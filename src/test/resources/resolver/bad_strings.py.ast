@@ -55,16 +55,21 @@ statements:
           class: Expr.Variable
           name: z
         value:
-          class: Expr.ListSet
-          list:
-            class: Expr.Variable
-            name: x
-          index:
-            class: Expr.Literal
-            value: 0
-          value:
-            class: Expr.Variable
-            name: y
+          class: Expr.Variable
+          name: y
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.ListSet
+        list:
+          class: Expr.Variable
+          name: x
+        index:
+          class: Expr.Literal
+          value: 0
+        value:
+          class: Expr.Variable
+          name: y
   - statement:
       class: Stmt.Expression
       expr:

@@ -28,7 +28,6 @@ public class ResolverTest {
     private Scanner scanner;
     private Parser parser;
     private Resolver resolver;
-    private Interpreter interpreter;
     private final AstPrinter astPrinter = new AstPrinter();
 
     @BeforeEach
@@ -73,7 +72,8 @@ public class ResolverTest {
         List<Stmt> statements = parser.parse();
 
         // Then
-        if (errContent.size() > 0) {
+        if (ChocoPy.errors.size() > 0) {
+            ChocoPy.errors.forEach(System.err::println);
             bytes = Files.readAllBytes(Path.of(inputPath + ".errors"));
             String error = new String(bytes, Charset.defaultCharset());
             assertEquals(error, errContent.toString());
@@ -91,12 +91,12 @@ public class ResolverTest {
         outContent.reset();
         
         // When
-        interpreter = new Interpreter();
         resolver = new Resolver();
         resolver.resolveScript(statements);
 
         // Then
-        if (errContent.size() > 0) {
+        if (ChocoPy.errors.size() > 0) {
+            ChocoPy.errors.forEach(System.err::println);
             bytes = Files.readAllBytes(Path.of(inputPath + ".errors"));
             String error = new String(bytes, Charset.defaultCharset());
             assertEquals(error, errContent.toString());

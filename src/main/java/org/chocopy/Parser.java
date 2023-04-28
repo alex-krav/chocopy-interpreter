@@ -10,6 +10,8 @@ class Parser {
 
     private final List<Token> tokens;
     private int current = 0;
+    private int tokenBeforeAssignment = 0;
+    private int tokenBeforeRightValue = 0;
 
     Parser(List<Token> tokens) {
         this.tokens = tokens;
@@ -25,7 +27,7 @@ class Parser {
     }
 
     private Expr expression() {
-        return assignment();
+        return ternary();
     }
 
     private Expr equality() {
@@ -204,9 +206,9 @@ class Parser {
             return variable;
         }
 
-        if (match(LEN_NATIVE_FUN)) return lenExpression();
-        if (match(INPUT_NATIVE_FUN)) return inputExpression();
-        if (match(PRINT_NATIVE_FUN)) return printExpression();
+        if (match(LEN_NATIVE_FUN)) return lenFunc();
+        if (match(INPUT_NATIVE_FUN)) return inputFunc();
+        if (match(PRINT_NATIVE_FUN)) return printFunc();
 
         if (match(LEFT_PAREN)) {
             Expr expr = expression();
@@ -257,8 +259,10 @@ class Parser {
                 case FOR:
                 case IF:
                 case WHILE:
-                case PRINT_NATIVE_FUN:
+                case PASS:
                 case RETURN:
+                case GLOBAL:
+                case NONLOCAL:
                     return;
             }
 
@@ -281,11 +285,15 @@ class Parser {
     private Stmt simpleStatement() {
         if (match(PASS)) return new Stmt.Pass(previous());
         if (match(RETURN)) return returnStatement();
+        
+        Stmt assignment = assignment();
+        if (assignment != null)
+            return assignment;
 
         return expressionStatement();
     }
 
-    private Expr printExpression() {
+    private Expr printFunc() {
         consume(LEFT_PAREN, "Expect '(' before argument.");
         int line = previous().line;
         Expr value = expression();
@@ -295,7 +303,7 @@ class Parser {
         return print;
     }
 
-    private Expr inputExpression() {
+    private Expr inputFunc() {
         consume(LEFT_PAREN, "Expect '(' for function call.");
         consume(RIGHT_PAREN, "Expect ')' for function call.");
         Expr.Input input = new Expr.Input(new Token(INPUT_NATIVE_FUN, "", null, previous().line));
@@ -303,7 +311,7 @@ class Parser {
         return input;
     }
 
-    private Expr lenExpression() {
+    private Expr lenFunc() {
         consume(LEFT_PAREN, "Expect '(' before argument.");
         Expr value = expression();
         consume(RIGHT_PAREN, "Expect ')' after argument.");
@@ -315,6 +323,108 @@ class Parser {
     private Stmt expressionStatement() {
         Expr expr = expression();
         return new Stmt.Expression(expr);
+    }
+    
+    private Stmt assignment() {
+        List<Expr> targets = new ArrayList<>();
+        List<Stmt> assignments = new ArrayList<>();
+
+        tokenBeforeAssignment = current;
+        Expr target = target();
+        if (target != null) {
+            if (match(EQUAL)) {
+                Token equals = previous();
+                targets.add(target);
+                
+                tokenBeforeRightValue = current;
+                target = target();
+                while (target != null) {
+                    if (match(EQUAL)) {
+                        targets.add(target);
+                    } else {
+                        break;
+                    }
+                    tokenBeforeRightValue = current;
+                    target = target();
+                }
+                
+                current = tokenBeforeRightValue;
+                Expr value = expression();
+                
+                for (Expr expr : targets) {
+                    if (expr instanceof Expr.Variable) {
+                        Token name = ((Expr.Variable) expr).name;
+                        Expr.Assign assign = new Expr.Assign(new Expr.Variable(name), value);
+                        assign.line = expr.line;
+                        assignments.add(new Stmt.Expression(assign));
+                    } else if (expr instanceof Expr.Get) {
+                        Expr.Get get = (Expr.Get) expr;
+                        Expr.Set set = new Expr.Set(get.object, get.name, value);
+                        set.line = expr.line;
+                        assignments.add(new Stmt.Expression(set));
+                    } else if (expr instanceof Expr.Index) {
+                        Expr.Index index = (Expr.Index) expr;
+                        Expr.ListSet listSet = new Expr.ListSet(index.listing, index.id, value);
+                        listSet.line = expr.line;
+                        assignments.add(new Stmt.Expression(listSet));
+                    } else {
+                        error(equals, "Invalid assignment target.");
+                    }
+                }
+                
+                if (assignments.size() == 1) {
+                    return assignments.get(0);
+                } else {
+                    return new Stmt.Block(assignments);
+                }
+            } else {
+                current = tokenBeforeAssignment;
+            }
+        }
+        
+        return null;
+    }
+
+    private Expr target() {
+        Expr expr = selfOrId();
+        if (expr == null)
+            return expr;
+
+        while (true) {
+            if (match(LEFT_PAREN)) {
+                int line = previous().line;
+                expr = finishCall(expr);
+                expr.line = line;
+            } else if (match(DOT)) {
+                Token name = consume(IDENTIFIER,
+                        "Expect property name after '.'.");
+                expr = new Expr.Get(expr, name);
+                expr.line = name.line;
+            } else if (match(LEFT_BRACKET)) {
+                Expr index = expression();
+                consume(RIGHT_BRACKET, "Expect ']' after list index.");
+                expr = new Expr.Index(expr, index);
+                expr.line = previous().line;
+            } else {
+                break;
+            }
+        }
+
+        return expr;
+    }
+    
+    private Expr selfOrId() {
+        Expr expr = null;
+
+        if (match(SELF)) {
+            expr = new Expr.Self(previous());
+            expr.line = previous().line;
+        } else if (match(IDENTIFIER)) {
+            expr = new Expr.Variable(previous());
+            expr.line = previous().line;
+        }
+        
+        return expr;
     }
 
     private Stmt declaration() {
@@ -415,36 +525,6 @@ class Parser {
         }
 
         throw error(peek(), "Unexpected token for " + kind + " type.");
-    }
-
-    private Expr assignment() {
-        Expr expr = ternary();
-
-        if (match(EQUAL)) {
-            Token equals = previous();
-            Expr value = assignment();
-
-            if (expr instanceof Expr.Variable) {
-                Token name = ((Expr.Variable)expr).name;
-                Expr.Assign assign = new Expr.Assign(new Expr.Variable(name), value);
-                assign.line = equals.line;
-                return assign;
-            } else if (expr instanceof Expr.Get) {
-                Expr.Get get = (Expr.Get) expr;
-                Expr.Set set = new Expr.Set(get.object, get.name, value);
-                set.line = equals.line;
-                return set;
-            } else if (expr instanceof Expr.Index) {
-                Expr.Index index = (Expr.Index) expr;
-                Expr.ListSet listSet = new Expr.ListSet(index.listing, index.id, value);
-                listSet.line = equals.line;
-                return listSet;
-            }
-
-            error(equals, "Invalid assignment target.");
-        }
-
-        return expr;
     }
     
     private Expr ternary() {

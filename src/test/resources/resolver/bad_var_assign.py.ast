@@ -51,13 +51,18 @@ statements:
           class: Expr.Variable
           name: x
         value:
-          class: Expr.Assign
-          target:
-            class: Expr.Variable
-            name: z
-          value:
-            class: Expr.Literal
-            value: 4
+          class: Expr.Literal
+          value: 4
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: z
+        value:
+          class: Expr.Literal
+          value: 4
   - statement:
       class: Stmt.Expression
       expr:
@@ -66,10 +71,15 @@ statements:
           class: Expr.Variable
           name: x
         value:
-          class: Expr.Assign
-          target:
-            class: Expr.Variable
-            name: z
-          value:
-            class: Expr.Literal
-            value: None
+          class: Expr.Literal
+          value: None
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: z
+        value:
+          class: Expr.Literal
+          value: None

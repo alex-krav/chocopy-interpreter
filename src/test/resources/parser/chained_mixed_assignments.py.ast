@@ -10,19 +10,29 @@ statements:
           class: Expr.Literal
           value: 0
         value:
-          class: Expr.Assign
-          target:
-            class: Expr.Variable
-            name: y
-          value:
-            class: Expr.Set
-            object:
-              class: Expr.Variable
-              name: z
-            name: f
-            value:
-              class: Expr.Literal
-              value: 1
+          class: Expr.Literal
+          value: 1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: y
+        value:
+          class: Expr.Literal
+          value: 1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Set
+        object:
+          class: Expr.Variable
+          name: z
+        name: f
+        value:
+          class: Expr.Literal
+          value: 1
   - statement:
       class: Stmt.Expression
       expr:
@@ -32,15 +42,25 @@ statements:
           name: z
         name: g
         value:
-          class: Expr.Assign
-          target:
+          class: Expr.Index
+          list:
             class: Expr.Variable
-            name: y
-          value:
-            class: Expr.Index
-            list:
-              class: Expr.Variable
-              name: x
-            index:
-              class: Expr.Literal
-              value: 0
+            name: x
+          index:
+            class: Expr.Literal
+            value: 0
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: y
+        value:
+          class: Expr.Index
+          list:
+            class: Expr.Variable
+            name: x
+          index:
+            class: Expr.Literal
+            value: 0

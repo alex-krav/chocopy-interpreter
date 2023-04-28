@@ -7,15 +7,25 @@ statements:
           class: Expr.Variable
           name: x
         value:
-          class: Expr.Assign
-          target:
-            class: Expr.Variable
-            name: y
-          value:
-            class: Expr.Assign
-            target:
-              class: Expr.Variable
-              name: z
-            value:
-              class: Expr.Literal
-              value: 1
+          class: Expr.Literal
+          value: 1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: y
+        value:
+          class: Expr.Literal
+          value: 1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: z
+        value:
+          class: Expr.Literal
+          value: 1

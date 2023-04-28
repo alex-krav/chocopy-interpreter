@@ -66,13 +66,18 @@ statements:
           class: Expr.Literal
           value: true
         value:
-          class: Expr.ListSet
-          list:
-            class: Expr.Variable
-            name: x
-          index:
-            class: Expr.Literal
-            value: false
-          value:
-            class: Expr.Literal
-            value: 1
+          class: Expr.Literal
+          value: 1
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.ListSet
+        list:
+          class: Expr.Variable
+          name: x
+        index:
+          class: Expr.Literal
+          value: false
+        value:
+          class: Expr.Literal
+          value: 1

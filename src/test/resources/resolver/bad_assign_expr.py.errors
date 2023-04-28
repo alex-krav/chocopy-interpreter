@@ -1,8 +1,11 @@
 [line 5] Error at 'z': Expected type 'bool', got type 'int'
+[line 6] Error at 'x': Expected type 'int', got type '<None>'
 [line 6] Error at 'y': Expected type 'int', got type '<None>'
+[line 7] Error at 'x': Expected type 'int', got type '<Empty>'
 [line 7] Error at 'y': Expected type 'int', got type '<Empty>'
-[line 8] Error at 'a': Identifier not defined in current scope: a
 [line 8] Error at 'x': Expected type 'int', got type '<None>'
-[line 9] Error at 'a': Identifier not defined in current scope: a
+[line 8] Error at 'a': Identifier not defined in current scope: a
 [line 9] Error at 'x': Expected type 'int', got type '<Empty>'
+[line 9] Error at 'a': Identifier not defined in current scope: a
+[line 10] Error at 'x': Expected type 'int', got type 'bool'
 [line 10] Error at 'y': Expected type 'int', got type 'bool'

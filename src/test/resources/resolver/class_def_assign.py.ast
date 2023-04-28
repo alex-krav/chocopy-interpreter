@@ -106,18 +106,34 @@ statements:
           class: Expr.Variable
           name: b
         value:
-          class: Expr.Assign
-          target:
+          class: Expr.Call
+          callee:
             class: Expr.Variable
-            name: a
-          value:
-            class: Expr.Assign
-            target:
-              class: Expr.Variable
-              name: c
-            value:
-              class: Expr.Call
-              callee:
-                class: Expr.Variable
-                name: C
-              arguments: []
+            name: C
+          arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: a
+        value:
+          class: Expr.Call
+          callee:
+            class: Expr.Variable
+            name: C
+          arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: c
+        value:
+          class: Expr.Call
+          callee:
+            class: Expr.Variable
+            name: C
+          arguments: []

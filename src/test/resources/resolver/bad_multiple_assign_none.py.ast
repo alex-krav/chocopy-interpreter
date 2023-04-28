@@ -1,15 +1,22 @@
 statements:
   - statement:
-      class: Stmt.Var
-      name: x
-      type: int
-      initializer:
-        class: Expr.Literal
-        value: 1
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Pass
   - statement:
       class: Stmt.Var
-      name: o
-      type: object
+      name: x
+      type: [A]
+      initializer:
+        class: Expr.Literal
+        value: None
+  - statement:
+      class: Stmt.Var
+      name: y
+      type: [[int]]
       initializer:
         class: Expr.Literal
         value: None
@@ -21,15 +28,21 @@ statements:
           class: Expr.Variable
           name: x
         value:
-          class: Expr.Literal
-          value: 42
+          class: Expr.Listing
+          elements:
+            - element:
+                class: Expr.Literal
+                value: None
   - statement:
       class: Stmt.Expression
       expr:
         class: Expr.Assign
         target:
           class: Expr.Variable
-          name: o
+          name: y
         value:
-          class: Expr.Literal
-          value: 42
+          class: Expr.Listing
+          elements:
+            - element:
+                class: Expr.Literal
+                value: None

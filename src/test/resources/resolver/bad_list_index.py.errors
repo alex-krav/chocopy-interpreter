@@ -2,4 +2,3 @@
 [line 5] Error: Cannot index into type 'bool'
 [line 6] Error: Cannot index into type '<Empty>'
 [line 7] Error: Expected index of type 'int', got type 'bool'
-[line 7] Error: Expected index of type 'int', got type 'bool'

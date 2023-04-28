@@ -71,7 +71,8 @@ public class ParserTest {
         List<Stmt> statements = parser.parse();
 
         // Then
-        if (errContent.size() > 0) {
+        if (ChocoPy.errors.size() > 0) {
+            ChocoPy.errors.forEach(System.err::println);
             bytes = Files.readAllBytes(Path.of(inputPath + ".errors"));
             String error = new String(bytes, Charset.defaultCharset());
             assertEquals(error, errContent.toString());

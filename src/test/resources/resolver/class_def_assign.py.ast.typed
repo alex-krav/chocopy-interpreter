@@ -1,323 +1,161 @@
-{
-  "kind" : "Program",
-  
-  "declarations" : [ {
-    "kind" : "ClassDef",
-    
-    "name" : {
-      "kind" : "Identifier",
-      
-      "name" : "A"
-    },
-    "superClass" : {
-      "kind" : "Identifier",
-      
-      "name" : "object"
-    },
-    "declarations" : [ {
-      "kind" : "VarDef",
-      
-      "var" : {
-        "kind" : "TypedVar",
-        
-        "identifier" : {
-          "kind" : "Identifier",
-          
-          "name" : "x"
-        },
-        "type" : {
-          "kind" : "ClassType",
-          
-          "className" : "int"
-        }
-      },
-      "value" : {
-        "kind" : "IntegerLiteral",
-        
-        "inferredType" : {
-          "kind" : "ClassValueType",
-          "className" : "int"
-        },
-        "value" : 1
-      }
-    } ]
-  }, {
-    "kind" : "ClassDef",
-    
-    "name" : {
-      "kind" : "Identifier",
-      
-      "name" : "B"
-    },
-    "superClass" : {
-      "kind" : "Identifier",
-      
-      "name" : "A"
-    },
-    "declarations" : [ {
-      "kind" : "FuncDef",
-      
-      "name" : {
-        "kind" : "Identifier",
-        
-        "name" : "__init__"
-      },
-      "params" : [ {
-        "kind" : "TypedVar",
-        
-        "identifier" : {
-          "kind" : "Identifier",
-          
-          "name" : "self"
-        },
-        "type" : {
-          "kind" : "ClassType",
-          
-          "className" : "B"
-        }
-      } ],
-      "returnType" : {
-        "kind" : "ClassType",
-        
-        "className" : "<None>"
-      },
-      "declarations" : [ ],
-      "statements" : [ ]
-    } ]
-  }, {
-    "kind" : "ClassDef",
-    
-    "name" : {
-      "kind" : "Identifier",
-      
-      "name" : "C"
-    },
-    "superClass" : {
-      "kind" : "Identifier",
-      
-      "name" : "B"
-    },
-    "declarations" : [ {
-      "kind" : "VarDef",
-      
-      "var" : {
-        "kind" : "TypedVar",
-        
-        "identifier" : {
-          "kind" : "Identifier",
-          
-          "name" : "z"
-        },
-        "type" : {
-          "kind" : "ClassType",
-          
-          "className" : "bool"
-        }
-      },
-      "value" : {
-        "kind" : "BooleanLiteral",
-        
-        "inferredType" : {
-          "kind" : "ClassValueType",
-          "className" : "bool"
-        },
-        "value" : true
-      }
-    } ]
-  }, {
-    "kind" : "VarDef",
-    
-    "var" : {
-      "kind" : "TypedVar",
-      
-      "identifier" : {
-        "kind" : "Identifier",
-        
-        "name" : "a"
-      },
-      "type" : {
-        "kind" : "ClassType",
-        
-        "className" : "A"
-      }
-    },
-    "value" : {
-      "kind" : "NoneLiteral",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "<None>"
-      }
-    }
-  }, {
-    "kind" : "VarDef",
-    
-    "var" : {
-      "kind" : "TypedVar",
-      
-      "identifier" : {
-        "kind" : "Identifier",
-        
-        "name" : "b"
-      },
-      "type" : {
-        "kind" : "ClassType",
-        
-        "className" : "B"
-      }
-    },
-    "value" : {
-      "kind" : "NoneLiteral",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "<None>"
-      }
-    }
-  }, {
-    "kind" : "VarDef",
-    
-    "var" : {
-      "kind" : "TypedVar",
-      
-      "identifier" : {
-        "kind" : "Identifier",
-        
-        "name" : "c"
-      },
-      "type" : {
-        "kind" : "ClassType",
-        
-        "className" : "C"
-      }
-    },
-    "value" : {
-      "kind" : "NoneLiteral",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "<None>"
-      }
-    }
-  } ],
-  "statements" : [ {
-    "kind" : "AssignStmt",
-    
-    "targets" : [ {
-      "kind" : "Identifier",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "A"
-      },
-      "name" : "a"
-    } ],
-    "value" : {
-      "kind" : "CallExpr",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "A"
-      },
-      "function" : {
-        "kind" : "Identifier",
-        
-        "name" : "A"
-      },
-      "args" : [ ]
-    }
-  }, {
-    "kind" : "AssignStmt",
-    
-    "targets" : [ {
-      "kind" : "Identifier",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "A"
-      },
-      "name" : "a"
-    } ],
-    "value" : {
-      "kind" : "CallExpr",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "B"
-      },
-      "function" : {
-        "kind" : "Identifier",
-        
-        "name" : "B"
-      },
-      "args" : [ ]
-    }
-  }, {
-    "kind" : "AssignStmt",
-    
-    "targets" : [ {
-      "kind" : "Identifier",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "B"
-      },
-      "name" : "b"
-    }, {
-      "kind" : "Identifier",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "A"
-      },
-      "name" : "a"
-    }, {
-      "kind" : "Identifier",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "C"
-      },
-      "name" : "c"
-    } ],
-    "value" : {
-      "kind" : "CallExpr",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "C"
-      },
-      "function" : {
-        "kind" : "Identifier",
-        
-        "name" : "C"
-      },
-      "args" : [ ]
-    }
-  }, {
-    "kind" : "AssignStmt",
-    
-    "targets" : [ {
-      "kind" : "Identifier",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "C"
-      },
-      "name" : "c"
-    } ],
-    "value" : {
-      "kind" : "NoneLiteral",
-      
-      "inferredType" : {
-        "kind" : "ClassValueType",
-        "className" : "<None>"
-      }
-    }
-  } ],
-  "errors" : {
-    "errors" : [ ],
-    "kind" : "Errors",
-    
-  }
-}
+statements:
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              inferredType: int
+              value: 1
+  - statement:
+      class: Stmt.Class
+      name: B
+      superClass: A
+      members:
+        - member:
+            class: Stmt.Function
+            name: __init__
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: B
+                  initializer: None
+            returnType: <None>
+            body:
+              - statement:
+                  class: Stmt.Pass
+  - statement:
+      class: Stmt.Class
+      name: C
+      superClass: B
+      members:
+        - member:
+            class: Stmt.Var
+            name: z
+            type: bool
+            initializer:
+              class: Expr.Literal
+              inferredType: bool
+              value: true
+  - statement:
+      class: Stmt.Var
+      name: a
+      type: A
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Var
+      name: b
+      type: B
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Var
+      name: c
+      type: C
+      initializer:
+        class: Expr.Literal
+        inferredType: <None>
+        value: None
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: A
+          name: a
+        value:
+          class: Expr.Call
+          inferredType: A
+          callee:
+            class: Expr.Variable
+            inferredType: [object] -> <None>
+            name: A
+          arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: A
+          name: a
+        value:
+          class: Expr.Call
+          inferredType: B
+          callee:
+            class: Expr.Variable
+            inferredType: [B] -> <None>
+            name: B
+          arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: C
+          name: c
+        value:
+          class: Expr.Literal
+          inferredType: <None>
+          value: None
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: B
+          name: b
+        value:
+          class: Expr.Call
+          inferredType: C
+          callee:
+            class: Expr.Variable
+            inferredType: [B] -> <None>
+            name: C
+          arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: A
+          name: a
+        value:
+          class: Expr.Call
+          inferredType: C
+          callee:
+            class: Expr.Variable
+            inferredType: [B] -> <None>
+            name: C
+          arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: C
+          name: c
+        value:
+          class: Expr.Call
+          inferredType: C
+          callee:
+            class: Expr.Variable
+            inferredType: [B] -> <None>
+            name: C
+          arguments: []

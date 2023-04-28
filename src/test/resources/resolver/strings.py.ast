@@ -59,10 +59,15 @@ statements:
           class: Expr.Variable
           name: x
         value:
-          class: Expr.Assign
-          target:
-            class: Expr.Variable
-            name: y
-          value:
-            class: Expr.Variable
-            name: z
+          class: Expr.Variable
+          name: z
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: y
+        value:
+          class: Expr.Variable
+          name: z

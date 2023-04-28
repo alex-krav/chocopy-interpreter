@@ -2,5 +2,5 @@
 [line 5] Error at 'y': Expected type 'bool', got type 'int'
 [line 6] Error at 'z': Identifier not defined in current scope: z
 [line 7] Error at 'z': Identifier not defined in current scope: z
-[line 8] Error at 'z': Identifier not defined in current scope: z
 [line 8] Error at 'x': Expected type 'int', got type '<None>'
+[line 8] Error at 'z': Identifier not defined in current scope: z

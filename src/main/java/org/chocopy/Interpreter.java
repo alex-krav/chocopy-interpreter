@@ -435,7 +435,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             }
         } catch (RuntimeError error) {
             ChocoPy.runtimeError(error);
-            System.err.printf("Exited with error code %d%n", ChocoPy.exitCode);
+            ChocoPy.runtimeErrors.add(String.format("Exited with error code %d", ChocoPy.exitCode));
         }
     }
 

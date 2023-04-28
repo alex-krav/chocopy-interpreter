@@ -94,12 +94,23 @@ public class InterpreterTest {
         List<Token> tokens = scanner.scanTokens();
         parser = new Parser(tokens);
         List<Stmt> statements = parser.parse();
+
+        if (ChocoPy.errors.size() > 0) {
+            ChocoPy.errors.forEach(System.err::println);
+            bytes = Files.readAllBytes(Path.of(inputPath + ".ast.typed.s.result"));
+            String error = new String(bytes, Charset.defaultCharset());
+            assertEquals(error, outContent.toString());
+            return;
+        }
+        
         interpreter = new Interpreter();
-        resolver = new Resolver(/*interpreter*/);
+        resolver = new Resolver();
         resolver.resolveScript(statements);
         
         // Then
-        if (outContent.size() > 0) {
+        if (ChocoPy.errors.size() > 0) {
+            ChocoPy.errors.forEach(System.err::println);
+            
             bytes = Files.readAllBytes(Path.of(inputPath + ".ast.typed.s.result"));
             String error = new String(bytes, Charset.defaultCharset());
             assertEquals(error, outContent.toString());
@@ -119,6 +130,11 @@ public class InterpreterTest {
         interpreter.interpret(statements);
 
         // Then
+        if (ChocoPy.errors.size() > 0 || ChocoPy.runtimeErrors.size() > 0) {
+            ChocoPy.errors.forEach(System.err::println);
+            ChocoPy.runtimeErrors.forEach(System.err::println);
+        }
+        
         bytes = Files.readAllBytes(Paths.get(inputPath + ".ast.typed.s.result"));
         String output = new String(bytes, Charset.defaultCharset());
         assertEquals(output, outContent.toString());
