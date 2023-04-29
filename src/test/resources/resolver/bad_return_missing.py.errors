@@ -1,1 +1,1 @@
-[line 1] Error at 'foo': Expected return statement of type 'int'
+[line 1] TypeError: expected return statement of type 'int'

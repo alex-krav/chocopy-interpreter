@@ -80,17 +80,16 @@ public class ScannerTest {
         return Stream.of(
                 Arguments.of("bad_escape_sequences.py", 8, 2, new Token(TokenType.STRING, "\"Hell\\o\"", "Hell\\o", 1),
                         """
-                                [line 1] Error at '\\o': Unrecognized escape sequence
-                                [line 2] Error at '\\)': Unrecognized escape sequence
-                                [line 2] Error: Unterminated string.
+                                [line 1] SyntaxError: unrecognized escape sequence
+                                [line 2] SyntaxError: unrecognized escape sequence
+                                [line 2] SyntaxError: unterminated string literal
                                 """),
                 Arguments.of("empty.py", 5, 2, new Token(TokenType.STRING, "\"\"", "", 1), null),
                 Arguments.of("non_ascii.py", 5, 2, new Token(TokenType.STRING, "\"\n\"", "\n", 2),
                         """
-                                [line 1] Error at '
-                                ': Only 32-126 decimal range ASCII characters allowed in strings
+                                [line 1] SyntaxError: only 32-126 decimal range ASCII characters allowed in strings
                                 """),
-                Arguments.of("unterminated.py", 3, -1, null, "[line 1] Error: Unterminated string.\n"),
+                Arguments.of("unterminated.py", 3, -1, null, "[line 1] SyntaxError: unterminated string literal\n"),
                 Arguments.of("valid_escape_sequences.py", 5, 2, new Token(TokenType.STRING, "\"Hello\\t\\\"user\\\"\\n\\\\bye!\"", 
                         "Hello\t\"user\"\n\\bye!", 1), null)
                 );

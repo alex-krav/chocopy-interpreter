@@ -1,3 +1,3 @@
-[line 1] Error at 'str': Expect class name.
-[line 2] Error at '': Expect expression.
-[line 3] Error at '': Expect expression.
+[line 1] SyntaxError: expect class name
+[line 2] SyntaxError: expected expression
+[line 3] SyntaxError: expected expression

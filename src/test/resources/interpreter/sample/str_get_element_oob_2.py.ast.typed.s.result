@@ -1,2 +1,2 @@
-[line 5] Index out of bounds
+[line 5] IndexError: string index out of range
 Exited with error code 3

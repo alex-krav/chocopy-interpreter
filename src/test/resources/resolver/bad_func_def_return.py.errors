@@ -1,3 +1,3 @@
-[line 2] Error at 'return': Expected type 'int', got type '<None>'
-[line 5] Error at 'return': Expected type 'bool', got type 'int'
-[line 8] Error at 'return': Expected type 'str', got type '<None>'
+[line 2] TypeError: expected type 'int', got type '<None>'
+[line 5] TypeError: expected type 'bool', got type 'int'
+[line 8] TypeError: expected type 'str', got type '<None>'

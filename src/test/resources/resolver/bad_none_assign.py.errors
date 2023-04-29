@@ -1,3 +1,3 @@
-[line 11] Error at 'z': Expected type 'str', got type '<None>'
-[line 12] Error: Expected type 'int', got type '<None>'
-[line 13] Error: Expected type 'bool', got type '<None>'
+[line 11] TypeError: expected type 'str', got type '<None>'
+[line 12] TypeError: expected type 'int', got type '<None>'
+[line 13] TypeError: expected type 'bool', got type '<None>'

@@ -58,13 +58,13 @@ public class ChocoPy {
         interpreter.interpret(statements);
     }
 
-    static void error(int line, String message) {
-        report(line, "", message);
+    static void error(int line, String message, String errorType) {
+        report(line, message, errorType);
     }
 
-    private static void report(int line, String where, String message) {
+    private static void report(int line, String message, String errorType) {
         int errorsSize = errors.size();
-        String errMsg = String.format("[line %d] Error%s: %s", line, where, message);
+        String errMsg = String.format("[line %d] %s: %s", line, errorType, message);
         
         if (errorsSize == 0 || !errors.get(errorsSize - 1).equals(errMsg)) {
             errors.add(errMsg);
@@ -72,31 +72,23 @@ public class ChocoPy {
         hadError = true;
     }
 
-    static void error(Token token, String message) {
-        if (token.type == TokenType.EOF) {
-            report(token.line, " at end", message);
-        } else {
-            report(token.line, " at '" + token.lexeme + "'", message);
-        }
-    }
-
-    static void error(int line, String text, String message) {
-        report(line, " at '" + text + "'", message);
+    static void error(Token token, String message, String errorType) {
+        report(token.line, message, errorType);
     }
     
-    static void binopError(Expr.Binary expr) {
-        ChocoPy.error(expr.operator, String.format("Cannot use operator %s on types %s and %s", 
-                expr.operator.lexeme, expr.left.inferredType, expr.right.inferredType));
+    static void binopError(Expr.Binary expr, String errorType) {
+        ChocoPy.error(expr.operator, String.format("unsupported operand type(s) for %s: '%s' and '%s'", 
+                expr.operator.lexeme, expr.left.inferredType, expr.right.inferredType), errorType);
     }
     
-    static void binopError(Expr.Logical expr) {
-        ChocoPy.error(expr.operator, String.format("Cannot use operator %s on types %s and %s", 
-                expr.operator, expr.left.inferredType, expr.right.inferredType));
+    static void binopError(Expr.Logical expr, String errorType) {
+        ChocoPy.error(expr.operator, String.format("unsupported operand type(s) for %s: '%s' and '%s'", 
+                expr.operator.lexeme, expr.left.inferredType, expr.right.inferredType), errorType);
     }
 
     static void runtimeError(RuntimeError error) {
         int runtimeErrorsSize = runtimeErrors.size();
-        String errMsg = String.format("[line %d] %s", error.line, error.getMessage());
+        String errMsg = String.format("[line %d] %s: %s", error.line, error.errorType, error.getMessage());
         
         if (runtimeErrorsSize == 0 || !runtimeErrors.get(runtimeErrorsSize - 1).equals(errMsg)) {
             runtimeErrors.add(errMsg);

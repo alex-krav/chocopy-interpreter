@@ -1,7 +1,7 @@
-[line 8] Error: Expected 2 args, got 1
-[line 9] Error: Expected 2 args, got 3
-[line 10] Error: Expected type 'bool', got type 'int'
-[line 11] Error: Expected type 'str', got type 'int'
-[line 11] Error: Expected type 'bool', got type 'str'
-[line 12] Error at 'baz': Identifier not defined in current scope: baz
-[line 12] Error: Not a function: baz
+[line 8] TypeError: expected 2 args, got 1
+[line 9] TypeError: expected 2 args, got 3
+[line 10] TypeError: expected type 'bool', got type 'int'
+[line 11] TypeError: expected type 'str', got type 'int'
+[line 11] TypeError: expected type 'bool', got type 'str'
+[line 12] NameError: name 'baz' is not defined in current scope
+[line 12] TypeError: 'baz' object is not callable

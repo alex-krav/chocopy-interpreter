@@ -117,7 +117,7 @@ class Scanner {
                 if (match('=')) {
                     addToken(BANG_EQUAL);
                 } else {
-                    ChocoPy.error(line, String.valueOf(source.charAt(current-1)), "Unexpected character.");
+                    ChocoPy.error(line, "invalid syntax", "SyntaxError");
                 }
                 break;
             case '/':
@@ -125,7 +125,7 @@ class Scanner {
                 if (match('/')) {
                     addToken(DOUBLE_SLASH);
                 } else {
-                    ChocoPy.error(line, String.valueOf(source.charAt(current-1)), "Unexpected character.");
+                    ChocoPy.error(line, "invalid syntax", "SyntaxError");
                 }
                 break;
 
@@ -174,7 +174,7 @@ class Scanner {
                 } else if (isAlpha(c)) {
                     identifier();
                 } else {
-                    ChocoPy.error(line, String.valueOf(source.charAt(current-1)), "Unexpected character.");
+                    ChocoPy.error(line, "invalid syntax", "SyntaxError");
                 }
                 break;
         }
@@ -204,7 +204,7 @@ class Scanner {
 
         if (spaces > indentation.peek()) {
             if (line == 1) {
-                ChocoPy.error(line, "First line indented");
+                ChocoPy.error(line, "unexpected indent", "IndentationError");
             }
             indentation.push(spaces);
             tokens.add(new Token(INDENT, "", null, line));
@@ -215,7 +215,7 @@ class Scanner {
                 tokens.add(new Token(DEDENT, "", null, line));
             }
             if (indentation.peek() != spaces) {
-                ChocoPy.error(line, "Inconsistent dedent");
+                ChocoPy.error(line, "unindent does not match any outer indentation level", "IndentationError");
             }
             spaces = 0;
         }
@@ -264,14 +264,14 @@ class Scanner {
     void string() {
         while (!(peek() == '"' && source.charAt(current-1) != '\\') && !isAtEnd()) {
             if (peek() < ' ' || peek() > '~') {
-                ChocoPy.error(line, String.valueOf(source.charAt(current)), "Only 32-126 decimal range ASCII characters allowed in strings");
+                ChocoPy.error(line, "only 32-126 decimal range ASCII characters allowed in strings", "SyntaxError");
             }
             if (peek() == '\n') 
                 line++;
             if (peek() == '\\') {
                 char next = peekNext();
                 if (next != '"' && next != '\\' && next != 't' && next != 'n') {
-                    ChocoPy.error(line, String.valueOf(source.charAt(current))+source.charAt(current+1), "Unrecognized escape sequence");
+                    ChocoPy.error(line, "unrecognized escape sequence", "SyntaxError");
                 } else {
                     advance();
                 }
@@ -280,7 +280,7 @@ class Scanner {
         }
 
         if (isAtEnd()) {
-            ChocoPy.error(line, "Unterminated string.");
+            ChocoPy.error(line, "unterminated string literal", "SyntaxError");
             return;
         }
 
@@ -328,21 +328,20 @@ class Scanner {
             value = Integer.valueOf(literal);
 
             if (value < (-Math.pow(2, 31)) || value > (Math.pow(2, 31) - 1)) {
-                ChocoPy.error(line, literal, "Number value exceeds allowed range of 32 bit signed int");
+                ChocoPy.error(line, "number value exceeds allowed range of 32 bit signed int", "OverflowError"); 
             } else if (value > 0 && literal.charAt(0) == '0') {
-                ChocoPy.error(line, literal, "Non-zero values cannot start with leading zeros");
+                ChocoPy.error(line, "leading zeros in decimal integer literals are not permitted", "SyntaxError");
             } else if (value < 0 && literal.charAt(1) == '0') {
-                ChocoPy.error(line, literal, "Non-zero values cannot start with leading zeros");
+                ChocoPy.error(line, "leading zeros in decimal integer literals are not permitted", "SyntaxError");
             }
         } catch (NumberFormatException e) {
-            ChocoPy.error(line, literal, "NumberFormatException: " + e.getMessage());
+            ChocoPy.error(line, "number value exceeds allowed range of 32 bit signed int", "OverflowError");
         }
         
         addToken(NUMBER, value);
 
         if (isAlpha(peek())) {
-            ChocoPy.error(line, String.valueOf(source.charAt(current-1)) + source.charAt(current) + "...",
-                    "Identifier cannot start with number");
+            ChocoPy.error(line, "invalid decimal literal", "SyntaxError");
         }
     }
 
@@ -359,7 +358,7 @@ class Scanner {
         if (type == null) {
             for (String reserved : reserved_keywords) {
                 if (reserved.equals(text)) {
-                    ChocoPy.error(line, text, "keyword is reserved");
+                    ChocoPy.error(line, String.format("'%s' keyword is reserved", text), "SyntaxError");
                 }
             }
             type = IDENTIFIER;

@@ -1,2 +1,2 @@
-[line 1] Error at 'x': Identifier not defined in current scope: x
-[line 1] Error at '-': Cannot use operator - on types object and int
+[line 1] NameError: name 'x' is not defined in current scope
+[line 1] TypeError: unsupported operand type(s) for -: 'object' and 'int'

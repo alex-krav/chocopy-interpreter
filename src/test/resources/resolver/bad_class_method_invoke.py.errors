@@ -1,5 +1,5 @@
-[line 25] Error: Expected 0 args, got 1
-[line 26] Error at 'get_Z': Method get_Z doesn't exist for class B
-[line 27] Error: Expected 1 args, got 0
-[line 28] Error: Expected type 'int', got type 'bool'
-[line 29] Error: Expected type 'int', got type '<None>'
+[line 25] TypeError: expected 0 args, got 1
+[line 26] AttributeError: 'B' object has no attribute 'get_Z'
+[line 27] TypeError: expected 1 args, got 0
+[line 28] TypeError: expected type 'int', got type 'bool'
+[line 29] TypeError: expected type 'int', got type '<None>'

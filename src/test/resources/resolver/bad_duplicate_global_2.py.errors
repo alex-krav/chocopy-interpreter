@@ -1,1 +1,1 @@
-[line 4] Error at 'x': Cannot shadow class name: x
+[line 4] SyntaxError: cannot shadow class name: 'x'

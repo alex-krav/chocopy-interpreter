@@ -1,1 +1,1 @@
-[line 3] Error: Expected type 'str' or 'list', got type 'int'
+[line 3] TypeError: expected type 'str' or 'list', got type 'int'

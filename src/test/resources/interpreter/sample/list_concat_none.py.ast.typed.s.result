@@ -1,2 +1,2 @@
-[line 4] Operation on None
+[line 4] TypeError: unsupported operand type(s) for +: '[int]' and '[int]'
 Exited with error code 4

@@ -1,2 +1,2 @@
-[line 7] Error at 'bar': Missing self param in method: bar
-[line 10] Error at 'baz': Missing self param in method: baz
+[line 7] SyntaxError: missing 'self' param in method: 'bar'
+[line 10] SyntaxError: missing 'self' param in method: 'baz'

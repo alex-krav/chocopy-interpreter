@@ -1,4 +1,4 @@
 B
 42
-[line 16] Operation on None
+[line 16] AttributeError: '<None>' object has no attribute 'a'
 Exited with error code 4

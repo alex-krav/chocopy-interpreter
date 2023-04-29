@@ -39,20 +39,20 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             if (!isVarDeclaredGlobalInCurrentScope(expr.target.name.lexeme) 
                     && !isVarDeclaredNonlocalInCurrentScope(expr.target.name.lexeme) 
                     && !definedInCurrentScope(expr.target.name.lexeme)) {
-                ChocoPy.error(expr.target.name, "Identifier not defined in current scope: " + expr.target.name.lexeme);
+                ChocoPy.error(expr.target.name, String.format("name '%s' is not defined in current scope", expr.target.name.lexeme), "NameError");
                 return null;
             } else if (isVarDeclaredGlobalInCurrentScope(expr.target.name.lexeme) 
                     && getGlobalType(expr.target.name.lexeme) == null) {
-                ChocoPy.error(expr.target.name, "Identifier not defined in global scope: " + expr.target.name.lexeme);
+                ChocoPy.error(expr.target.name, String.format("name '%s' is not defined in global scope", expr.target.name.lexeme), "NameError");
                 return null;
             } else if (isVarDeclaredNonlocalInCurrentScope(expr.target.name.lexeme) 
                     && getNonLocalType(expr.target.name.lexeme) == null) {
-                ChocoPy.error(expr.target.name, "Identifier not defined in nonlocal scope: " + expr.target.name.lexeme);
+                ChocoPy.error(expr.target.name, String.format("name '%s' is not defined in nonlocal scope", expr.target.name.lexeme), "NameError");
                 return null;
             }
 
             if (valueType!= null && !canAssign(valueType, targetType)) {
-                ChocoPy.error(expr.target.name, String.format("Expected type '%s', got type '%s'", targetType, valueType));
+                ChocoPy.error(expr.target.name, String.format("expected type '%s', got type '%s'", targetType, valueType), "TypeError");
                 return null;
             }
         }
@@ -79,7 +79,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 } else if (leftType.equals(rightType) && List.of(StrType.class, IntType.class).contains(leftType.getClass())) {
                     expr.inferredType = leftType;
                 } else {
-                    ChocoPy.binopError(expr);
+                    ChocoPy.binopError(expr, "TypeError");
                     expr.inferredType = new ObjectType();
                 }
             }
@@ -87,7 +87,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 if (leftType instanceof IntType && rightType instanceof IntType) {
                     expr.inferredType = new IntType();
                 } else {
-                    ChocoPy.binopError(expr);
+                    ChocoPy.binopError(expr, "TypeError");
                     expr.inferredType = new ObjectType();
                 }
             }
@@ -95,7 +95,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 if (leftType instanceof IntType && rightType instanceof IntType) {
                     expr.inferredType = new BoolType();
                 } else {
-                    ChocoPy.binopError(expr);
+                    ChocoPy.binopError(expr, "TypeError");
                     expr.inferredType = new ObjectType();
                 }
             }
@@ -103,7 +103,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 if (leftType.equals(rightType) && staticTypes.contains(leftType.getClass())) {
                     expr.inferredType = new BoolType();
                 } else {
-                    ChocoPy.binopError(expr);
+                    ChocoPy.binopError(expr, "TypeError");
                     expr.inferredType = new ObjectType();
                 }
             }
@@ -111,7 +111,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 if (!staticTypes.contains(leftType.getClass()) && !staticTypes.contains(rightType.getClass())) {
                     expr.inferredType = new BoolType();
                 } else {
-                    ChocoPy.binopError(expr);
+                    ChocoPy.binopError(expr, "TypeError");
                     expr.inferredType = new ObjectType();
                 }
             }
@@ -138,11 +138,15 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 t = getMethod(name, "__init__");
                 if (t != null) {
                     if (t.getParameters().size() != (expr.arguments.size() + 1)) {
-                        ChocoPy.error(expr.line, String.format("Expected %d args, got %d", t.getParameters().size() - 1, expr.arguments.size()));
+                        ChocoPy.error(expr.line, 
+                                String.format("expected %d args, got %d", t.getParameters().size() - 1, expr.arguments.size()), 
+                                "TypeError");
                     } else {
                         for (int i = 0; i < t.getParameters().size() - 1; i++) {
                             if (!canAssign(expr.arguments.get(i).inferredType, t.getParameters().get(i+1))) {
-                                ChocoPy.error(expr.line, String.format("Expected type '%s', got type '%s'", t.getParameters().get(i+1), expr.arguments.get(i).inferredType));
+                                ChocoPy.error(expr.line, 
+                                        String.format("expected type '%s', got type '%s'", t.getParameters().get(i+1), expr.arguments.get(i).inferredType), 
+                                        "TypeError");
                             }
                         }
                     }
@@ -160,17 +164,21 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 // FUNCTION
                 ValueType type = getType(name);
                 if (!(type instanceof FuncType)) {
-                    ChocoPy.error(expr.line, "Not a function: " + name);
+                    ChocoPy.error(expr.line, "'" + name + "' object is not callable", "TypeError");
                     expr.inferredType = new ObjectType();
                     return null;
                 }
                 t = (FuncType) type;
                 if (t.getParameters().size() != expr.arguments.size()) {
-                    ChocoPy.error(expr.line, String.format("Expected %d args, got %d", t.getParameters().size(), expr.arguments.size()));
+                    ChocoPy.error(expr.line, 
+                            String.format("expected %d args, got %d", t.getParameters().size(), expr.arguments.size()), 
+                            "TypeError");
                 } else {
                     for (int i = 0; i < t.getParameters().size(); i++) {
                         if (!canAssign(expr.arguments.get(i).inferredType, t.getParameters().get(i))) {
-                            ChocoPy.error(expr.line, String.format("Expected type '%s', got type '%s'",t.getParameters().get(i), expr.arguments.get(i).inferredType));
+                            ChocoPy.error(expr.line, 
+                                    String.format("expected type '%s', got type '%s'",t.getParameters().get(i), expr.arguments.get(i).inferredType), 
+                                    "TypeError");
                         }
                     }
                 }
@@ -185,7 +193,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             String methodName = getExpr.name.lexeme;
             
             if (staticTypes.contains(object.inferredType.getClass()) || !(object.inferredType.getClass().equals(ClassValueType.class))) {
-                ChocoPy.error(expr.line, "Expected type 'object', got type '" + object.inferredType + "'");
+                ChocoPy.error(expr.line, "expected type 'object', got type '" + object.inferredType + "'", "TypeError");
                 expr.inferredType = new ObjectType();
                 return null;
             } else {
@@ -198,11 +206,15 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             }
             // self arguments
             if (t.getParameters().size() != expr.arguments.size() + 1) {
-                ChocoPy.error(expr.line, String.format("Expected %d args, got %d", t.getParameters().size()-1, expr.arguments.size()));
+                ChocoPy.error(expr.line, 
+                        String.format("expected %d args, got %d", t.getParameters().size()-1, expr.arguments.size()), 
+                        "TypeError");
             } else {
                 for (int i = 0; i < t.getParameters().size()-1; i++) {
                     if (!canAssign(expr.arguments.get(i).inferredType, t.getParameters().get(i+1))) {
-                        ChocoPy.error(expr.line, String.format("Expected type '%s', got type '%s'", t.getParameters().get(i+1), expr.arguments.get(i).inferredType));
+                        ChocoPy.error(expr.line, 
+                                String.format("expected type '%s', got type '%s'", t.getParameters().get(i+1), expr.arguments.get(i).inferredType), 
+                                "TypeError");
                     }
                 }
             }
@@ -210,7 +222,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             expr.inferredType = t.getReturnType();
             return null;
         } else {
-            ChocoPy.error(expr.line, "Identifier is not callable");
+            ChocoPy.error(expr.line, "object is not callable", "TypeError");
             expr.inferredType = new ObjectType();
         }
 
@@ -224,21 +236,21 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         ValueType objInferredType = expr.object.inferredType;
         
         if (staticTypes.contains(objInferredType.getClass())) {
-            ChocoPy.error(expr.name, "Expected type 'object', got type '" + objInferredType + "'");
+            ChocoPy.error(expr.name, "expected type 'object', got type '" + objInferredType + "'", "TypeError");
         } else {
             String className = ((ClassValueType)objInferredType).getClassName();
             String memberName = expr.name.lexeme;
             
             if (expr.callable) {
                 if (getMethod(className, memberName) == null) {
-                    ChocoPy.error(expr.name, String.format("Method %s doesn't exist for class %s", memberName, className));
+                    ChocoPy.error(expr.name, String.format("'%s' object has no attribute '%s'", className, memberName), "AttributeError");
                     expr.inferredType = new ObjectType();
                 } else {
                     expr.inferredType = getMethod(className, memberName);
                 }
             } else {
                 if (getAttr(className, memberName) == null) {
-                    ChocoPy.error(expr.name, String.format("Attribute %s doesn't exist for class %s", memberName, className));
+                    ChocoPy.error(expr.name, String.format("'%s' object has no attribute '%s'", className, memberName), "AttributeError");
                     expr.inferredType = new ObjectType();
                 } else {
                     expr.inferredType = getAttr(className, memberName);
@@ -283,7 +295,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (leftType instanceof BoolType && rightType instanceof BoolType) {
             expr.inferredType = new BoolType();
         } else {
-            ChocoPy.binopError(expr);
+            ChocoPy.binopError(expr, "TypeError");
             expr.inferredType = new ObjectType();
         }
     
@@ -297,7 +309,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.onTrue);
         
         if (!(expr.condition.inferredType instanceof BoolType)) {
-            ChocoPy.error(expr.line, "Expected type 'boolean', got type '" + expr.condition.inferredType + "'");
+            ChocoPy.error(expr.line, "expected type 'boolean', got type '" + expr.condition.inferredType + "'", "TypeError");
         }
         
         expr.inferredType = join(expr.onTrue.inferredType, expr.onFalse.inferredType);
@@ -329,7 +341,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.id);
         
         if (!(expr.id.inferredType instanceof IntType)) {
-            ChocoPy.error(expr.line, "Expected index of type 'int', got type '" + expr.id.inferredType + "'");
+            ChocoPy.error(expr.line, String.format("list indices must be 'int', not '%s'", expr.id.inferredType), "TypeError");
         }
         
         if (expr.listing.inferredType instanceof StrType) {
@@ -340,7 +352,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             ListValueType listingType = (ListValueType) expr.listing.inferredType;
             expr.inferredType = listingType.getElementType();
         } else {
-            ChocoPy.error(expr.line, "Cannot index into type '" + expr.listing.inferredType + "'");
+            ChocoPy.error(expr.line, String.format("'%s' object is not subscriptable", expr.listing.inferredType), "TypeError");
             expr.inferredType = new ObjectType();
         }
         
@@ -356,18 +368,18 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         ValueType listType = expr.listing.inferredType;
         
         if (listType instanceof StrType) {
-            ChocoPy.error(expr.line ,"Cannot assign to index of string");
+            ChocoPy.error(expr.line ,"'str' object does not support item assignment", "TypeError");
         } else if (!(listType instanceof ListValueType)) {
-            ChocoPy.error(expr.line ,"Expected type 'list', got type '" + listType + "'");
+            ChocoPy.error(expr.line ,"'" + listType + "' object does not support item assignment", "TypeError");
         } else {
             if (!canAssign(expr.value.inferredType, ((ListValueType) listType).getElementType())) {
-                ChocoPy.error(expr.line ,String.format("Expected type '%s', got type '%s'",
-                        ((ListValueType) listType).getElementType(), expr.value.inferredType));
+                ChocoPy.error(expr.line ,String.format("expected type '%s', got type '%s'",
+                        ((ListValueType) listType).getElementType(), expr.value.inferredType), "TypeError");
             }
         }
         
         if (!(expr.id.inferredType instanceof IntType)) {
-            ChocoPy.error(expr.line, "Expected index of type 'int', got type '" + expr.id.inferredType + "'");
+            ChocoPy.error(expr.line, String.format("list indices must be 'int', not '%s'", expr.id.inferredType), "TypeError");
         }
         
         expr.inferredType = listType;
@@ -380,7 +392,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
         if (!(expr.expression.inferredType instanceof StrType) 
                 && !(expr.expression.inferredType instanceof ListValueType)) {
-            ChocoPy.error(expr.line, "Expected type 'str' or 'list', got type '" + expr.expression.inferredType + "'");
+            ChocoPy.error(expr.line, "expected type 'str' or 'list', got type '" + expr.expression.inferredType + "'", "TypeError");
         }
 
         expr.inferredType = new IntType();
@@ -401,18 +413,18 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         ValueType objInferredType = expr.object.inferredType;
 
         if (staticTypes.contains(objInferredType.getClass())) {
-            ChocoPy.error(expr.name, "Expected type 'object', got type '" + objInferredType + "'");
+            ChocoPy.error(expr.name, "expected type 'object', got type '" + objInferredType + "'", "TypeError");
         } else {
             String className = ((ClassValueType)objInferredType).getClassName();
             String memberName = expr.name.lexeme;
 
             ValueType attr = getAttr(className, memberName);
             if (attr == null) {
-                ChocoPy.error(expr.name, String.format("Attribute %s doesn't exist for class %s", memberName, className));
+                ChocoPy.error(expr.name, String.format("'%s' object has no attribute '%s'", className, memberName), "AttributeError");
             } else if (attr instanceof FuncType) {
-                ChocoPy.error(expr.name, "Can't set to class method " + memberName);
+                ChocoPy.error(expr.name, "can't set to class method '" + memberName + "'", "AttributeError");
             } else if (!canAssign(expr.value.inferredType, attr)) {
-                ChocoPy.error(expr.object.line, String.format("Expected type '%s', got type '%s'", attr, expr.value.inferredType));
+                ChocoPy.error(expr.object.line, String.format("expected type '%s', got type '%s'", attr, expr.value.inferredType), "TypeError"); 
             }
         }
 
@@ -423,7 +435,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     @Override
     public Void visitSelfExpr(Expr.Self expr) {
         if (currentClass == ClassType.NONE) {
-            ChocoPy.error(expr.keyword, "Can't use 'self' outside of a class.");
+            ChocoPy.error(expr.keyword, "'self' outside class", "SyntaxError");
             return null;
         }
 
@@ -441,7 +453,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 if (operandType instanceof IntType) {
                     expr.inferredType = new IntType();
                 } else {
-                    ChocoPy.error(expr.operator, "Expected type 'int', got type '" + operandType + "'");
+                    ChocoPy.error(expr.operator, "expected type 'int', got type '" + operandType + "'", "TypeError");
                     expr.inferredType = new ObjectType();
                 }
             }
@@ -449,7 +461,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 if (operandType instanceof BoolType) {
                     expr.inferredType = new BoolType();
                 } else {
-                    ChocoPy.error(expr.operator, "Expected type 'bool', got type '" + operandType + "'");
+                    ChocoPy.error(expr.operator, "expected type 'bool', got type '" + operandType + "'", "TypeError");
                     expr.inferredType = new ObjectType();
                 }
             }
@@ -464,23 +476,23 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         ValueType type = getType(expr.name.lexeme);
         
         if (type == null) {
-            ChocoPy.error(expr.name, "Identifier not defined in current scope: " + expr.name.lexeme);
+            ChocoPy.error(expr.name, String.format("name '%s' is not defined in current scope", expr.name.lexeme), "NameError");
             expr.inferredType = new ObjectType();
             return null;
         } else if (isVarDeclaredGlobalInCurrentScope(expr.name.lexeme) 
                 && getGlobalType(expr.name.lexeme) == null) {
-            ChocoPy.error(expr.name, "Identifier not defined in global scope: " + expr.name.lexeme);
+            ChocoPy.error(expr.name, String.format("name '%s' is not defined in global scope", expr.name.lexeme), "NameError");
             expr.inferredType = new ObjectType();
             return null;
         } else if (isVarDeclaredNonlocalInCurrentScope(expr.name.lexeme) 
                 && getNonLocalType(expr.name.lexeme) == null) {
-            ChocoPy.error(expr.name, "Identifier not defined in nonlocal scope: " + expr.name.lexeme);
+            ChocoPy.error(expr.name, String.format("name '%s' is not defined in nonlocal scope", expr.name.lexeme), "NameError");
             expr.inferredType = new ObjectType();
             return null;
         }
         
         if (scopes.peek().get(expr.name.lexeme) instanceof StubType) {
-            ChocoPy.error(expr.name, "Can't read local variable in its own initializer.");
+            ChocoPy.error(expr.name, "can't read local variable in its own initializer", "NameError");
         }
         
         expr.inferredType = type;
@@ -515,19 +527,19 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         currentClassName = className;
         
         if (classes.containsKey(className)) {
-            ChocoPy.error(stmt.name, "Cannot shadow class name: " + className);
+            ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", className), "SyntaxError");
         } else if (scopes.peek().containsKey(className)) {
-            ChocoPy.error(stmt.name, "Duplicate declaration of identifier: " + stmt.name.lexeme);
+            ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", stmt.name.lexeme), "SyntaxError");
         }
         
         if (!classExists(superClassName)) { // && !List.of("<None>", "<Empty>").contains(superClassName) ?
-            ChocoPy.error(stmt.superclass, "Unknown superclass: " + superClassName);
+            ChocoPy.error(stmt.superclass, "name '" + superClassName + "' is not defined", "NameError");
             superClassName = "object";
         } else if (List.of("int", "bool", "str", className).contains(superClassName)) {
-            ChocoPy.error(stmt.superclass, "Illegal superclass: " + superClassName);
+            ChocoPy.error(stmt.superclass, "type '" + superClassName + "' is not an acceptable base type", "TypeError");
             superClassName = "object";
         } else if (className.equals(stmt.superclass.lexeme)) {
-            ChocoPy.error(stmt.superclass, "A class can't inherit from itself.");
+            ChocoPy.error(stmt.superclass, "name '" + className + "' is not defined", "NameError");
         }
         ClassType enclosingClass = currentClass;
         currentClass = ClassType.CLASS;
@@ -555,18 +567,18 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 if (classes.containsKey(className) 
                         && (classes.get(className).methods.containsKey(methodName) 
                         || classes.get(className).attrs.containsKey(methodName))) {
-                    ChocoPy.error(method.name, "Duplicate declaration of identifier: " + methodName);
+                    ChocoPy.error(method.name, String.format("duplicate declaration of identifier: '%s'", methodName), "SyntaxError");
                     continue;
                 }
                 
                 ValueType type = getAttrOrMethod(className, methodName);
                 if (type != null) {
                     if (!(type instanceof FuncType)) {
-                        ChocoPy.error(method.name, "Method names shadows attribute: " + methodName);
+                        ChocoPy.error(method.name, String.format("method name shadows attribute: '%s'", methodName), "SyntaxError");
                         continue;
                     }
                     if (!((FuncType) type).methodEquals(methodType)) {
-                        ChocoPy.error(method.name, "Redefined method doesn't match superclass signature: " + methodName);
+                        ChocoPy.error(method.name, String.format("redefined method doesn't match superclass signature: '%s'", methodName), "SyntaxError");
                         continue;
                     }
                 }
@@ -579,7 +591,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 Stmt.Var attr = (Stmt.Var)member;
                 String attrName = attr.name.lexeme;
                 if (getAttrOrMethod(className, attrName) != null) {
-                    ChocoPy.error(attr.name, "Cannot redefine attribute: " + attrName);
+                    ChocoPy.error(attr.name, String.format("cannot redefine attribute: '%s'", attrName), "SyntaxError");
                     continue;
                 }
                 classes.get(className).attrs.put(attrName, attr.type);
@@ -720,7 +732,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (type.getClass().equals(ClassValueType.class)) {
             String className = ((ClassValueType)type).getClassName();
             if (getGlobalType(className) == null) {
-                ChocoPy.error(node.name, "Unknown return type " + type);
+                ChocoPy.error(node.name, String.format("unknown return type '%s'", type), "TypeError");
             }
         } else if (type instanceof ListValueType) {
             ValueType elementType = ((ListValueType) type).getElementType();
@@ -730,7 +742,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             if (elementType.getClass().equals(ClassValueType.class)) {
                 String className = ((ClassValueType)elementType).getClassName();
                 if (getGlobalType(className) == null) {
-                    ChocoPy.error(node.name, "Unknown return type " + type);
+                    ChocoPy.error(node.name, String.format("unknown return type '%s'", type), "TypeError");
                 }
             }
         }
@@ -751,7 +763,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         String functionName = stmt.name.lexeme;
         
         if (definedInCurrentScope(functionName)) {
-            ChocoPy.error(stmt.name, "Duplicate declaration of identifier: " + functionName);
+            ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", functionName), "SyntaxError");
         }
 
         FuncType funcType = getSignature(stmt);
@@ -770,10 +782,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         scopes.peek().put("expectedReturnType", funcType.getReturnType());
         if (type == FunctionType.FUNCTION) {
             if (classExists(functionName)) {
-                ChocoPy.error(function.name, "Functions can't shadow classes: " + functionName);
+                ChocoPy.error(function.name, "functions can't shadow classes: " + functionName, "SyntaxError");
                 return;
             } else if (definedInCurrentScope(functionName)) {
-                ChocoPy.error(function.name, "Duplicate declaration of identifier " + functionName);
+                ChocoPy.error(function.name, "duplicate declaration of identifier " + functionName, "SyntaxError");
                 return;
             }
         } else if (type == FunctionType.METHOD || type == FunctionType.INITIALIZER) {
@@ -781,7 +793,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                     || !function.params.get(0).name.lexeme.equals("self") 
                     || !(funcType.getParameters().get(0).getClass().equals(ClassValueType.class))
                     || !((ClassValueType) funcType.getParameters().get(0)).getClassName().equals(currentClassName)) {
-                ChocoPy.error(function.name, "Missing self param in method: " + functionName);
+                ChocoPy.error(function.name, String.format("missing 'self' param in method: '%s'", functionName), "SyntaxError");
                 return;
             }
         }
@@ -791,14 +803,14 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
         for (Stmt.Var param : function.params) {
             if (classes.containsKey(param.name.lexeme)) {
-                ChocoPy.error(param.name, "Cannot shadow class name: " + param.name.lexeme);
+                ChocoPy.error(param.name, String.format("cannot shadow class name: '%s'", param.name.lexeme), "SyntaxError"); 
                 continue;
             } else if (scopes.peek().containsKey(param.name.lexeme)) {
-                ChocoPy.error(param.name, "Duplicate declaration of identifier: " + param.name.lexeme);
+                ChocoPy.error(param.name, String.format("duplicate declaration of identifier: '%s'", param.name.lexeme), "SyntaxError");
                 continue;
             }
             if (!isTypeDefined(param.type)) {
-                ChocoPy.error(param.name, "Unknown type: " + param.type);
+                ChocoPy.error(param.name, String.format("unknown type: '%s'", param.type), "TypeError");
             }
             declare(param.name);
             define(param.name, param.type);
@@ -814,7 +826,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             }
         }
         if (!hasReturn && !canAssign(new NoneType(), scopes.peek().get("expectedReturnType"))) {
-            ChocoPy.error(function.name, "Expected return statement of type '" + scopes.peek().get("expectedReturnType") + "'");
+            ChocoPy.error(function.name, "expected return statement of type '" + scopes.peek().get("expectedReturnType") + "'", "TypeError");
         }
         scopes.peek().put("expectedReturnType", null);
         endScope();
@@ -825,7 +837,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitIfStmt(Stmt.If stmt) {
         resolve(stmt.condition);
         if (!(stmt.condition.inferredType instanceof BoolType)) {
-            ChocoPy.error(stmt.condition.line,"Expected type 'bool', got type '" + stmt.condition.inferredType + "'");
+            ChocoPy.error(stmt.condition.line,"expected type 'bool', got type '" + stmt.condition.inferredType + "'", "TypeError");
             return null;
         }
         
@@ -843,7 +855,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.expression);
         
         if (!staticTypes.contains(expr.expression.inferredType.getClass())) {
-            ChocoPy.error(expr.expression.line, "Expected type 'str', 'int' or 'bool', got type '" + expr.expression.inferredType + "'");
+            ChocoPy.error(expr.expression.line, "expected type 'str', 'int' or 'bool', got type '" + expr.expression.inferredType + "'", "TypeError");
         }
         
         expr.inferredType = new NoneType();
@@ -853,7 +865,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     @Override
     public Void visitReturnStmt(Stmt.Return stmt) {
         if (currentFunction == FunctionType.NONE) {
-            ChocoPy.error(stmt.keyword, "Can't return from top-level code.");
+            ChocoPy.error(stmt.keyword, "'return' outside function", "SyntaxError");
             return null;
         }
 
@@ -862,11 +874,11 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             resolve(stmt.value);
 
             if (!canAssign(stmt.value.inferredType, scopes.peek().get("expectedReturnType"))) {
-                ChocoPy.error(stmt.keyword, String.format("Expected type '%s', got type '%s'", scopes.peek().get("expectedReturnType"), stmt.value.inferredType));
+                ChocoPy.error(stmt.keyword, String.format("expected type '%s', got type '%s'", scopes.peek().get("expectedReturnType"), stmt.value.inferredType), "TypeError");
             }
         } else {
             if (!canAssign(new NoneType(), scopes.peek().get("expectedReturnType"))) {
-                ChocoPy.error(stmt.keyword, String.format("Expected type '%s', got type '<None>'", scopes.peek().get("expectedReturnType")));
+                ChocoPy.error(stmt.keyword, String.format("expected type '%s', got type '<None>'", scopes.peek().get("expectedReturnType")), "TypeError");
             }
         }
 
@@ -892,12 +904,12 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitVarStmt(Stmt.Var stmt) {
         String varName = stmt.name.lexeme;
         if (classes.containsKey(varName)) {
-            ChocoPy.error(stmt.name, "Cannot shadow class name: " + varName);
+            ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", varName), "SyntaxError");
         } else if (scopes.peek().containsKey(varName)) {
-            ChocoPy.error(stmt.name, "Duplicate declaration of identifier: " + varName);
+            ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", varName), "SyntaxError");
         }
         if (!isTypeDefined(stmt.type)) {
-            ChocoPy.error(stmt.name, "Unknown type: " + stmt.type);
+            ChocoPy.error(stmt.name, String.format("unknown type: '%s'", stmt.type), "TypeError");
         }
         
         declare(stmt.name);
@@ -905,8 +917,8 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             resolve(stmt.initializer);
 
             if (!canAssign(stmt.initializer.inferredType, stmt.type)) {
-                ChocoPy.error(stmt.name, String.format("Expected type '%s', got type '%s'",
-                        stmt.type, stmt.initializer.inferredType));
+                ChocoPy.error(stmt.name, String.format("expected type '%s', got type '%s'",
+                        stmt.type, stmt.initializer.inferredType), "TypeError");
             }
         }
         define(stmt.name, stmt.type);
@@ -935,7 +947,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(stmt.body);
         
         if (!(stmt.condition.inferredType instanceof BoolType)) {
-            ChocoPy.error(stmt.condition.line, "Expected type 'bool', got type '" + stmt.condition.inferredType + "'");
+            ChocoPy.error(stmt.condition.line, "expected type 'bool', got type '" + stmt.condition.inferredType + "'", "TypeError");
             return null;
         }
         
@@ -960,16 +972,22 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (iterableType instanceof ListValueType) {
             ValueType elementType = ((ListValueType) iterableType).getElementType();
             if (!canAssign(elementType, stmt.identifier.inferredType)) {
-                ChocoPy.error(stmt.identifier.line, String.format("Expected type '%s', got type '%s'", elementType, stmt.identifier.inferredType));
+                ChocoPy.error(stmt.identifier.line, 
+                        String.format("expected type '%s', got type '%s'", elementType, stmt.identifier.inferredType), 
+                        "TypeError");
                 return null;
             }
         } else if (iterableType instanceof StrType) {
             if (!canAssign(iterableType, stmt.identifier.inferredType)) {
-                ChocoPy.error(stmt.identifier.line, String.format("Expected type 'str', got type '%s'", stmt.identifier.inferredType));
+                ChocoPy.error(stmt.identifier.line, 
+                        String.format("expected type 'str', got type '%s'", stmt.identifier.inferredType), 
+                        "TypeError");
                 return null;
             }
         } else {
-            ChocoPy.error(stmt.identifier.line, String.format("Expected type 'list' or 'str', got type '%s'", stmt.iterable.inferredType));
+            ChocoPy.error(stmt.identifier.line, 
+                    String.format("expected type 'list' or 'str', got type '%s'", stmt.iterable.inferredType), 
+                    "TypeError");
             return null;
         }
         
@@ -991,20 +1009,20 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     @Override
     public Void visitGlobalStmt(Stmt.Global stmt) {
         if (currentFunction == FunctionType.NONE) {
-            ChocoPy.error(stmt.name, "Global declaration is outside of function");
+            ChocoPy.error(stmt.name, "'global' outside function", "SyntaxError");
             return null;
         }
         if (classes.containsKey(stmt.name.lexeme)) {
-            ChocoPy.error(stmt.name, "Cannot shadow class name: " + stmt.name.lexeme);
+            ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", stmt.name.lexeme), "SyntaxError");
             return null;
         } else if (scopes.peek().containsKey(stmt.name.lexeme)) {
-            ChocoPy.error(stmt.name, "Duplicate declaration of identifier: " + stmt.name.lexeme);
+            ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", stmt.name.lexeme), "SyntaxError");
             return null;
         }
         
         ValueType type = getGlobalType(stmt.name.lexeme);
         if (type == null || type instanceof FuncType) {
-            ChocoPy.error(stmt.name, "Unknown global variable " + stmt.name.lexeme);
+            ChocoPy.error(stmt.name, "no binding for global '" + stmt.name.lexeme + "' found", "SyntaxError");
             return null;
         } else {
             addGlobalVarToCurrentScope(stmt.name.lexeme);
@@ -1050,20 +1068,20 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     @Override
     public Void visitNonlocalStmt(Stmt.Nonlocal stmt) {
         if (currentFunction == FunctionType.NONE) {
-            ChocoPy.error(stmt.name, "Nonlocal declaration is outside of function");
+            ChocoPy.error(stmt.name, "'nonlocal' outside function", "SyntaxError");
             return null;
         }
         if (classes.containsKey(stmt.name.lexeme)) {
-            ChocoPy.error(stmt.name, "Cannot shadow class name: " + stmt.name.lexeme);
+            ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", stmt.name.lexeme), "SyntaxError");
             return null;
         } else if (scopes.peek().containsKey(stmt.name.lexeme)) {
-            ChocoPy.error(stmt.name, "Duplicate declaration of identifier: " + stmt.name.lexeme);
+            ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", stmt.name.lexeme), "SyntaxError");
             return null;
         }
         
         ValueType type = getNonLocalType(stmt.name.lexeme);
         if (type == null || type instanceof FuncType) {
-            ChocoPy.error(stmt.name, "Unknown nonlocal variable " + stmt.name.lexeme);
+            ChocoPy.error(stmt.name, "no binding for nonlocal '" + stmt.name.lexeme + "' found", "SyntaxError");
             return null;
         } else {
             addNonlocalVarToCurrentScope(stmt.name.lexeme);

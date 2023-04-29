@@ -1,2 +1,2 @@
-[line 1] Error: / by zero
+[line 1] ZeroDivisionError: division by zero
 Exited with error code 2

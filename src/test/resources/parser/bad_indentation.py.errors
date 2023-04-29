@@ -1,2 +1,2 @@
-[line 2] Error at '': Expect expression.
-[line 3] Error at '': Expect expression.
+[line 2] SyntaxError: expected expression
+[line 3] SyntaxError: expected expression

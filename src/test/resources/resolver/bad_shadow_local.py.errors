@@ -1,7 +1,7 @@
-[line 4] Error at 'bool': Unexpected token for function parameter identifier.
-[line 5] Error at '': Expect expression.
-[line 7] Error at ':': Expect 'newline' after simple statement.
-[line 9] Error at 'str': Expect function name.
-[line 10] Error at '': Expect expression.
-[line 12] Error at '': Expect expression.
-[line 14] Error at '': Expect expression.
+[line 4] SyntaxError: unexpected token for function parameter identifier
+[line 5] SyntaxError: expected expression
+[line 7] SyntaxError: expect 'newline' after simple statement
+[line 9] SyntaxError: expect function name
+[line 10] SyntaxError: expected expression
+[line 12] SyntaxError: expected expression
+[line 14] SyntaxError: expected expression

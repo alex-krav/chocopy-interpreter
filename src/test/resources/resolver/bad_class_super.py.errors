@@ -1,2 +1,2 @@
-[line 2] Error at 'B': Unknown superclass: B
-[line 8] Error at 'z': Unknown superclass: z
+[line 2] NameError: name 'B' is not defined
+[line 8] NameError: name 'z' is not defined

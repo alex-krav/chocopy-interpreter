@@ -1,1 +1,1 @@
-[line 2] Error at '1v...': Identifier cannot start with number
+[line 2] SyntaxError: invalid decimal literal

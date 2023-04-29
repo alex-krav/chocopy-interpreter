@@ -1,4 +1,4 @@
-[line 1] Error at 'x': Unknown type: A
-[line 3] Error at 'foo': Unknown return type C
-[line 3] Error at 'x': Unknown type: B
-[line 4] Error at 'y': Unknown type: D
+[line 1] TypeError: unknown type: 'A'
+[line 3] TypeError: unknown return type 'C'
+[line 3] TypeError: unknown type: 'B'
+[line 4] TypeError: unknown type: 'D'

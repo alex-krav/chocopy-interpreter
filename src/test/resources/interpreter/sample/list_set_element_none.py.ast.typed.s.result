@@ -1,2 +1,2 @@
-[line 3] Operation on None
+[line 3] TypeError: '<None>' object is not subscriptable
 Exited with error code 4

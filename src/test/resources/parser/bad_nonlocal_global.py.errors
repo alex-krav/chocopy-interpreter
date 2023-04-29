@@ -1,1 +1,1 @@
-[line 2] Error at 'int': Expect variable name.
+[line 2] SyntaxError: expect variable name

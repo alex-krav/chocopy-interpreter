@@ -1,3 +1,3 @@
-[line 2] Error at 'int': Expect superclass name.
-[line 3] Error at '': Expect expression.
-[line 4] Error at '': Expect expression.
+[line 2] SyntaxError: expect superclass name
+[line 3] SyntaxError: expected expression
+[line 4] SyntaxError: expected expression

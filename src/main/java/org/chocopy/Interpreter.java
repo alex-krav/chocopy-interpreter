@@ -126,24 +126,26 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             case EQUAL_EQUAL: return isEqual(left, right);
             case IS: return isEqual(left, right);
             case GREATER:
-                checkNumberOperands(expr.operator, left, right);
+                checkNumberOperands(expr, left, right);
                 return (int)left > (int)right;
             case GREATER_EQUAL:
-                checkNumberOperands(expr.operator, left, right);
+                checkNumberOperands(expr, left, right);
                 return (int)left >= (int)right;
             case LESS:
-                checkNumberOperands(expr.operator, left, right);
+                checkNumberOperands(expr, left, right);
                 return (int)left < (int)right;
             case LESS_EQUAL:
-                checkNumberOperands(expr.operator, left, right);
+                checkNumberOperands(expr, left, right);
                 return (int)left <= (int)right;
             case MINUS:
-                checkNumberOperands(expr.operator, left, right);
+                checkNumberOperands(expr, left, right);
                 return (int)left - (int)right;
             case PLUS:
                 if (left == null || right == null) {
                     ChocoPy.exitCode = 4;
-                    throw new RuntimeError(expr.operator, "Operation on None");
+                    throw new RuntimeError(expr.operator, 
+                            String.format("unsupported operand type(s) for +: '%s' and '%s'", expr.left.inferredType, expr.right.inferredType), 
+                            "TypeError");
                 }
                 
                 if (left instanceof Integer && right instanceof Integer) {
@@ -159,26 +161,28 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                     return left;
                 }
 
-                throw new RuntimeError(expr.operator, "Operands must be numbers, strings or lists.");
+                throw new RuntimeError(expr.operator,
+                        String.format("unsupported operand type(s) for %s: '%s' and '%s'", expr.operator.lexeme, expr.left.inferredType, expr.right.inferredType),
+                        "TypeError");
                 
             case DOUBLE_SLASH:
-                checkNumberOperands(expr.operator, left, right);
+                checkNumberOperands(expr, left, right);
                 try {
                     return (int)left / (int)right;
                 } catch (ArithmeticException e) {
                     ChocoPy.exitCode = 2;
-                    throw new RuntimeError(expr.operator, "Error: " + e.getMessage());
+                    throw new RuntimeError(expr.operator, "division by zero", "ZeroDivisionError");
                 }
             case PERCENT:
-                checkNumberOperands(expr.operator, left, right);
+                checkNumberOperands(expr, left, right);
                 try {
                     return (int)left % (int)right;
                 } catch (ArithmeticException e) {
                     ChocoPy.exitCode = 2;
-                    throw new RuntimeError(expr.operator, "Error: " + e.getMessage());
+                    throw new RuntimeError(expr.operator, "integer modulo by zero", "ZeroDivisionError");
                 }
             case STAR:
-                checkNumberOperands(expr.operator, left, right);
+                checkNumberOperands(expr, left, right);
                 return (int)left * (int)right;
         }
 
@@ -197,14 +201,14 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         if (!(callee instanceof ChocoPyCallable)) {
             throw new RuntimeError(expr.paren,
-                    "Can only call functions and classes.");
+                    String.format("'%s' object is not callable", callee.toString()), "TypeError");
         }
 
         ChocoPyCallable function = (ChocoPyCallable)callee;
         if (arguments.size() != function.arity()) {
-            throw new RuntimeError(expr.paren, "Expected " +
-                    function.arity() + " arguments but got " +
-                    arguments.size() + ".");
+            throw new RuntimeError(expr.paren, 
+                    String.format("expected %d arguments, but got %d", function.arity(), arguments.size()),
+                    "TypeError");
         }
 
         return function.call(this, arguments);
@@ -216,11 +220,13 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         
         if (object == null) {
             ChocoPy.exitCode = 4;
-            throw new RuntimeError(expr.name, "Operation on None");
+            throw new RuntimeError(expr.name, String.format("'<None>' object has no attribute '%s'", expr.name.lexeme),
+                    "AttributeError");
         } else if (object instanceof ChocoPyInstance) {
             return ((ChocoPyInstance) object).get(expr.name);
         } else {
-            throw new RuntimeError(expr.name, "Only instances have properties.");
+            throw new RuntimeError(expr.name, String.format("'%s' object has no attribute '%s'", object, expr.name.lexeme), 
+                    "AttributeError");
         }
     }
 
@@ -260,7 +266,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Object visitListingExpr(Expr.Listing expr) {
         if (expr.elements == null) {
             ChocoPy.exitCode = 4;
-            throw new RuntimeError(expr.line, "Operation on None");
+            throw new RuntimeError(expr.line, "operation on '<None>'", "RuntimeError"); 
         }
         
         List list = new ArrayList();
@@ -278,7 +284,10 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         
         if (listObject == null || idObject == null) {
             ChocoPy.exitCode = 4;
-            throw new RuntimeError(expr.line, "Operation on None");
+            throw new RuntimeError(expr.line, "'<None>' object is not subscriptable", "TypeError");
+        } else if (!(idObject instanceof Integer)) {
+            ChocoPy.exitCode = 4;
+            throw new RuntimeError(expr.line, "list indices must be 'int', not '<None>'", "TypeError");
         }
 
         Integer id = (Integer) idObject;
@@ -286,7 +295,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             List list = (List) listObject;
             if (list.isEmpty() || id < 0 || id >= list.size()) {
                 ChocoPy.exitCode = 3;
-                throw new RuntimeError(expr.line, "Index out of bounds");
+                throw new RuntimeError(expr.line, "list index out of range", "IndexError");
             } else {
                 return list.get(id);
             }
@@ -294,12 +303,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             String str = (String) listObject;
             if (str.isEmpty() || id < 0 || id >= str.length()) {
                 ChocoPy.exitCode = 3;
-                throw new RuntimeError(expr.line, "Index out of bounds");
+                throw new RuntimeError(expr.line, "string index out of range", "IndexError");
             } else {
                 return Character.toString(str.charAt(id));
             }
         } else {
-            throw new RuntimeError(expr.line, "Expected type 'str' or 'list'.");
+            throw new RuntimeError(expr.line, "expected type 'str' or 'list'", "TypeError");
         }
     }
 
@@ -311,7 +320,10 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         
         if (listObject == null || idObject == null) {
             ChocoPy.exitCode = 4;
-            throw new RuntimeError(expr.line, "Operation on None");
+            throw new RuntimeError(expr.line, "'<None>' object is not subscriptable", "TypeError");
+        } else if (!(idObject instanceof Integer)) {
+            ChocoPy.exitCode = 4;
+            throw new RuntimeError(expr.line, "list indices must be 'int', not '<None>'", "TypeError");
         }
         
         List list = (List) listObject;
@@ -319,7 +331,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         if (list.isEmpty() || id < 0 || id >= list.size()) {
             ChocoPy.exitCode = 3;
-            throw new RuntimeError(expr.line, "Index out of bounds");
+            throw new RuntimeError(expr.line, "list index out of range", "IndexError");
         } else {
             return list.set(id, valueObject);
         }
@@ -331,7 +343,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         
         if (object == null) {
             ChocoPy.exitCode = 1;
-            throw new RuntimeError(expr.line, "Invalid argument: expected type 'str' or 'list', got None");
+            throw new RuntimeError(expr.line, "'<None>' object has no len()", "TypeError");
         }
 
         Expr.Call lenCall = new Expr.Call(
@@ -359,9 +371,13 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         
         if (object == null) {
             ChocoPy.exitCode = 4;
-            throw new RuntimeError(expr.line, "Operation on None");
+            throw new RuntimeError(expr.line, 
+                    String.format("'<None>' object has no attribute '%s'", expr.name.lexeme), 
+                    "AttributeError");
         } else if (!(object instanceof ChocoPyInstance)) {
-            throw new RuntimeError(expr.name, "Only instances have fields.");
+            throw new RuntimeError(expr.name, 
+                    String.format("'%s' object has no attribute '%s'", expr.object.inferredType.toString(), expr.name.lexeme),
+                    "AttributeError");
         }
 
         ((ChocoPyInstance)object).set(expr.name, value);
@@ -413,19 +429,25 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     private void checkNumberOperand(Token operator, Object operand) {
         if (operand instanceof Integer) return;
-        throw new RuntimeError(operator, "Operand must be a number.");
+        throw new RuntimeError(operator, 
+                String.format("unsupported operand type for %s: '%s'", operator.lexeme, operand.toString()), 
+                "TypeError");
     }
 
     private void checkBooleanOperand(Token operator, Object operand) {
         if (operand instanceof Boolean) return;
-        throw new RuntimeError(operator, "Operand must be boolean.");
+        throw new RuntimeError(operator,
+                String.format("unsupported operand type for %s: '%s'", operator.lexeme, operand.toString()),
+                "TypeError");
     }
 
-    private void checkNumberOperands(Token operator,
+    private void checkNumberOperands(Expr.Binary expr,
                                      Object left, Object right) {
         if (left instanceof Integer && right instanceof Integer) return;
 
-        throw new RuntimeError(operator, "Operands must be numbers.");
+        throw new RuntimeError(expr.operator,
+                String.format("unsupported operand type(s) for %s: '%s' and '%s'", expr.operator.lexeme, expr.left.inferredType, expr.right.inferredType),
+                "TypeError");
     }
 
     void interpret(List<Stmt> statements) {
@@ -465,7 +487,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             superclass = evaluate(new Expr.Variable(stmt.superclass));
             if (!(superclass instanceof ChocoPyClass)) {
                 throw new RuntimeError(stmt.superclass,
-                        "Superclass must be a class.");
+                        "superclass must be a class", "TypeError"); 
             }
         }
 
@@ -565,7 +587,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         
         if (iterableObject == null) {
             ChocoPy.exitCode = 4;
-            throw new RuntimeError(stmt.line, "Operation on None");
+            throw new RuntimeError(stmt.line, "'<None>' object is not iterable", "TypeError");
         }
         
         if (iterableObject instanceof List) {

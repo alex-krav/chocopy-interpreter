@@ -1,1 +1,1 @@
-[line 6] Error at '=': Multiple assignment of [<None>] is forbidden.
+[line 6] TypeError: multiple assignment of '[<None>]' is forbidden

@@ -1,2 +1,2 @@
-[line 4] Error at '__init__': Redefined method doesn't match superclass signature: __init__
-[line 7] Error: Expected 0 args, got 1
+[line 4] SyntaxError: redefined method doesn't match superclass signature: '__init__'
+[line 7] TypeError: expected 0 args, got 1

@@ -1,3 +1,3 @@
 B
-[line 15] Operation on None
+[line 15] AttributeError: '<None>' object has no attribute 'foo'
 Exited with error code 4

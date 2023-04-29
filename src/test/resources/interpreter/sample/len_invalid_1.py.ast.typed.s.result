@@ -1,2 +1,2 @@
-[line 3] Invalid argument: expected type 'str' or 'list', got None
+[line 3] TypeError: '<None>' object has no len()
 Exited with error code 1

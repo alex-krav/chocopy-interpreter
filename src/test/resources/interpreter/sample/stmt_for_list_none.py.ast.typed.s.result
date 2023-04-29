@@ -1,2 +1,2 @@
-[line 4] Operation on None
+[line 4] TypeError: '<None>' object is not iterable
 Exited with error code 4

@@ -1,1 +1,1 @@
-[line 1] Error: First line indented
+[line 1] IndentationError: unexpected indent

@@ -1,1 +1,1 @@
-[line 2] Error at 'x': Expected type 'int', got type 'bool'
+[line 2] TypeError: expected type 'int', got type 'bool'

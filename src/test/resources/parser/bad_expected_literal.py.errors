@@ -1,1 +1,1 @@
-[line 4] Error at 'A': Expected literal for var definition.
+[line 4] ValueError: invalid literal

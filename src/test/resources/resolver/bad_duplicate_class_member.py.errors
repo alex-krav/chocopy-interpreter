@@ -1,2 +1,2 @@
-[line 7] Error at 'x': Cannot redefine attribute: x
-[line 9] Error at 'foo': Duplicate declaration of identifier: foo
+[line 7] SyntaxError: cannot redefine attribute: 'x'
+[line 9] SyntaxError: duplicate declaration of identifier: 'foo'

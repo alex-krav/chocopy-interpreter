@@ -1,1 +1,1 @@
-[line 5] Error at 'f': Method names shadows attribute: f
+[line 5] SyntaxError: method name shadows attribute: 'f'

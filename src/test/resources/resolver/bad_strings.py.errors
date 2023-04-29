@@ -1,6 +1,6 @@
-[line 5] Error at '+': Cannot use operator + on types int and str
-[line 6] Error at '+': Cannot use operator + on types str and int
-[line 6] Error at 'z': Expected type 'str', got type 'object'
-[line 7] Error: Cannot assign to index of string
-[line 8] Error: Cannot assign to index of string
-[line 9] Error: Expected index of type 'int', got type 'bool'
+[line 5] TypeError: unsupported operand type(s) for +: 'int' and 'str'
+[line 6] TypeError: unsupported operand type(s) for +: 'str' and 'int'
+[line 6] TypeError: expected type 'str', got type 'object'
+[line 7] TypeError: 'str' object does not support item assignment
+[line 8] TypeError: 'str' object does not support item assignment
+[line 9] TypeError: list indices must be 'int', not 'bool'

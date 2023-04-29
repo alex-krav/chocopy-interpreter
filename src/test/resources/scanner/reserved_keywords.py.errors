@@ -1,1 +1,1 @@
-[line 1] Error at 'async': keyword is reserved
+[line 1] SyntaxError: 'async' keyword is reserved

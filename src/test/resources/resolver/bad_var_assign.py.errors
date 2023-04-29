@@ -1,6 +1,6 @@
-[line 4] Error at 'x': Expected type 'int', got type 'bool'
-[line 5] Error at 'y': Expected type 'bool', got type 'int'
-[line 6] Error at 'z': Identifier not defined in current scope: z
-[line 7] Error at 'z': Identifier not defined in current scope: z
-[line 8] Error at 'x': Expected type 'int', got type '<None>'
-[line 8] Error at 'z': Identifier not defined in current scope: z
+[line 4] TypeError: expected type 'int', got type 'bool'
+[line 5] TypeError: expected type 'bool', got type 'int'
+[line 6] NameError: name 'z' is not defined in current scope
+[line 7] NameError: name 'z' is not defined in current scope
+[line 8] TypeError: expected type 'int', got type '<None>'
+[line 8] NameError: name 'z' is not defined in current scope

@@ -162,7 +162,7 @@ class Parser {
             return literal;
         }
 
-        throw error(peek(), "Expected literal for var definition.");
+        throw error(peek(), "invalid literal", "ValueError");
     }
 
     private Expr primary() {
@@ -212,7 +212,7 @@ class Parser {
 
         if (match(LEFT_PAREN)) {
             Expr expr = expression();
-            consume(RIGHT_PAREN, "Expect ')' after expression.");
+            consume(RIGHT_PAREN, "expect ')' after expression");
             return new Expr.Grouping(expr);
         }
         
@@ -221,29 +221,33 @@ class Parser {
             if (!check(RIGHT_BRACKET)) {
                 do {
                     if (elements.size() >= 255) {
-                        error(peek(), "Can't have more than 255 elements.");
+                        error(peek(), "can't have more than 255 elements", "ValueError");
                     }
 
                     elements.add(expression());
                 } while (match(COMMA));
             }
-            consume(RIGHT_BRACKET, "Expect ']' after list definition.");
+            consume(RIGHT_BRACKET, "expect ']' after list definition");
             Expr.Listing listing = new Expr.Listing(elements);
             listing.line = previous().line;
             return listing;
         }
 
-        throw error(peek(), "Expect expression.");
+        throw error(peek(), "expected expression", "SyntaxError");
     }
 
     private Token consume(TokenType type, String message) {
-        if (check(type)) return advance();
-
-        throw error(peek(), message);
+        return consume(type, message, "SyntaxError");
     }
 
-    private ParseError error(Token token, String message) {
-        ChocoPy.error(token, message);
+    private Token consume(TokenType type, String message, String errorType) {
+        if (check(type)) return advance();
+
+        throw error(peek(), message, errorType);
+    }
+
+    private ParseError error(Token token, String message, String type) {
+        ChocoPy.error(token, message, type);
         return new ParseError();
     }
 
@@ -277,7 +281,7 @@ class Parser {
 
         Stmt stmt = simpleStatement();
         if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
-            consume(NEWLINE, "Expect 'newline' after simple statement.");
+            consume(NEWLINE, "expect 'newline' after simple statement");
         }
         return stmt;
     }
@@ -294,27 +298,27 @@ class Parser {
     }
 
     private Expr printFunc() {
-        consume(LEFT_PAREN, "Expect '(' before argument.");
+        consume(LEFT_PAREN, "expect '(' before argument");
         int line = previous().line;
         Expr value = expression();
-        consume(RIGHT_PAREN, "Expect ')' after argument.");
+        consume(RIGHT_PAREN, "expect ')' after argument");
         Expr.Print print = new Expr.Print(value);
         print.line = line;
         return print;
     }
 
     private Expr inputFunc() {
-        consume(LEFT_PAREN, "Expect '(' for function call.");
-        consume(RIGHT_PAREN, "Expect ')' for function call.");
+        consume(LEFT_PAREN, "expect '(' for function call");
+        consume(RIGHT_PAREN, "expect ')' for function call");
         Expr.Input input = new Expr.Input(new Token(INPUT_NATIVE_FUN, "", null, previous().line));
         input.line = previous().line;
         return input;
     }
 
     private Expr lenFunc() {
-        consume(LEFT_PAREN, "Expect '(' before argument.");
+        consume(LEFT_PAREN, "expect '(' before argument");
         Expr value = expression();
-        consume(RIGHT_PAREN, "Expect ')' after argument.");
+        consume(RIGHT_PAREN, "expect ')' after argument");
         Expr.Len len = new Expr.Len(value);
         len.line = previous().line;
         return len;
@@ -368,7 +372,7 @@ class Parser {
                         listSet.line = expr.line;
                         assignments.add(new Stmt.Expression(listSet));
                     } else {
-                        error(equals, "Invalid assignment target.");
+                        error(equals, "invalid assignment target", "SyntaxError");
                     }
                 }
                 
@@ -397,12 +401,12 @@ class Parser {
                 expr.line = line;
             } else if (match(DOT)) {
                 Token name = consume(IDENTIFIER,
-                        "Expect property name after '.'.");
+                        "expect property name after '.'");
                 expr = new Expr.Get(expr, name);
                 expr.line = name.line;
             } else if (match(LEFT_BRACKET)) {
                 Expr index = expression();
-                consume(RIGHT_BRACKET, "Expect ']' after list index.");
+                consume(RIGHT_BRACKET, "expect ']' after list index");
                 expr = new Expr.Index(expr, index);
                 expr.line = previous().line;
             } else {
@@ -441,28 +445,28 @@ class Parser {
     }
 
     private Stmt classDefinition() {
-        Token name = consume(IDENTIFIER, "Expect class name.");
-        consume(LEFT_PAREN, "Expect '(' after " + name.lexeme + " class name.");
+        Token name = consume(IDENTIFIER, "expect class name");
+        consume(LEFT_PAREN, "expect '(' after " + name.lexeme + " class name");
         Token superclass;
 
         if (check(IDENTIFIER, OBJECT_TYPE)) {
-            superclass = consume(peek().type, "Expect superclass name.");
+            superclass = consume(peek().type, "expect superclass name");
         } else {
-            throw error(peek(), "Expect superclass name.");
+            throw error(peek(), "expect superclass name", "SyntaxError");
         }
         
-        consume(RIGHT_PAREN, "Expect ')' after superclass name of " + name.lexeme + "class.");
+        consume(RIGHT_PAREN, "expect ')' after superclass name of " + name.lexeme + "class");
 
-        consume(COLON, "Expect ':' after " + name.lexeme + " declaration.");
-        consume(NEWLINE, "Expect 'newline' after " + name.lexeme + " declaration.");
-        consume(INDENT, "Expect 'indent' before " + name.lexeme + " body.");
+        consume(COLON, "expect ':' after " + name.lexeme + " declaration");
+        consume(NEWLINE, "expect 'newline' after " + name.lexeme + " declaration");
+        consume(INDENT, "expect 'indent' before '" + name.lexeme + "' class body", "IndentationError");
 
         List<Stmt> members = new ArrayList<>();
         while (!check(DEDENT) && !isAtEnd()) {
             members.add(classMember(name));
         }
 
-        consume(DEDENT, "Expect 'dedent' after " + name.lexeme + " body.");
+        consume(DEDENT, "expect 'dedent' after " + name.lexeme + " body", "IndentationError");
 
         Stmt.Class klass = new Stmt.Class(name, superclass, members);
         klass.line = name.line;
@@ -472,44 +476,44 @@ class Parser {
     private Stmt classMember(Token className) {
         if (match(PASS)) {
             if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
-                consume(NEWLINE, "Expect 'newline' after pass statement.");
+                consume(NEWLINE, "expect 'newline' after pass statement");
             }
             return new Stmt.Pass(new Token(PASS, "pass", null, previous().line));
         }
         if (check(IDENTIFIER)) return varDefinition("class field");
         if (match(DEF)) return function("method");
 
-        throw error(peek(), "Unexpected token in " + className + " class body.");
+        throw error(peek(), "unexpected token in " + className + " class body", "SyntaxError");
     }
 
     private Stmt varDefinition(String kind) {
         Stmt.Var var = typedVarDeclaration(kind);
 
-        consume(EQUAL, "Expect '=' after " + kind + " declaration.");
+        consume(EQUAL, "expect '=' after " + kind + " declaration");
         var.setInitializer(literal());
 
         if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
-            consume(NEWLINE, "Expect 'newline' after " + kind + " definition.");
+            consume(NEWLINE, "expect 'newline' after " + kind + " definition");
         }
         return var;
     }
     
     private Stmt.Var typedVarDeclaration(String kind) {
         if (check(IDENTIFIER, SELF)) {
-            Token name = consume(peek().type, "Expect " + kind + " name.");
-            consume(COLON, "Expect ':' after " + kind + " name.");
+            Token name = consume(peek().type, "expect " + kind + " name");
+            consume(COLON, "expect ':' after " + kind + " name");
             ValueType type = varType(kind);
             Stmt.Var var = new Stmt.Var(name, type, null);
             var.line = name.line;
             return var;
         }
 
-        throw error(peek(), "Unexpected token for " + kind + " identifier.");
+        throw error(peek(), "unexpected token for " + kind + " identifier", "SyntaxError");
     }
     
     private ValueType varType(String kind) {
         if (check(IDENTIFIER, BOOL_TYPE, STR_TYPE, INT_TYPE, OBJECT_TYPE, IDSTRING)) {
-            Token token = consume(peek().type, "Expect " + kind + " type name.");
+            Token token = consume(peek().type, "expect " + kind + " type name");
             String type = token.lexeme.replaceAll("^\"|\"$", "");
             return switch (type) {
                 case "str" -> new StrType();
@@ -520,11 +524,11 @@ class Parser {
             };
         } else if (match(LEFT_BRACKET)) {
             ValueType elementType = varType(kind);
-            consume(RIGHT_BRACKET, "Expect ']' after " + kind + " type name.");
+            consume(RIGHT_BRACKET, "expect ']' after " + kind + " type name");
             return new ListValueType(elementType);
         }
 
-        throw error(peek(), "Unexpected token for " + kind + " type.");
+        throw error(peek(), "unexpected token for " + kind + " type", "SyntaxError");
     }
     
     private Expr ternary() {
@@ -533,7 +537,7 @@ class Parser {
         if (match(IF)) {
             int line = previous().line;
             Expr condition = or();
-            consume(ELSE, "Expected 'else' after condition expression.");
+            consume(ELSE, "expected 'else' after condition expression");
             Expr onFalse = ternary();
             onTrue = new Expr.Ternary(onTrue, condition, onFalse);
             onTrue.line = line;
@@ -543,8 +547,8 @@ class Parser {
     }
 
     private Stmt.Block block() {
-        consume(NEWLINE, "Expect 'newline' before block.");
-        consume(INDENT, "Expect 'indent' before block.");
+        consume(NEWLINE, "expect 'newline' before block");
+        consume(INDENT, "expect 'indent' before block", "IndentationError");
         int line = previous().line;
 
         List<Stmt> statements = new ArrayList<>();
@@ -552,7 +556,7 @@ class Parser {
             statements.add(statement());
         }
 
-        consume(DEDENT, "Expect 'dedent' after block.");
+        consume(DEDENT, "expect 'dedent' after block", "IndentationError");
         Stmt.Block block = new Stmt.Block(statements);
         block.line = line;
         return block;
@@ -565,7 +569,7 @@ class Parser {
             statements.add(functionStatement());
         }
 
-        consume(DEDENT, "Expect 'dedent' after " + kind + " body.");
+        consume(DEDENT, "expect 'dedent' after " + kind + " body", "IndentationError");
         return statements;
     }
     
@@ -584,28 +588,28 @@ class Parser {
     }
 
     private Stmt globalDeclaration() {
-        Token name = consume(IDENTIFIER, "Expect variable name.");
+        Token name = consume(IDENTIFIER, "expect variable name");
         Stmt.Global global = new Stmt.Global(name);
         global.line = name.line;
         if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
-            consume(NEWLINE, "Expect 'newline' after global variable declaration.");
+            consume(NEWLINE, "expect 'newline' after global variable declaration");
         }
         return global;
     }
 
     private Stmt nonlocalDeclaration() {
-        Token name = consume(IDENTIFIER, "Expect variable name.");
+        Token name = consume(IDENTIFIER, "expect variable name");
         Stmt.Nonlocal nonlocal = new Stmt.Nonlocal(name);
         nonlocal.line = name.line;
         if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
-            consume(NEWLINE, "Expect 'newline' after nonlocal variable declaration.");
+            consume(NEWLINE, "expect 'newline' after nonlocal variable declaration");
         }
         return nonlocal;
     }
 
     private Stmt ifStatement() {
         Expr condition = expression();
-        consume(COLON, "Expect ':' after if condition.");
+        consume(COLON, "expect ':' after if condition");
         int line = previous().line;
         Stmt thenBranch = block();
         Stmt elseBranch = null;
@@ -615,7 +619,7 @@ class Parser {
         }
         
         if (match(ELSE)) {
-            consume(COLON, "Expect ':' after else keyword.");
+            consume(COLON, "expect ':' after else keyword");
             elseBranch = block();
         }
 
@@ -667,7 +671,7 @@ class Parser {
 
     private Stmt whileStatement() {
         Expr condition = expression();
-        consume(COLON, "Expect ':' after condition.");
+        consume(COLON, "expect ':' after condition");
         int line = previous().line;
         Stmt.Block body = block();
 
@@ -677,10 +681,10 @@ class Parser {
     }
 
     private Stmt forStatement() {
-        Token identifier = consume(IDENTIFIER, "Expect element name.");
-        consume(IN, "Expect 'in' after " + identifier.lexeme + " identifier.");
+        Token identifier = consume(IDENTIFIER, "expect element name");
+        consume(IN, "expect 'in' after " + identifier.lexeme + " identifier");
         Expr iterable = expression();
-        consume(COLON, "Expect ':' after iterable.");
+        consume(COLON, "expect ':' after iterable");
         Stmt.Block body = block();
         
         Stmt.For stmtFor = new Stmt.For(new Expr.Variable(identifier), iterable, body);
@@ -698,12 +702,12 @@ class Parser {
                 expr.line = line;
             } else if (match(DOT)) {
                 Token name = consume(IDENTIFIER,
-                        "Expect property name after '.'.");
+                        "expect property name after '.'");
                 expr = new Expr.Get(expr, name);
                 expr.line = name.line;
             } else if (match(LEFT_BRACKET)) {
                 Expr index = expression();
-                consume(RIGHT_BRACKET, "Expect ']' after list index.");
+                consume(RIGHT_BRACKET, "expect ']' after list index");
                 expr = new Expr.Index(expr, index);
                 expr.line = previous().line;
             } else {
@@ -719,14 +723,14 @@ class Parser {
         if (!check(RIGHT_PAREN)) {
             do {
                 if (arguments.size() >= 255) {
-                    error(peek(), "Can't have more than 255 arguments.");
+                    error(peek(), "can't have more than 255 arguments", "ValueError");
                 }
                 arguments.add(expression());
             } while (match(COMMA));
         }
 
         Token paren = consume(RIGHT_PAREN,
-                "Expect ')' after arguments.");
+                "expect ')' after arguments");
 
         return new Expr.Call(callee, paren, arguments);
     }
@@ -734,34 +738,34 @@ class Parser {
     private Stmt.Function function(String kind) {
         Token name;
         if (check(IDENTIFIER, INPUT_NATIVE_FUN, LEN_NATIVE_FUN, PRINT_NATIVE_FUN)) {
-            name = consume(peek().type, "Expect " + kind + " name.");
+            name = consume(peek().type, "expect " + kind + " name");
         } else {
-            throw error(peek(), "Expect " + kind + " name.");
+            throw error(peek(), "expect " + kind + " name", "SyntaxError");
         }
         
-        consume(LEFT_PAREN, "Expect '(' after " + kind + " name.");
+        consume(LEFT_PAREN, "expect '(' after " + kind + " name");
         List<Stmt.Var> parameters = new ArrayList<>();
         if (!check(RIGHT_PAREN)) {
             do {
                 if (parameters.size() >= 255) {
-                    error(peek(), "Can't have more than 255 parameters.");
+                    error(peek(), "can't have more than 255 parameters", "ValueError");
                 }
 
                 parameters.add(
                         typedVarDeclaration("function parameter"));
             } while (match(COMMA));
         }
-        consume(RIGHT_PAREN, "Expect ')' after parameters.");
+        consume(RIGHT_PAREN, "expect ')' after parameters");
 
         ValueType returnType = new NoneType();
         if (!check(COLON)) {
-            consume(ARROW, "Expect '->' before " + kind + " return type.");    
+            consume(ARROW, "expect '->' before " + kind + " return type");    
             returnType = varType("return");
         }
         
-        consume(COLON, "Expect ':' after " + kind + " definition.");
-        consume(NEWLINE, "Expect 'newline' after " + kind + " definition.");
-        consume(INDENT, "Expect 'indent' before " + kind + " body.");
+        consume(COLON, "expect ':' after " + kind + " definition");
+        consume(NEWLINE, "expect 'newline' after " + kind + " definition");
+        consume(INDENT, String.format("expect 'indent' before '%s' %s body", name.lexeme, kind), "IndentationError");
         
         List<Stmt> body = functionBody(kind);
         Stmt.Function function = new Stmt.Function(name, parameters, returnType, body);

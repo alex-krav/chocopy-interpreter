@@ -1,3 +1,3 @@
-[line 1] Error at '+': Cannot use operator + on types str and [str]
-[line 2] Error at '+': Cannot use operator + on types int and [int]
-[line 3] Error at '+': Cannot use operator + on types <Empty> and [int]
+[line 1] TypeError: unsupported operand type(s) for +: 'str' and '[str]'
+[line 2] TypeError: unsupported operand type(s) for +: 'int' and '[int]'
+[line 3] TypeError: unsupported operand type(s) for +: '<Empty>' and '[int]'

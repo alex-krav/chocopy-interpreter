@@ -1,2 +1,2 @@
-[line 4] Index out of bounds
+[line 4] IndexError: list index out of range
 Exited with error code 3

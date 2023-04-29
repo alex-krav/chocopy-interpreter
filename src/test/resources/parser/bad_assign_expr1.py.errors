@@ -1,1 +1,1 @@
-[line 1] Error at '=': Expect ')' after expression.
+[line 1] SyntaxError: expect ')' after expression

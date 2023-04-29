@@ -1,4 +1,4 @@
-[line 4] Error: Expected index of type 'int', got type 'bool'
-[line 5] Error: Cannot index into type 'bool'
-[line 6] Error: Cannot index into type '<Empty>'
-[line 7] Error: Expected index of type 'int', got type 'bool'
+[line 4] TypeError: list indices must be 'int', not 'bool'
+[line 5] TypeError: 'bool' object is not subscriptable
+[line 6] TypeError: '<Empty>' object is not subscriptable
+[line 7] TypeError: list indices must be 'int', not 'bool'
