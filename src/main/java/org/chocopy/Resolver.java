@@ -9,6 +9,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private final Stack<Map<String, ValueType>> scopes = new Stack<>();
     private final Map<String, ClassInfo> classes = new HashMap<>();
     private FunctionType currentFunction = FunctionType.NONE;
+    private Set<Integer> targetCounters = new HashSet<>();
 
     Resolver() {}
 
@@ -34,6 +35,13 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         
         ValueType targetType = expr.target.inferredType;
         ValueType valueType = expr.value.inferredType;
+        
+        if (expr.targetCounter > 0 
+                && targetCounters.contains(expr.targetCounter) 
+                && valueType.equals(new ListValueType(new NoneType()))) {
+            ChocoPy.error(expr.target.name, "multiple assignment of '[<None>]' is forbidden", "TypeError");
+        }
+        targetCounters.add(expr.targetCounter);
 
         if (targetType != null) {
             if (!isVarDeclaredGlobalInCurrentScope(expr.target.name.lexeme) 
@@ -366,6 +374,14 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.listing);
         
         ValueType listType = expr.listing.inferredType;
+        ValueType valueType = expr.value.inferredType;
+
+        if (expr.targetCounter > 0
+                && targetCounters.contains(expr.targetCounter)
+                && valueType.equals(new ListValueType(new NoneType()))) {
+            ChocoPy.error(expr.line, "multiple assignment of '[<None>]' is forbidden", "TypeError");
+        }
+        targetCounters.add(expr.targetCounter);
         
         if (listType instanceof StrType) {
             ChocoPy.error(expr.line ,"'str' object does not support item assignment", "TypeError");
@@ -411,6 +427,14 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.object);
 
         ValueType objInferredType = expr.object.inferredType;
+        ValueType valueInferredType = expr.value.inferredType;
+
+        if (expr.targetCounter > 0
+                && targetCounters.contains(expr.targetCounter)
+                && valueInferredType.equals(new ListValueType(new NoneType()))) {
+            ChocoPy.error(expr.name, "multiple assignment of '[<None>]' is forbidden", "TypeError");
+        }
+        targetCounters.add(expr.targetCounter);
 
         if (staticTypes.contains(objInferredType.getClass())) {
             ChocoPy.error(expr.name, "expected type 'object', got type '" + objInferredType + "'", "TypeError");

@@ -6,6 +6,7 @@ abstract class Expr {
     protected ValueType inferredType;
     protected int line;
     protected boolean callable;
+    protected int targetCounter;
     
     interface Visitor<R> {
         R visitAssignExpr(Assign expr);
