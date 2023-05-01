@@ -25,15 +25,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
     @Override
     public String visitAssignExpr(Expr.Assign expr) {
-        StringBuilder builder = new StringBuilder();
-
-        level += 1;
-        line(builder, "class", "Expr.Assign");
-        lineSeparate(builder, "target", expr.target.accept(this));
-        lineSeparate(builder, "value", expr.value.accept(this));
-        level -= 1;
-
-        return builder.toString();
+        return expr.target.accept(this) + "\n";
     }
 
     @Override
@@ -204,7 +196,6 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         lineInferredType(builder, expr);
         lineSeparate(builder, "list", expr.listing.accept(this));
         lineSeparate(builder, "index", expr.id.accept(this));
-        lineSeparate(builder, "value", expr.value.accept(this));
         level -= 1;
 
         return builder.toString();
@@ -241,7 +232,6 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         line(builder, "class", "Expr.Set");
         lineSeparate(builder, "object", expr.object.accept(this));
         line(builder, "name", expr.name.lexeme);
-        lineSeparate(builder, "value", expr.value.accept(this));
         level -= 1;
 
         return builder.toString();
@@ -452,6 +442,27 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         lineSeparate(builder, "expr", expr.expression.accept(this));
         level -= 1;
 
+        return builder.toString();
+    }
+
+    @Override
+    public String visitMultiAssignExpr(Expr.MultiAssign expr) {
+        StringBuilder builder = new StringBuilder();
+        level += 1;
+        line(builder, "class", "Expr.MultiAssign");
+        
+        builder.append(tabs()); builder.append("targets:\n");
+        level += 1;
+        for (Expr target : expr.targets) {
+            builder.append(tabs()); builder.append("- target:\n");
+            level += 1;
+            builder.append(target.accept(this)); builder.append("\n");
+            level -= 1;
+        }
+        level -= 1;
+        
+        lineSeparate(builder, "value", expr.value.accept(this));
+        level -= 1;
         return builder.toString();
     }
 

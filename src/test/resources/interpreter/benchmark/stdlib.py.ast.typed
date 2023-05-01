@@ -29,11 +29,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: [str]
-                name: digits
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: [str]
+                    name: digits
               value:
                 class: Expr.Listing
                 inferredType: [str]
@@ -96,11 +97,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: str
-                      name: result
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: str
+                          name: result
                     value:
                       class: Expr.Literal
                       inferredType: str
@@ -108,11 +110,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: int
-                      name: x
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: x
                     value:
                       class: Expr.Unary
                       inferredType: int
@@ -140,11 +143,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: str
-                      name: result
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: str
+                          name: result
                     value:
                       class: Expr.Binary
                       inferredType: str
@@ -177,11 +181,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: str
-                name: result
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: str
+                    name: result
               value:
                 class: Expr.Binary
                 inferredType: str
@@ -313,11 +318,12 @@ statements:
                     - statement:
                         class: Stmt.Expression
                         expr:
-                          class: Expr.Assign
-                          target:
-                            class: Expr.Variable
-                            inferredType: int
-                            name: sign
+                          class: Expr.MultiAssign
+                          targets:
+                            - target:
+                                class: Expr.Variable
+                                inferredType: int
+                                name: sign
                           value:
                             class: Expr.Unary
                             inferredType: int
@@ -345,11 +351,12 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.Assign
-                                target:
-                                  class: Expr.Variable
-                                  inferredType: int
-                                  name: digit
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Variable
+                                      inferredType: int
+                                      name: digit
                                 value:
                                   class: Expr.Literal
                                   inferredType: int
@@ -373,11 +380,12 @@ statements:
                                 - statement:
                                     class: Stmt.Expression
                                     expr:
-                                      class: Expr.Assign
-                                      target:
-                                        class: Expr.Variable
-                                        inferredType: int
-                                        name: digit
+                                      class: Expr.MultiAssign
+                                      targets:
+                                        - target:
+                                            class: Expr.Variable
+                                            inferredType: int
+                                            name: digit
                                       value:
                                         class: Expr.Literal
                                         inferredType: int
@@ -401,11 +409,12 @@ statements:
                                       - statement:
                                           class: Stmt.Expression
                                           expr:
-                                            class: Expr.Assign
-                                            target:
-                                              class: Expr.Variable
-                                              inferredType: int
-                                              name: digit
+                                            class: Expr.MultiAssign
+                                            targets:
+                                              - target:
+                                                  class: Expr.Variable
+                                                  inferredType: int
+                                                  name: digit
                                             value:
                                               class: Expr.Literal
                                               inferredType: int
@@ -429,11 +438,12 @@ statements:
                                             - statement:
                                                 class: Stmt.Expression
                                                 expr:
-                                                  class: Expr.Assign
-                                                  target:
-                                                    class: Expr.Variable
-                                                    inferredType: int
-                                                    name: digit
+                                                  class: Expr.MultiAssign
+                                                  targets:
+                                                    - target:
+                                                        class: Expr.Variable
+                                                        inferredType: int
+                                                        name: digit
                                                   value:
                                                     class: Expr.Literal
                                                     inferredType: int
@@ -457,11 +467,12 @@ statements:
                                                   - statement:
                                                       class: Stmt.Expression
                                                       expr:
-                                                        class: Expr.Assign
-                                                        target:
-                                                          class: Expr.Variable
-                                                          inferredType: int
-                                                          name: digit
+                                                        class: Expr.MultiAssign
+                                                        targets:
+                                                          - target:
+                                                              class: Expr.Variable
+                                                              inferredType: int
+                                                              name: digit
                                                         value:
                                                           class: Expr.Literal
                                                           inferredType: int
@@ -485,11 +496,12 @@ statements:
                                                         - statement:
                                                             class: Stmt.Expression
                                                             expr:
-                                                              class: Expr.Assign
-                                                              target:
-                                                                class: Expr.Variable
-                                                                inferredType: int
-                                                                name: digit
+                                                              class: Expr.MultiAssign
+                                                              targets:
+                                                                - target:
+                                                                    class: Expr.Variable
+                                                                    inferredType: int
+                                                                    name: digit
                                                               value:
                                                                 class: Expr.Literal
                                                                 inferredType: int
@@ -513,11 +525,12 @@ statements:
                                                               - statement:
                                                                   class: Stmt.Expression
                                                                   expr:
-                                                                    class: Expr.Assign
-                                                                    target:
-                                                                      class: Expr.Variable
-                                                                      inferredType: int
-                                                                      name: digit
+                                                                    class: Expr.MultiAssign
+                                                                    targets:
+                                                                      - target:
+                                                                          class: Expr.Variable
+                                                                          inferredType: int
+                                                                          name: digit
                                                                     value:
                                                                       class: Expr.Literal
                                                                       inferredType: int
@@ -541,11 +554,12 @@ statements:
                                                                     - statement:
                                                                         class: Stmt.Expression
                                                                         expr:
-                                                                          class: Expr.Assign
-                                                                          target:
-                                                                            class: Expr.Variable
-                                                                            inferredType: int
-                                                                            name: digit
+                                                                          class: Expr.MultiAssign
+                                                                          targets:
+                                                                            - target:
+                                                                                class: Expr.Variable
+                                                                                inferredType: int
+                                                                                name: digit
                                                                           value:
                                                                             class: Expr.Literal
                                                                             inferredType: int
@@ -569,11 +583,12 @@ statements:
                                                                           - statement:
                                                                               class: Stmt.Expression
                                                                               expr:
-                                                                                class: Expr.Assign
-                                                                                target:
-                                                                                  class: Expr.Variable
-                                                                                  inferredType: int
-                                                                                  name: digit
+                                                                                class: Expr.MultiAssign
+                                                                                targets:
+                                                                                  - target:
+                                                                                      class: Expr.Variable
+                                                                                      inferredType: int
+                                                                                      name: digit
                                                                                 value:
                                                                                   class: Expr.Literal
                                                                                   inferredType: int
@@ -597,11 +612,12 @@ statements:
                                                                                 - statement:
                                                                                     class: Stmt.Expression
                                                                                     expr:
-                                                                                      class: Expr.Assign
-                                                                                      target:
-                                                                                        class: Expr.Variable
-                                                                                        inferredType: int
-                                                                                        name: digit
+                                                                                      class: Expr.MultiAssign
+                                                                                      targets:
+                                                                                        - target:
+                                                                                            class: Expr.Variable
+                                                                                            inferredType: int
+                                                                                            name: digit
                                                                                       value:
                                                                                         class: Expr.Literal
                                                                                         inferredType: int
@@ -625,11 +641,12 @@ statements:
                                                                                       - statement:
                                                                                           class: Stmt.Expression
                                                                                           expr:
-                                                                                            class: Expr.Assign
-                                                                                            target:
-                                                                                              class: Expr.Variable
-                                                                                              inferredType: int
-                                                                                              name: digit
+                                                                                            class: Expr.MultiAssign
+                                                                                            targets:
+                                                                                              - target:
+                                                                                                  class: Expr.Variable
+                                                                                                  inferredType: int
+                                                                                                  name: digit
                                                                                             value:
                                                                                               class: Expr.Literal
                                                                                               inferredType: int
@@ -644,11 +661,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: bool
-                      name: first_char
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: bool
+                          name: first_char
                     value:
                       class: Expr.Literal
                       inferredType: bool
@@ -656,11 +674,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: int
-                      name: result
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: result
                     value:
                       class: Expr.Binary
                       inferredType: int
@@ -730,11 +749,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: int
-          name: i
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: int
+              name: i
         value:
           class: Expr.Binary
           inferredType: int
@@ -777,11 +797,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: str
-                name: s
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: str
+                    name: s
               value:
                 class: Expr.Call
                 inferredType: str
@@ -805,11 +826,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: int
-                name: i
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: int
+                    name: i
               value:
                 class: Expr.Binary
                 inferredType: int

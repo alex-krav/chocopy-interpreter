@@ -30,20 +30,24 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Set
-                    object:
-                      name: self
-                    name: x
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Get
+                          object:
+                            name: self
+                          name: x
                     value:
                       class: Expr.Variable
                       name: x
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: f
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: f
         value:
           class: Expr.Call
           callee:

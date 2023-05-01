@@ -10,6 +10,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private final Map<String, ClassInfo> classes = new HashMap<>();
     private FunctionType currentFunction = FunctionType.NONE;
     private Set<Integer> targetCounters = new HashSet<>();
+    private int targetCounter = 1;
 
     private static int DECLARATIONS = 0;
     private static int STATEMENTS = 1;
@@ -34,7 +35,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitAssignExpr(Expr.Assign expr) {
-        resolve(expr.value);
         resolve(expr.target);
         
         ValueType targetType = expr.target.inferredType;
@@ -373,7 +373,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitListSetExpr(Expr.ListSet expr) {
-        resolve(expr.value);
         resolve(expr.id);
         resolve(expr.listing);
         
@@ -427,7 +426,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitSetExpr(Expr.Set expr) {
-        resolve(expr.value);
         resolve(expr.object);
 
         ValueType objInferredType = expr.object.inferredType;
@@ -564,7 +562,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 stmt.resolverStage = ERROR;
             }
 
-            if (!classExists(superClassName)) { //todo: && !List.of("<None>", "<Empty>").contains(superClassName) ?
+            if (!classExists(superClassName)) {
                 ChocoPy.error(stmt.superclass, "name '" + superClassName + "' is not defined", "NameError");
                 superClassName = "object";
                 stmt.resolverStage = ERROR;
@@ -959,6 +957,42 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         }
         
         expr.inferredType = new NoneType();
+        return null;
+    }
+
+    @Override
+    public Void visitMultiAssignExpr(Expr.MultiAssign multiAssign) {
+        Expr value = multiAssign.value;
+        resolve(value);
+        List<Expr> assignments = new ArrayList<>();
+
+        for (Expr target : multiAssign.targets) {
+            if (target instanceof Expr.Variable expr) {
+                Expr.Assign assign = new Expr.Assign(new Expr.Variable(expr.name), value);
+                assign.line = multiAssign.line;
+                if (multiAssign.targets.size() > 1) assign.targetCounter = targetCounter;
+                resolve(assign);
+                assignments.add(assign);
+            } else if (target instanceof Expr.Get expr) {
+                Expr.Set set = new Expr.Set(expr.object, expr.name, value);
+                set.line = multiAssign.line;
+                if (multiAssign.targets.size() > 1) set.targetCounter = targetCounter;
+                resolve(set);
+                assignments.add(set);
+            } else if (target instanceof Expr.Index expr) {
+                Expr.ListSet listSet = new Expr.ListSet(expr.listing, expr.id, value);
+                listSet.line = multiAssign.line;
+                if (multiAssign.targets.size() > 1) listSet.targetCounter = targetCounter;
+                resolve(listSet);
+                assignments.add(listSet);
+            } else {
+                ChocoPy.error(multiAssign.line, "invalid assignment target", "SyntaxError");
+            }
+        }
+        if (multiAssign.targets.size() > 1) targetCounter++;
+        
+        multiAssign.targets = assignments;
+        multiAssign.inferredType = value.inferredType;
         return null;
     }
 

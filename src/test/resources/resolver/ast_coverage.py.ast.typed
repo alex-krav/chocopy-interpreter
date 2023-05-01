@@ -106,11 +106,12 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.Assign
-                                target:
-                                  class: Expr.Variable
-                                  inferredType: int
-                                  name: x
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Variable
+                                      inferredType: int
+                                      name: x
                                 value:
                                   class: Expr.Unary
                                   inferredType: int
@@ -134,11 +135,14 @@ statements:
                     - statement:
                         class: Stmt.Expression
                         expr:
-                          class: Expr.Set
-                          object:
-                            name: self
-                            inferredType: bar
-                          name: p
+                          class: Expr.MultiAssign
+                          targets:
+                            - target:
+                                class: Expr.Set
+                                object:
+                                  name: self
+                                  inferredType: bar
+                                name: p
                           value:
                             class: Expr.Binary
                             inferredType: bool
@@ -168,11 +172,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: int
-                      name: count
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: count
                     value:
                       class: Expr.Binary
                       inferredType: int
@@ -213,16 +218,19 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.ListSet
-                                inferredType: [int]
-                                list:
-                                  class: Expr.Variable
-                                  inferredType: [int]
-                                  name: xx
-                                index:
-                                  class: Expr.Literal
-                                  inferredType: int
-                                  value: 0
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.ListSet
+                                      inferredType: [int]
+                                      list:
+                                        class: Expr.Variable
+                                        inferredType: [int]
+                                        name: xx
+                                      index:
+                                        class: Expr.Literal
+                                        inferredType: int
+                                        value: 0
                                 value:
                                   class: Expr.Index
                                   inferredType: int
@@ -237,11 +245,14 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.Set
-                                object:
-                                  name: self
-                                  inferredType: bar
-                                name: p
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Set
+                                      object:
+                                        name: self
+                                        inferredType: bar
+                                      name: p
                                 value:
                                   class: Expr.Unary
                                   inferredType: bool
@@ -256,11 +267,12 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.Assign
-                                target:
-                                  class: Expr.Variable
-                                  inferredType: int
-                                  name: x
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Variable
+                                      inferredType: int
+                                      name: x
                                 value:
                                   class: Expr.Binary
                                   inferredType: int
@@ -307,11 +319,14 @@ statements:
                                 - statement:
                                     class: Stmt.Expression
                                     expr:
-                                      class: Expr.Set
-                                      object:
-                                        name: self
-                                        inferredType: bar
-                                      name: p
+                                      class: Expr.MultiAssign
+                                      targets:
+                                        - target:
+                                            class: Expr.Set
+                                            object:
+                                              name: self
+                                              inferredType: bar
+                                            name: p
                                       value:
                                         class: Expr.Binary
                                         inferredType: bool

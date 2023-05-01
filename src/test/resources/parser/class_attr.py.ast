@@ -14,10 +14,11 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: f
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: f
         value:
           class: Expr.Call
           callee:

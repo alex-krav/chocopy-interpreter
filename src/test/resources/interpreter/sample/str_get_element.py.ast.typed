@@ -63,11 +63,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: str
-          name: a
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: str
+              name: a
         value:
           class: Expr.Call
           inferredType: str
@@ -87,11 +88,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: str
-          name: b
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: str
+              name: b
         value:
           class: Expr.Call
           inferredType: str
@@ -111,11 +113,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: str
-          name: c
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: str
+              name: c
         value:
           class: Expr.Call
           inferredType: str

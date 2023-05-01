@@ -10,16 +10,19 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.ListSet
-        inferredType: [int]
-        list:
-          class: Expr.Variable
-          inferredType: [int]
-          name: x
-        index:
-          class: Expr.Literal
-          inferredType: int
-          value: 0
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.ListSet
+              inferredType: [int]
+              list:
+                class: Expr.Variable
+                inferredType: [int]
+                name: x
+              index:
+                class: Expr.Literal
+                inferredType: int
+                value: 0
         value:
           class: Expr.Literal
           inferredType: int

@@ -29,11 +29,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: str
-                name: z
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: str
+                    name: z
               value:
                 class: Expr.Literal
                 inferredType: str

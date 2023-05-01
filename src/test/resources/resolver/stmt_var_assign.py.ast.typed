@@ -34,11 +34,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: int
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: int
+              name: x
         value:
           class: Expr.Literal
           inferredType: int
@@ -46,11 +47,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: bool
-          name: y
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: bool
+              name: y
         value:
           class: Expr.Literal
           inferredType: bool
@@ -58,11 +60,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: str
-          name: z
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: str
+              name: z
         value:
           class: Expr.Literal
           inferredType: str
@@ -70,11 +73,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: object
-          name: o
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: object
+              name: o
         value:
           class: Expr.Variable
           inferredType: str

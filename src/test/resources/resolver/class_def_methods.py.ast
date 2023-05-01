@@ -78,10 +78,13 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Set
-                    object:
-                      name: self
-                    name: x
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Get
+                          object:
+                            name: self
+                          name: x
                     value:
                       class: Expr.Variable
                       name: val
@@ -109,10 +112,11 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: a
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: a
         value:
           class: Expr.Call
           callee:
@@ -122,10 +126,11 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: b
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: b
         value:
           class: Expr.Call
           callee:
@@ -135,10 +140,11 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: c
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: c
         value:
           class: Expr.Call
           callee:
@@ -148,11 +154,14 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Set
-        object:
-          class: Expr.Variable
-          name: b
-        name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Get
+              object:
+                class: Expr.Variable
+                name: b
+              name: x
         value:
           class: Expr.Call
           callee:
@@ -165,11 +174,14 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Set
-        object:
-          class: Expr.Variable
-          name: a
-        name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Get
+              object:
+                class: Expr.Variable
+                name: a
+              name: x
         value:
           class: Expr.Call
           callee:

@@ -34,11 +34,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: [int]
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: [int]
+              name: x
         value:
           class: Expr.Listing
           inferredType: [int]
@@ -58,11 +59,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: [bool]
-          name: z
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: [bool]
+              name: z
         value:
           class: Expr.Listing
           inferredType: [bool]
@@ -78,11 +80,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: int
-          name: y
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: int
+              name: y
         value:
           class: Expr.Index
           inferredType: int
@@ -97,16 +100,19 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.ListSet
-        inferredType: [int]
-        list:
-          class: Expr.Variable
-          inferredType: [int]
-          name: x
-        index:
-          class: Expr.Literal
-          inferredType: int
-          value: 0
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.ListSet
+              inferredType: [int]
+              list:
+                class: Expr.Variable
+                inferredType: [int]
+                name: x
+              index:
+                class: Expr.Literal
+                inferredType: int
+                value: 0
         value:
           class: Expr.Literal
           inferredType: int
@@ -114,16 +120,19 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.ListSet
-        inferredType: [bool]
-        list:
-          class: Expr.Variable
-          inferredType: [bool]
-          name: z
-        index:
-          class: Expr.Literal
-          inferredType: int
-          value: 1
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.ListSet
+              inferredType: [bool]
+              list:
+                class: Expr.Variable
+                inferredType: [bool]
+                name: z
+              index:
+                class: Expr.Literal
+                inferredType: int
+                value: 1
         value:
           class: Expr.Index
           inferredType: bool
@@ -138,11 +147,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: object
-          name: o
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: object
+              name: o
         value:
           class: Expr.Index
           inferredType: int

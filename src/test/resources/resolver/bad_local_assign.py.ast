@@ -50,10 +50,11 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      name: y
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          name: y
                     value:
                       class: Expr.Literal
                       value: 1
@@ -65,10 +66,11 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                name: z
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    name: z
               value:
                 class: Expr.Literal
                 value: 1
@@ -88,10 +90,11 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                name: z
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    name: z
               value:
                 class: Expr.Literal
                 value: 1

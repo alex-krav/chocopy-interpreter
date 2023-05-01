@@ -31,7 +31,8 @@ public class GenerateAst {
                 "ListSet  : Expr listing, Expr id, Expr value",
                 "Len      : Expr expression",
                 "Input    : Token keyword",
-                "Print    : Expr expression"
+                "Print    : Expr expression",
+                "MultiAssign : List<Expr> targets, Expr value"
         ));
 
         defineAst(outputDir, "Stmt", Arrays.asList(

@@ -35,10 +35,11 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: a
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: a
         value:
           class: Expr.Call
           callee:
@@ -48,34 +49,41 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: z
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: z
         value:
           class: Expr.Literal
           value: None
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Set
-        object:
-          class: Expr.Variable
-          name: a
-        name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Get
+              object:
+                class: Expr.Variable
+                name: a
+              name: x
         value:
           class: Expr.Literal
           value: None
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.ListSet
-        list:
-          class: Expr.Variable
-          name: y
-        index:
-          class: Expr.Literal
-          value: 0
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Index
+              list:
+                class: Expr.Variable
+                name: y
+              index:
+                class: Expr.Literal
+                value: 0
         value:
           class: Expr.Literal
           value: None

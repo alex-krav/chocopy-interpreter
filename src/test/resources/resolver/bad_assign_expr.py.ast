@@ -23,120 +23,84 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
+          - target:
+              class: Expr.Variable
+              name: z
         value:
           class: Expr.Literal
           value: 1
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: z
-        value:
-          class: Expr.Literal
-          value: 1
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
+          - target:
+              class: Expr.Variable
+              name: y
         value:
           class: Expr.Literal
           value: None
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: y
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
+          - target:
+              class: Expr.Variable
+              name: y
+        value:
+          class: Expr.Listing
+          elements: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
+          - target:
+              class: Expr.Variable
+              name: a
         value:
           class: Expr.Literal
           value: None
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
+          - target:
+              class: Expr.Variable
+              name: a
         value:
           class: Expr.Listing
           elements: []
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: y
-        value:
-          class: Expr.Listing
-          elements: []
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
-        value:
-          class: Expr.Literal
-          value: None
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: a
-        value:
-          class: Expr.Literal
-          value: None
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
-        value:
-          class: Expr.Listing
-          elements: []
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: a
-        value:
-          class: Expr.Listing
-          elements: []
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
-        value:
-          class: Expr.Literal
-          value: true
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: y
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
+          - target:
+              class: Expr.Variable
+              name: y
         value:
           class: Expr.Literal
           value: true

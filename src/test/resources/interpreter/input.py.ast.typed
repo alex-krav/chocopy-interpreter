@@ -10,11 +10,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: str
-          name: s
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: str
+              name: s
         value:
           class: Expr.Input
   - statement:
@@ -45,10 +46,11 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: str
-                name: s
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: str
+                    name: s
               value:
                 class: Expr.Input

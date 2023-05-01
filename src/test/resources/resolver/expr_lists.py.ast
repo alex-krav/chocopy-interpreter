@@ -30,10 +30,11 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
         value:
           class: Expr.Listing
           elements:
@@ -49,20 +50,22 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
         value:
           class: Expr.Listing
           elements: []
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: y
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: y
         value:
           class: Expr.Listing
           elements:
@@ -75,10 +78,11 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: z
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: z
         value:
           class: Expr.Listing
           elements:
@@ -91,43 +95,36 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
         value:
           class: Expr.Literal
           value: None
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: o
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: o
         value:
           class: Expr.Variable
           name: x
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: o
-        value:
-          class: Expr.Listing
-          elements:
-            - element:
-                class: Expr.Literal
-                value: 1
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: o
+          - target:
+              class: Expr.Variable
+              name: x
         value:
           class: Expr.Listing
           elements:

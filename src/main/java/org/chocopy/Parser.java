@@ -12,7 +12,6 @@ class Parser {
     private int current = 0;
     private int tokenBeforeAssignment = 0;
     private int tokenBeforeRightValue = 0;
-    private int targetCounter = 1;
 
     Parser(List<Token> tokens) {
         this.tokens = tokens;
@@ -332,7 +331,6 @@ class Parser {
     
     private Stmt assignment() {
         List<Expr> targets = new ArrayList<>();
-        List<Stmt> assignments = new ArrayList<>();
 
         tokenBeforeAssignment = current;
         Expr target = target();
@@ -356,36 +354,9 @@ class Parser {
                 current = tokenBeforeRightValue;
                 Expr value = expression();
                 
-                for (Expr expr : targets) {
-                    if (expr instanceof Expr.Variable) {
-                        Token name = ((Expr.Variable) expr).name;
-                        Expr.Assign assign = new Expr.Assign(new Expr.Variable(name), value);
-                        assign.line = expr.line;
-                        if (targets.size() > 1) assign.targetCounter = targetCounter;
-                        assignments.add(new Stmt.Expression(assign));
-                    } else if (expr instanceof Expr.Get) {
-                        Expr.Get get = (Expr.Get) expr;
-                        Expr.Set set = new Expr.Set(get.object, get.name, value);
-                        set.line = expr.line;
-                        if (targets.size() > 1) set.targetCounter = targetCounter;
-                        assignments.add(new Stmt.Expression(set));
-                    } else if (expr instanceof Expr.Index) {
-                        Expr.Index index = (Expr.Index) expr;
-                        Expr.ListSet listSet = new Expr.ListSet(index.listing, index.id, value);
-                        listSet.line = expr.line;
-                        if (targets.size() > 1) listSet.targetCounter = targetCounter;
-                        assignments.add(new Stmt.Expression(listSet));
-                    } else {
-                        error(equals, "invalid assignment target", "SyntaxError");
-                    }
-                }
-                if (targets.size() > 1) targetCounter++;
-                
-                if (assignments.size() == 1) {
-                    return assignments.get(0);
-                } else {
-                    return new Stmt.Block(assignments);
-                }
+                Expr multiAssign = new Expr.MultiAssign(targets, value);
+                multiAssign.line = equals.line;
+                return new Stmt.Expression(multiAssign);
             } else {
                 current = tokenBeforeAssignment;
             }

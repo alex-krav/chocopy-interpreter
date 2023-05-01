@@ -16,20 +16,14 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
-        value:
-          class: Expr.Literal
-          value: 42
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: o
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
+          - target:
+              class: Expr.Variable
+              name: o
         value:
           class: Expr.Literal
           value: 42

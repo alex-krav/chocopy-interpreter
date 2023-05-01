@@ -27,6 +27,7 @@ abstract class Expr {
         R visitUnaryExpr(Unary expr);
         R visitVariableExpr(Variable expr);
         R visitPrintExpr(Print expr);
+        R visitMultiAssignExpr(MultiAssign expr);
     }
 
     static class Assign extends Expr {
@@ -293,6 +294,21 @@ abstract class Expr {
         }
 
         final Expr expression;
+    }
+
+    static class MultiAssign extends Expr {
+        MultiAssign(List<Expr> targets, Expr value) {
+            this.targets = targets;
+            this.value = value;
+        }
+
+        @Override
+        <R> R accept(Visitor<R> visitor) {
+            return visitor.visitMultiAssignExpr(this);
+        }
+
+        List<Expr> targets;
+        final Expr value;
     }
 
     abstract <R> R accept(Visitor<R> visitor);

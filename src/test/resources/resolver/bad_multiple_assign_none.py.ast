@@ -23,23 +23,14 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
-        value:
-          class: Expr.Listing
-          elements:
-            - element:
-                class: Expr.Literal
-                value: None
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: y
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
+          - target:
+              class: Expr.Variable
+              name: y
         value:
           class: Expr.Listing
           elements:

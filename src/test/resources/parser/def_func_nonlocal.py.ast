@@ -41,10 +41,11 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      name: a
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          name: a
                     value:
                       class: Expr.Literal
                       value: 2

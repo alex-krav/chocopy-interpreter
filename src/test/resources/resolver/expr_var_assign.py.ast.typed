@@ -18,23 +18,16 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: int
-          name: x
-        value:
-          class: Expr.Literal
-          inferredType: int
-          value: 42
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: object
-          name: o
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: int
+              name: x
+          - target:
+              class: Expr.Variable
+              inferredType: object
+              name: o
         value:
           class: Expr.Literal
           inferredType: int

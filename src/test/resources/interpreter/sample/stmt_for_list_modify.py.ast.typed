@@ -18,11 +18,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: [int]
-          name: z
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: [int]
+              name: z
         value:
           class: Expr.Listing
           inferredType: [int]
@@ -53,16 +54,19 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.ListSet
-              inferredType: [int]
-              list:
-                class: Expr.Variable
-                inferredType: [int]
-                name: z
-              index:
-                class: Expr.Variable
-                inferredType: int
-                name: x
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.ListSet
+                    inferredType: [int]
+                    list:
+                      class: Expr.Variable
+                      inferredType: [int]
+                      name: z
+                    index:
+                      class: Expr.Variable
+                      inferredType: int
+                      name: x
               value:
                 class: Expr.Variable
                 inferredType: int

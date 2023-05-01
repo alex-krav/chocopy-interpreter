@@ -32,11 +32,14 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Set
-        object:
-          class: Expr.Variable
-          name: o
-        name: baz
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Get
+              object:
+                class: Expr.Variable
+                name: o
+              name: baz
         value:
           class: Expr.Literal
           value: 1

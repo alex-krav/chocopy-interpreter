@@ -2,60 +2,42 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.ListSet
-        list:
-          class: Expr.Variable
-          name: x
-        index:
-          class: Expr.Literal
-          value: 0
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Index
+              list:
+                class: Expr.Variable
+                name: x
+              index:
+                class: Expr.Literal
+                value: 0
+          - target:
+              class: Expr.Variable
+              name: y
+          - target:
+              class: Expr.Get
+              object:
+                class: Expr.Variable
+                name: z
+              name: f
         value:
           class: Expr.Literal
           value: 1
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: y
-        value:
-          class: Expr.Literal
-          value: 1
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Set
-        object:
-          class: Expr.Variable
-          name: z
-        name: f
-        value:
-          class: Expr.Literal
-          value: 1
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Set
-        object:
-          class: Expr.Variable
-          name: z
-        name: g
-        value:
-          class: Expr.Index
-          list:
-            class: Expr.Variable
-            name: x
-          index:
-            class: Expr.Literal
-            value: 0
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: y
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Get
+              object:
+                class: Expr.Variable
+                name: z
+              name: g
+          - target:
+              class: Expr.Variable
+              name: y
         value:
           class: Expr.Index
           list:

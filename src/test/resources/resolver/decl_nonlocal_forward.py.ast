@@ -17,10 +17,11 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      name: x
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          name: x
                     value:
                       class: Expr.Literal
                       value: 1

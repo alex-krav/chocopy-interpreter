@@ -108,12 +108,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitAssignExpr(Expr.Assign expr) {
-        Token name = expr.target.name;
-        Object value = evaluate(expr.value);
-
-        updateVariable(name, value);
-
-        return value;
+        throw new RuntimeError(expr.line, "use Expr.MultiAssign", "NotImplementedError");
     }
 
     @Override
@@ -314,27 +309,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitListSetExpr(Expr.ListSet expr) {
-        Object valueObject = evaluate(expr.value);
-        Object idObject = evaluate(expr.id);
-        Object listObject = evaluate(expr.listing);
-        
-        if (listObject == null || idObject == null) {
-            ChocoPy.exitCode = 4;
-            throw new RuntimeError(expr.line, "'<None>' object is not subscriptable", "TypeError");
-        } else if (!(idObject instanceof Integer)) {
-            ChocoPy.exitCode = 4;
-            throw new RuntimeError(expr.line, "list indices must be 'int', not '<None>'", "TypeError");
-        }
-        
-        List list = (List) listObject;
-        Integer id = (Integer) idObject;
-
-        if (list.isEmpty() || id < 0 || id >= list.size()) {
-            ChocoPy.exitCode = 3;
-            throw new RuntimeError(expr.line, "list index out of range", "IndexError");
-        } else {
-            return list.set(id, valueObject);
-        }
+        throw new RuntimeError(expr.line, "use Expr.MultiAssign", "NotImplementedError");
     }
 
     @Override
@@ -366,22 +341,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitSetExpr(Expr.Set expr) {
-        Object value = evaluate(expr.value);
-        Object object = evaluate(expr.object);
-        
-        if (object == null) {
-            ChocoPy.exitCode = 4;
-            throw new RuntimeError(expr.line, 
-                    String.format("'<None>' object has no attribute '%s'", expr.name.lexeme), 
-                    "AttributeError");
-        } else if (!(object instanceof ChocoPyInstance)) {
-            throw new RuntimeError(expr.name, 
-                    String.format("'%s' object has no attribute '%s'", expr.object.inferredType.toString(), expr.name.lexeme),
-                    "AttributeError");
-        }
-
-        ((ChocoPyInstance)object).set(expr.name, value);
-        return value;
+        throw new RuntimeError(expr.line, "use Expr.MultiAssign", "NotImplementedError");
     }
 
     @Override
@@ -559,6 +519,58 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         );
         visitCallExpr(printCall);
         return null;
+    }
+
+    @Override
+    public Object visitMultiAssignExpr(Expr.MultiAssign multiAssign) {
+        Object value = evaluate(multiAssign.value);
+
+        for (Expr target : multiAssign.targets) {
+            if (target instanceof Expr.Assign expr) {
+                Token name = expr.target.name;
+                updateVariable(name, value);
+            } 
+            else if (target instanceof Expr.Set expr) {
+                Object object = evaluate(expr.object);
+
+                if (object == null) {
+                    ChocoPy.exitCode = 4;
+                    throw new RuntimeError(expr.line,
+                            String.format("'<None>' object has no attribute '%s'", expr.name.lexeme),
+                            "AttributeError");
+                } else if (!(object instanceof ChocoPyInstance)) {
+                    throw new RuntimeError(expr.name,
+                            String.format("'%s' object has no attribute '%s'", expr.object.inferredType.toString(), expr.name.lexeme),
+                            "AttributeError");
+                }
+
+                ((ChocoPyInstance)object).set(expr.name, value);
+            } 
+            else if (target instanceof Expr.ListSet expr) {
+                Object idObject = evaluate(expr.id);
+                Object listObject = evaluate(expr.listing);
+
+                if (listObject == null || idObject == null) {
+                    ChocoPy.exitCode = 4;
+                    throw new RuntimeError(expr.line, "'<None>' object is not subscriptable", "TypeError");
+                } else if (!(idObject instanceof Integer)) {
+                    ChocoPy.exitCode = 4;
+                    throw new RuntimeError(expr.line, "list indices must be 'int', not '<None>'", "TypeError");
+                }
+
+                List list = (List) listObject;
+                Integer id = (Integer) idObject;
+
+                if (list.isEmpty() || id < 0 || id >= list.size()) {
+                    ChocoPy.exitCode = 3;
+                    throw new RuntimeError(expr.line, "list index out of range", "IndexError");
+                } else {
+                    return list.set(id, value);
+                }
+            }
+        }
+        
+        return value;
     }
 
     @Override

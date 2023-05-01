@@ -51,11 +51,12 @@ statements:
                     - statement:
                         class: Stmt.Expression
                         expr:
-                          class: Expr.Assign
-                          target:
-                            class: Expr.Variable
-                            inferredType: int
-                            name: found
+                          class: Expr.MultiAssign
+                          targets:
+                            - target:
+                                class: Expr.Variable
+                                inferredType: int
+                                name: found
                           value:
                             class: Expr.Binary
                             inferredType: int
@@ -94,11 +95,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: int
-                      name: candidate
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: candidate
                     value:
                       class: Expr.Binary
                       inferredType: int
@@ -184,11 +186,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: int
-                      name: div
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: div
                     value:
                       class: Expr.Binary
                       inferredType: int
@@ -257,11 +260,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: int
-                name: i
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: int
+                    name: i
               value:
                 class: Expr.Binary
                 inferredType: int

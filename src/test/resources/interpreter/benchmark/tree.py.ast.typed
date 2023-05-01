@@ -83,11 +83,14 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.Set
-                                object:
-                                  name: self
-                                  inferredType: TreeNode
-                                name: left
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Set
+                                      object:
+                                        name: self
+                                        inferredType: TreeNode
+                                      name: left
                                 value:
                                   class: Expr.Call
                                   inferredType: TreeNode
@@ -168,11 +171,14 @@ statements:
                                 - statement:
                                     class: Stmt.Expression
                                     expr:
-                                      class: Expr.Set
-                                      object:
-                                        name: self
-                                        inferredType: TreeNode
-                                      name: right
+                                      class: Expr.MultiAssign
+                                      targets:
+                                        - target:
+                                            class: Expr.Set
+                                            object:
+                                              name: self
+                                              inferredType: TreeNode
+                                            name: right
                                       value:
                                         class: Expr.Call
                                         inferredType: TreeNode
@@ -430,11 +436,14 @@ statements:
                     - statement:
                         class: Stmt.Expression
                         expr:
-                          class: Expr.Set
-                          object:
-                            name: self
-                            inferredType: Tree
-                          name: root
+                          class: Expr.MultiAssign
+                          targets:
+                            - target:
+                                class: Expr.Set
+                                object:
+                                  name: self
+                                  inferredType: Tree
+                                name: root
                           value:
                             class: Expr.Call
                             inferredType: TreeNode
@@ -450,11 +459,14 @@ statements:
                     - statement:
                         class: Stmt.Expression
                         expr:
-                          class: Expr.Set
-                          object:
-                            name: self
-                            inferredType: Tree
-                          name: size
+                          class: Expr.MultiAssign
+                          targets:
+                            - target:
+                                class: Expr.Set
+                                object:
+                                  name: self
+                                  inferredType: Tree
+                                name: size
                           value:
                             class: Expr.Literal
                             inferredType: int
@@ -485,11 +497,14 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.Set
-                                object:
-                                  name: self
-                                  inferredType: Tree
-                                name: size
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Set
+                                      object:
+                                        name: self
+                                        inferredType: Tree
+                                      name: size
                                 value:
                                   class: Expr.Binary
                                   inferredType: int
@@ -590,11 +605,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: TreeNode
-                name: b
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: TreeNode
+                    name: b
               value:
                 class: Expr.Call
                 inferredType: TreeNode
@@ -606,12 +622,15 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Set
-              object:
-                class: Expr.Variable
-                inferredType: TreeNode
-                name: b
-              name: value
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Set
+                    object:
+                      class: Expr.Variable
+                      inferredType: TreeNode
+                      name: b
+                    name: value
               value:
                 class: Expr.Variable
                 inferredType: int
@@ -665,11 +684,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: Tree
-          name: t
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: Tree
+              name: t
         value:
           class: Expr.Call
           inferredType: Tree
@@ -714,11 +734,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: int
-                name: k
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: int
+                    name: k
               value:
                 class: Expr.Binary
                 inferredType: int
@@ -786,11 +807,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: int
-                name: i
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: int
+                    name: i
               value:
                 class: Expr.Binary
                 inferredType: int

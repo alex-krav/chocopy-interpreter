@@ -34,11 +34,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: [int]
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: [int]
+              name: x
         value:
           class: Expr.Listing
           inferredType: [int]
@@ -58,11 +59,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: [int]
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: [int]
+              name: x
         value:
           class: Expr.Listing
           inferredType: <Empty>
@@ -70,11 +72,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: [object]
-          name: y
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: [object]
+              name: y
         value:
           class: Expr.Listing
           inferredType: [object]
@@ -90,11 +93,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: [bool]
-          name: z
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: [bool]
+              name: z
         value:
           class: Expr.Listing
           inferredType: [bool]
@@ -110,11 +114,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: [int]
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: [int]
+              name: x
         value:
           class: Expr.Literal
           inferredType: <None>
@@ -122,11 +127,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: object
-          name: o
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: object
+              name: o
         value:
           class: Expr.Variable
           inferredType: [int]
@@ -134,27 +140,16 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: object
-          name: o
-        value:
-          class: Expr.Listing
-          inferredType: [int]
-          elements:
-            - element:
-                class: Expr.Literal
-                inferredType: int
-                value: 1
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: [int]
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: object
+              name: o
+          - target:
+              class: Expr.Variable
+              inferredType: [int]
+              name: x
         value:
           class: Expr.Listing
           inferredType: [int]

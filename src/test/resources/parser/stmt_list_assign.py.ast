@@ -9,10 +9,11 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: x
         value:
           class: Expr.Listing
           elements:
@@ -28,13 +29,16 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.ListSet
-        list:
-          class: Expr.Variable
-          name: x
-        index:
-          class: Expr.Literal
-          value: 0
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Index
+              list:
+                class: Expr.Variable
+                name: x
+              index:
+                class: Expr.Literal
+                value: 0
         value:
           class: Expr.Index
           list:

@@ -98,10 +98,11 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.Assign
-                                target:
-                                  class: Expr.Variable
-                                  name: x
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Variable
+                                      name: x
                                 value:
                                   class: Expr.Unary
                                   operator: "-"
@@ -121,10 +122,13 @@ statements:
                     - statement:
                         class: Stmt.Expression
                         expr:
-                          class: Expr.Set
-                          object:
-                            name: self
-                          name: p
+                          class: Expr.MultiAssign
+                          targets:
+                            - target:
+                                class: Expr.Get
+                                object:
+                                  name: self
+                                name: p
                           value:
                             class: Expr.Binary
                             left:
@@ -148,10 +152,11 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      name: count
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          name: count
                     value:
                       class: Expr.Binary
                       left:
@@ -184,13 +189,16 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.ListSet
-                                list:
-                                  class: Expr.Variable
-                                  name: xx
-                                index:
-                                  class: Expr.Literal
-                                  value: 0
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Index
+                                      list:
+                                        class: Expr.Variable
+                                        name: xx
+                                      index:
+                                        class: Expr.Literal
+                                        value: 0
                                 value:
                                   class: Expr.Index
                                   list:
@@ -202,10 +210,13 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.Set
-                                object:
-                                  name: self
-                                name: p
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Get
+                                      object:
+                                        name: self
+                                      name: p
                                 value:
                                   class: Expr.Unary
                                   operator: "not"
@@ -217,10 +228,11 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.Assign
-                                target:
-                                  class: Expr.Variable
-                                  name: x
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Variable
+                                      name: x
                                 value:
                                   class: Expr.Binary
                                   left:

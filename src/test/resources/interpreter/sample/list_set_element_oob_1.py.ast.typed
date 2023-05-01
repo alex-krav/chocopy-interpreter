@@ -10,11 +10,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: [int]
-          name: x
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: [int]
+              name: x
         value:
           class: Expr.Listing
           inferredType: [int]
@@ -34,20 +35,23 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.ListSet
-        inferredType: [int]
-        list:
-          class: Expr.Variable
-          inferredType: [int]
-          name: x
-        index:
-          class: Expr.Unary
-          inferredType: int
-          operator: "-"
-          operand:
-            class: Expr.Literal
-            inferredType: int
-            value: 1
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.ListSet
+              inferredType: [int]
+              list:
+                class: Expr.Variable
+                inferredType: [int]
+                name: x
+              index:
+                class: Expr.Unary
+                inferredType: int
+                operator: "-"
+                operand:
+                  class: Expr.Literal
+                  inferredType: int
+                  value: 1
         value:
           class: Expr.Literal
           inferredType: int

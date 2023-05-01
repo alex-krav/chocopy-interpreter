@@ -16,19 +16,21 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: s
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: s
         value:
           class: Expr.Input
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          name: l
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              name: l
         value:
           class: Expr.Len
           expr:
@@ -58,9 +60,10 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                name: s
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    name: s
               value:
                 class: Expr.Input

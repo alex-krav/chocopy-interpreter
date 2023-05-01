@@ -34,11 +34,14 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Set
-                    object:
-                      name: self
-                      inferredType: Vector
-                    name: items
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Set
+                          object:
+                            name: self
+                            inferredType: Vector
+                          name: items
                     value:
                       class: Expr.Listing
                       inferredType: [int]
@@ -83,11 +86,14 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Set
-                    object:
-                      name: self
-                      inferredType: Vector
-                    name: items
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Set
+                          object:
+                            name: self
+                            inferredType: Vector
+                          name: items
                     value:
                       class: Expr.Binary
                       inferredType: [int]
@@ -178,22 +184,25 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.ListSet
-                    inferredType: [int]
-                    list:
-                      class: Expr.Get
-                      inferredType: [int]
-                      object:
-                        name: self
-                        inferredType: Vector
-                      name: items
-                    index:
-                      class: Expr.Get
-                      inferredType: int
-                      object:
-                        name: self
-                        inferredType: Vector
-                      name: size
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.ListSet
+                          inferredType: [int]
+                          list:
+                            class: Expr.Get
+                            inferredType: [int]
+                            object:
+                              name: self
+                              inferredType: Vector
+                            name: items
+                          index:
+                            class: Expr.Get
+                            inferredType: int
+                            object:
+                              name: self
+                              inferredType: Vector
+                            name: size
                     value:
                       class: Expr.Variable
                       inferredType: int
@@ -201,11 +210,14 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Set
-                    object:
-                      name: self
-                      inferredType: Vector
-                    name: size
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Set
+                          object:
+                            name: self
+                            inferredType: Vector
+                          name: size
                     value:
                       class: Expr.Binary
                       inferredType: int
@@ -337,19 +349,22 @@ statements:
                     - statement:
                         class: Stmt.Expression
                         expr:
-                          class: Expr.ListSet
-                          inferredType: [int]
-                          list:
-                            class: Expr.Get
-                            inferredType: [int]
-                            object:
-                              name: self
-                              inferredType: Vector
-                            name: items
-                          index:
-                            class: Expr.Variable
-                            inferredType: int
-                            name: idx
+                          class: Expr.MultiAssign
+                          targets:
+                            - target:
+                                class: Expr.ListSet
+                                inferredType: [int]
+                                list:
+                                  class: Expr.Get
+                                  inferredType: [int]
+                                  object:
+                                    name: self
+                                    inferredType: Vector
+                                  name: items
+                                index:
+                                  class: Expr.Variable
+                                  inferredType: int
+                                  name: idx
                           value:
                             class: Expr.Index
                             inferredType: int
@@ -375,11 +390,12 @@ statements:
                     - statement:
                         class: Stmt.Expression
                         expr:
-                          class: Expr.Assign
-                          target:
-                            class: Expr.Variable
-                            inferredType: int
-                            name: idx
+                          class: Expr.MultiAssign
+                          targets:
+                            - target:
+                                class: Expr.Variable
+                                inferredType: int
+                                name: idx
                           value:
                             class: Expr.Binary
                             inferredType: int
@@ -395,11 +411,14 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Set
-                    object:
-                      name: self
-                      inferredType: Vector
-                    name: size
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Set
+                          object:
+                            name: self
+                            inferredType: Vector
+                          name: size
                     value:
                       class: Expr.Binary
                       inferredType: int
@@ -529,11 +548,14 @@ statements:
                     - statement:
                         class: Stmt.Expression
                         expr:
-                          class: Expr.Set
-                          object:
-                            name: self
-                            inferredType: DoublingVector
-                          name: items
+                          class: Expr.MultiAssign
+                          targets:
+                            - target:
+                                class: Expr.Set
+                                object:
+                                  name: self
+                                  inferredType: DoublingVector
+                                name: items
                           value:
                             class: Expr.Binary
                             inferredType: [int]
@@ -556,11 +578,14 @@ statements:
                     - statement:
                         class: Stmt.Expression
                         expr:
-                          class: Expr.Set
-                          object:
-                            name: self
-                            inferredType: DoublingVector
-                          name: items
+                          class: Expr.MultiAssign
+                          targets:
+                            - target:
+                                class: Expr.Set
+                                object:
+                                  name: self
+                                  inferredType: DoublingVector
+                                name: items
                           value:
                             class: Expr.Binary
                             inferredType: [int]
@@ -620,11 +645,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: Vector
-                name: v
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: Vector
+                    name: v
               value:
                 class: Expr.Call
                 inferredType: DoublingVector
@@ -669,11 +695,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: int
-                      name: i
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: i
                     value:
                       class: Expr.Binary
                       inferredType: int
@@ -753,11 +780,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: int
-                      name: k
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: k
                     value:
                       class: Expr.Call
                       inferredType: int
@@ -777,11 +805,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: int
-                      name: j
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: j
                     value:
                       class: Expr.Binary
                       inferredType: int
@@ -874,11 +903,12 @@ statements:
                           - statement:
                               class: Stmt.Expression
                               expr:
-                                class: Expr.Assign
-                                target:
-                                  class: Expr.Variable
-                                  inferredType: int
-                                  name: j
+                                class: Expr.MultiAssign
+                                targets:
+                                  - target:
+                                      class: Expr.Variable
+                                      inferredType: int
+                                      name: j
                                 value:
                                   class: Expr.Binary
                                   inferredType: int
@@ -894,11 +924,12 @@ statements:
               - statement:
                   class: Stmt.Expression
                   expr:
-                    class: Expr.Assign
-                    target:
-                      class: Expr.Variable
-                      inferredType: int
-                      name: i
+                    class: Expr.MultiAssign
+                    targets:
+                      - target:
+                          class: Expr.Variable
+                          inferredType: int
+                          name: i
                     value:
                       class: Expr.Binary
                       inferredType: int
@@ -938,11 +969,12 @@ statements:
   - statement:
       class: Stmt.Expression
       expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
-          inferredType: Vector
-          name: v
+        class: Expr.MultiAssign
+        targets:
+          - target:
+              class: Expr.Variable
+              inferredType: Vector
+              name: v
         value:
           class: Expr.Call
           inferredType: Vector
@@ -1019,11 +1051,12 @@ statements:
         - statement:
             class: Stmt.Expression
             expr:
-              class: Expr.Assign
-              target:
-                class: Expr.Variable
-                inferredType: int
-                name: i
+              class: Expr.MultiAssign
+              targets:
+                - target:
+                    class: Expr.Variable
+                    inferredType: int
+                    name: i
               value:
                 class: Expr.Binary
                 inferredType: int
