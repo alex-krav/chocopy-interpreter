@@ -71,28 +71,6 @@ statements:
                       value: "B"
         - member:
             class: Stmt.Function
-            name: foo
-            params:
-              - param:
-                  class: Stmt.Var
-                  name: self
-                  type: B
-                  initializer: None
-              - param:
-                  class: Stmt.Var
-                  name: ignore
-                  type: object
-                  initializer: None
-            returnType: int
-            body:
-              - statement:
-                  class: Stmt.Return
-                  value:
-                    class: Expr.Literal
-                    inferredType: int
-                    value: 1
-        - member:
-            class: Stmt.Function
             name: bar
             params:
               - param:
@@ -132,6 +110,28 @@ statements:
                                   class: Expr.Literal
                                   inferredType: str
                                   value: "..."
+        - member:
+            class: Stmt.Function
+            name: foo
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: self
+                  type: B
+                  initializer: None
+              - param:
+                  class: Stmt.Var
+                  name: ignore
+                  type: object
+                  initializer: None
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Literal
+                    inferredType: int
+                    value: 1
   - statement:
       class: Stmt.Expression
       expr:

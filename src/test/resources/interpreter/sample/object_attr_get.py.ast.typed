@@ -66,8 +66,8 @@ statements:
         class: Expr.Assign
         target:
           class: Expr.Variable
-          inferredType: B
-          name: b
+          inferredType: A
+          name: a
         value:
           class: Expr.Call
           inferredType: B
@@ -82,12 +82,16 @@ statements:
         class: Expr.Assign
         target:
           class: Expr.Variable
-          inferredType: A
-          name: a
-        value:
-          class: Expr.Variable
           inferredType: B
           name: b
+        value:
+          class: Expr.Call
+          inferredType: B
+          callee:
+            class: Expr.Variable
+            inferredType: [B] -> <None>
+            name: B
+          arguments: []
   - statement:
       class: Stmt.Expression
       expr:

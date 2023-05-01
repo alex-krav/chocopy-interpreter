@@ -10,9 +10,7 @@ class B(A):
 a:A = None
 b:B = None
 
-# a = b = B()
-b = B()
-a = b
+a = b = B()
 print(a.a)
 print(b.a)
 print(b.b)

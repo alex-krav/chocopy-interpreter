@@ -88,7 +88,12 @@ public class ChocoPy {
 
     static void runtimeError(RuntimeError error) {
         int runtimeErrorsSize = runtimeErrors.size();
-        String errMsg = String.format("[line %d] %s: %s", error.line, error.errorType, error.getMessage());
+        String errMsg;
+        if (error.line > 0) {
+            errMsg = String.format("[line %d] %s: %s", error.line, error.errorType, error.getMessage());
+        } else {
+            errMsg = String.format("%s: %s", error.errorType, error.getMessage());
+        }
         
         if (runtimeErrorsSize == 0 || !runtimeErrors.get(runtimeErrorsSize - 1).equals(errMsg)) {
             runtimeErrors.add(errMsg);

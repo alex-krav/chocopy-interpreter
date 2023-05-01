@@ -1,6 +1,11 @@
-def h(msg: str) -> object:
-    print(msg)
+def f(x:int) -> int:
+    print("start f")
+    print(x)
+    g(1, x)
+    print("end f")
+    return x
 
+    
 def g(y:int, z:int) -> object:
     print("start g")
     print(y)
@@ -8,11 +13,7 @@ def g(y:int, z:int) -> object:
     h("h")
     print("end g")
 
-def f(x:int) -> int:
-    print("start f")
-    print(x)
-    g(1, x)
-    print("end f")
-    return x
+def h(msg: str) -> object:
+    print(msg)
 
 print(f(4))

@@ -458,6 +458,15 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         } catch (RuntimeError error) {
             ChocoPy.runtimeError(error);
             ChocoPy.runtimeErrors.add(String.format("Exited with error code %d", ChocoPy.exitCode));
+        } catch (Throwable e) {
+            try {
+                String msg = (e.getMessage() != null) ? e.getMessage() : e.toString();
+                throw new RuntimeError(0, msg, "RuntimeError");
+            } catch (RuntimeError error) {
+                ChocoPy.exitCode = 70;
+                ChocoPy.runtimeError(error);
+                ChocoPy.runtimeErrors.add(String.format("Exited with error code %d", ChocoPy.exitCode));
+            }
         }
     }
 
@@ -497,14 +506,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         Map<String, ChocoPyFunction> methods = new HashMap<>();
         Map<String, ChocoPyAttribute> attributes = new HashMap<>();
         for (Stmt member : stmt.members) {
-            if (member instanceof Stmt.Pass) {
-                continue;
-            } else if (member instanceof Stmt.Function) {
+            if (member instanceof Stmt.Function) {
                 Stmt.Function stmtFun = (Stmt.Function) member;
                 ChocoPyFunction function = new ChocoPyFunction(stmtFun, environment,
                         stmtFun.name.lexeme.equals("__init__"));
                 methods.put(stmtFun.name.lexeme, function);
-            } else {
+            } else if (member instanceof Stmt.Var) {
                 Stmt.Var stmtVar = (Stmt.Var) member;
                 Object value = evaluate(stmtVar.initializer);
                 ChocoPyAttribute attr = new ChocoPyAttribute(value);

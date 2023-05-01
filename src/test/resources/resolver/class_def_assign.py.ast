@@ -94,16 +94,6 @@ statements:
         class: Expr.Assign
         target:
           class: Expr.Variable
-          name: c
-        value:
-          class: Expr.Literal
-          value: None
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
           name: b
         value:
           class: Expr.Call
@@ -137,3 +127,13 @@ statements:
             class: Expr.Variable
             name: C
           arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          name: c
+        value:
+          class: Expr.Literal
+          value: None

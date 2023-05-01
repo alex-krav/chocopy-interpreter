@@ -10,10 +10,10 @@ class B(A):
     def __init__(self:"B"):
         print("B")
 
-    def foo(self:"B", ignore:object) -> int:
-        return 1
-
     def bar(self:"B") -> int:
         return self.foo(self.foo(print("...")))
+
+    def foo(self:"B", ignore:object) -> int:
+        return 1
 
 print(B().bar())

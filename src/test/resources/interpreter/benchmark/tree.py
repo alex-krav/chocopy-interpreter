@@ -33,12 +33,6 @@ class TreeNode(object):
 		else:
 			return True
 
-def makeNode(x: int) -> TreeNode:
-	b:TreeNode = None
-	b = TreeNode()
-	b.value = x
-	return b
-
 class Tree(object):
 	root:TreeNode = None
 	size:int = 0
@@ -56,6 +50,13 @@ class Tree(object):
 			return False
 		else:
 			return self.root.contains(x)
+
+def makeNode(x: int) -> TreeNode:
+	b:TreeNode = None
+	b = TreeNode()
+	b.value = x
+	return b
+
 
 # Input parameters
 n:int = 100

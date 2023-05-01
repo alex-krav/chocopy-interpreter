@@ -1,13 +1,5 @@
 statements:
   - statement:
-      class: Stmt.Var
-      name: x
-      type: int
-      initializer:
-        class: Expr.Literal
-        inferredType: int
-        value: 0
-  - statement:
       class: Stmt.Function
       name: set_x
       params: []
@@ -34,6 +26,14 @@ statements:
               class: Expr.Variable
               inferredType: int
               name: x
+  - statement:
+      class: Stmt.Var
+      name: x
+      type: int
+      initializer:
+        class: Expr.Literal
+        inferredType: int
+        value: 0
   - statement:
       class: Stmt.Expression
       expr:

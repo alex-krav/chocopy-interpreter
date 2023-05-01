@@ -6,13 +6,6 @@ statements:
       returnType: int
       body:
         - statement:
-            class: Stmt.Var
-            name: x
-            type: int
-            initializer:
-              class: Expr.Literal
-              value: 0
-        - statement:
             class: Stmt.Function
             name: inner
             params: []
@@ -36,6 +29,13 @@ statements:
                   value:
                     class: Expr.Variable
                     name: x
+        - statement:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 0
         - statement:
             class: Stmt.Expression
             expr:

@@ -11,6 +11,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private FunctionType currentFunction = FunctionType.NONE;
     private Set<Integer> targetCounters = new HashSet<>();
 
+    private static int DECLARATIONS = 0;
+    private static int STATEMENTS = 1;
+    private static int ERROR = 2;
+
     Resolver() {}
 
     private enum FunctionType {
@@ -534,11 +538,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitBlockStmt(Stmt.Block block) {
-        resolve(block.statements);
         for (Stmt statement : block.statements) {
+            resolve(statement);
             if (statement.isReturn) {
                 block.isReturn = true;
-                break;
             }
         }
         return null;
@@ -546,94 +549,112 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitClassStmt(Stmt.Class stmt) {
-        String className = stmt.name.lexeme;
-        String superClassName = stmt.superclass.lexeme;
-        currentClassName = className;
-        
-        if (classes.containsKey(className)) {
-            ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", className), "SyntaxError");
-        } else if (scopes.peek().containsKey(className)) {
-            ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", stmt.name.lexeme), "SyntaxError");
-        }
-        
-        if (!classExists(superClassName)) { // && !List.of("<None>", "<Empty>").contains(superClassName) ?
-            ChocoPy.error(stmt.superclass, "name '" + superClassName + "' is not defined", "NameError");
-            superClassName = "object";
-        } else if (List.of("int", "bool", "str", className).contains(superClassName)) {
-            ChocoPy.error(stmt.superclass, "type '" + superClassName + "' is not an acceptable base type", "TypeError");
-            superClassName = "object";
-        } else if (className.equals(stmt.superclass.lexeme)) {
-            ChocoPy.error(stmt.superclass, "name '" + className + "' is not defined", "NameError");
-        }
-        ClassType enclosingClass = currentClass;
-        currentClass = ClassType.CLASS;
+        if (stmt.resolverStage == DECLARATIONS) {
+            stmt.resolverStage = STATEMENTS;
 
-        declare(stmt.name);
-        define(stmt.name, new ClassValueType(className));
-        classes.put(className, new ClassInfo(className, superClassName));
+            String className = stmt.name.lexeme;
+            String superClassName = stmt.superclass.lexeme;
+            currentClassName = className;
 
-        beginScope();
-        scopes.peek().put("self", new ClassValueType(className));
-
-        for (Stmt member : stmt.members) {
-            if (member instanceof Stmt.Pass) {
-                continue;
-            } else if (member instanceof Stmt.Function) {
-                Stmt.Function method = (Stmt.Function) member;
-                String methodName = method.name.lexeme;
-                FuncType methodType = getSignature(method);
-                
-                FunctionType declaration = FunctionType.METHOD;
-                if (methodName.equals("__init__")) {
-                    declaration = FunctionType.INITIALIZER;
-                }
-
-                if (classes.containsKey(className) 
-                        && (classes.get(className).methods.containsKey(methodName) 
-                        || classes.get(className).attrs.containsKey(methodName))) {
-                    ChocoPy.error(method.name, String.format("duplicate declaration of identifier: '%s'", methodName), "SyntaxError");
-                    continue;
-                }
-                
-                ValueType type = getAttrOrMethod(className, methodName);
-                if (type != null) {
-                    if (!(type instanceof FuncType)) {
-                        ChocoPy.error(method.name, String.format("method name shadows attribute: '%s'", methodName), "SyntaxError");
-                        continue;
-                    }
-                    if (!((FuncType) type).methodEquals(methodType)) {
-                        ChocoPy.error(method.name, String.format("redefined method doesn't match superclass signature: '%s'", methodName), "SyntaxError");
-                        continue;
-                    }
-                }
-
-                classes.get(className).methods.put(methodName, methodType);
-                declare(method.name);
-                define(method.name, methodType);
-                resolveFunction(method, declaration);
-            } else {
-                Stmt.Var attr = (Stmt.Var)member;
-                String attrName = attr.name.lexeme;
-                if (getAttrOrMethod(className, attrName) != null) {
-                    ChocoPy.error(attr.name, String.format("cannot redefine attribute: '%s'", attrName), "SyntaxError");
-                    continue;
-                }
-                classes.get(className).attrs.put(attrName, attr.type);
-                resolve(attr);
+            if (classes.containsKey(className)) {
+                ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", className), "SyntaxError");
+                stmt.resolverStage = ERROR;
+            } else if (scopes.peek().containsKey(className)) {
+                ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", stmt.name.lexeme), "SyntaxError");
+                stmt.resolverStage = ERROR;
             }
+
+            if (!classExists(superClassName)) { //todo: && !List.of("<None>", "<Empty>").contains(superClassName) ?
+                ChocoPy.error(stmt.superclass, "name '" + superClassName + "' is not defined", "NameError");
+                superClassName = "object";
+                stmt.resolverStage = ERROR;
+            } else if (List.of("int", "bool", "str", className).contains(superClassName)) {
+                ChocoPy.error(stmt.superclass, "type '" + superClassName + "' is not an acceptable base type", "TypeError");
+                superClassName = "object";
+                stmt.resolverStage = ERROR;
+            } else if (className.equals(stmt.superclass.lexeme)) {
+                ChocoPy.error(stmt.superclass, "name '" + className + "' is not defined", "NameError");
+                stmt.resolverStage = ERROR;
+            }
+            declare(stmt.name);
+            define(stmt.name, new ClassValueType(className));
+            classes.put(className, new ClassInfo(className, superClassName));
+        } else if (stmt.resolverStage == STATEMENTS) {
+            String className = stmt.name.lexeme;
+            ClassType enclosingClass = currentClass;
+            currentClass = ClassType.CLASS;
+            currentClassName = className;
+
+            beginScope();
+            scopes.peek().put("self", new ClassValueType(className));
+
+            for (Stmt member : stmt.members) {
+                if (member instanceof Stmt.Function) {
+                    Stmt.Function method = (Stmt.Function) member;
+                    String methodName = method.name.lexeme;
+                    FuncType methodType = getSignature(method);
+
+//                    FunctionType declaration = FunctionType.METHOD;
+//                    if (methodName.equals("__init__")) {
+//                        declaration = FunctionType.INITIALIZER;
+//                    }
+
+                    if (classes.containsKey(className)
+                            && (classes.get(className).methods.containsKey(methodName)
+                            || classes.get(className).attrs.containsKey(methodName))) {
+                        ChocoPy.error(method.name, String.format("duplicate declaration of identifier: '%s'", methodName), "SyntaxError");
+                        method.resolverStage = ERROR;
+                        continue;
+                    }
+
+                    ValueType type = getAttrOrMethod(className, methodName);
+                    if (type != null) {
+                        if (!(type instanceof FuncType)) {
+                            ChocoPy.error(method.name, String.format("method name shadows attribute: '%s'", methodName), "SyntaxError");
+                            method.resolverStage = ERROR;
+                            continue;
+                        }
+                        if (!((FuncType) type).methodEquals(methodType)) {
+                            ChocoPy.error(method.name, String.format("redefined method doesn't match superclass signature: '%s'", methodName), "SyntaxError");
+                            method.resolverStage = ERROR;
+                            continue;
+                        }
+                    }
+
+                    classes.get(className).methods.put(methodName, methodType);
+                    declare(method.name);
+                    define(method.name, methodType);
+//                    resolveFunction(method, declaration);
+                } else if (member instanceof Stmt.Var) {
+                    Stmt.Var attr = (Stmt.Var)member;
+                    String attrName = attr.name.lexeme;
+                    if (getAttrOrMethod(className, attrName) != null) {
+                        ChocoPy.error(attr.name, String.format("cannot redefine attribute: '%s'", attrName), "SyntaxError");
+                        stmt.resolverStage = ERROR;
+                        continue;
+                    }
+                    classes.get(className).attrs.put(attrName, attr.type);
+                    resolve(attr);
+                }
+            }
+            for (Stmt member : stmt.members) {
+                if (member instanceof Stmt.Function) {
+                    Stmt.Function method = (Stmt.Function) member;
+                    String methodName = method.name.lexeme;
+                    FunctionType declaration = FunctionType.METHOD;
+                    if (methodName.equals("__init__")) {
+                        declaration = FunctionType.INITIALIZER;
+                    }
+                    resolveFunction(method, declaration);
+                }
+            }
+
+            endScope();
+
+            currentClass = enclosingClass;
+            currentClassName = null;
         }
-
-        endScope();
-
-        currentClass = enclosingClass;
-        currentClassName = null;
         return null;
-    }
-
-    void resolve(List<Stmt> statements) {
-        for (Stmt statement : statements) {
-            resolve(statement);
-        }
     }
 
     void resolveScript(List<Stmt> statements) {
@@ -665,7 +686,12 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         strInfo.methods.put("__init__", defaultConstructor);
         classes.put("str", strInfo);
 
-        resolve(statements);
+        for (Stmt statement : statements) {
+            resolve(statement);
+        }
+        for (Stmt statement : statements) {
+            resolve(statement);
+        }
         endScope();
     }
 
@@ -778,26 +804,43 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitExpressionStmt(Stmt.Expression stmt) {
-        resolve(stmt.expression);
+        if (stmt.resolverStage == DECLARATIONS) {
+            stmt.resolverStage = STATEMENTS;
+        } else if (stmt.resolverStage == STATEMENTS) {
+            resolve(stmt.expression);
+        }
         return null;
     }
 
     @Override
     public Void visitFunctionStmt(Stmt.Function stmt) {
-        String functionName = stmt.name.lexeme;
-        
-        if (definedInCurrentScope(functionName)) {
-            ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", functionName), "SyntaxError");
-        }
+        if (stmt.resolverStage == DECLARATIONS) {
+            stmt.resolverStage = STATEMENTS;
+            
+            String functionName = stmt.name.lexeme;
 
-        FuncType funcType = getSignature(stmt);
-        declare(stmt.name);
-        define(stmt.name, funcType);
-        resolveFunction(stmt, FunctionType.FUNCTION);
+            if (classExists(functionName)) {
+                ChocoPy.error(stmt.name, String.format("functions can't shadow classes: '%s'", functionName), "SyntaxError");
+                stmt.resolverStage = ERROR;
+                return null;
+            } else if (definedInCurrentScope(functionName)) {
+                ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", functionName), "SyntaxError");
+                stmt.resolverStage = ERROR;
+                return null;
+            }
+
+            FuncType funcType = getSignature(stmt);
+            declare(stmt.name);
+            define(stmt.name, funcType);
+        } else if (stmt.resolverStage == STATEMENTS) {
+            resolveFunction(stmt, FunctionType.FUNCTION);
+        }
         return null;
     }
 
     private void resolveFunction(Stmt.Function function, FunctionType type) {
+        if (function.resolverStage == ERROR) return;
+        
         String functionName = function.name.lexeme;
         FuncType funcType = (FuncType) scopes.peek().get(function.name.lexeme);
         function.signature = funcType;
@@ -807,10 +850,12 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (type == FunctionType.FUNCTION) {
             if (classExists(functionName)) {
                 ChocoPy.error(function.name, "functions can't shadow classes: " + functionName, "SyntaxError");
-                return;
+                function.resolverStage = ERROR;
+//                return;
             } else if (definedInCurrentScope(functionName)) {
                 ChocoPy.error(function.name, "duplicate declaration of identifier " + functionName, "SyntaxError");
-                return;
+                function.resolverStage = ERROR;
+//                return;
             }
         } else if (type == FunctionType.METHOD || type == FunctionType.INITIALIZER) {
             if (function.params.size() == 0 
@@ -818,7 +863,8 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                     || !(funcType.getParameters().get(0).getClass().equals(ClassValueType.class))
                     || !((ClassValueType) funcType.getParameters().get(0)).getClassName().equals(currentClassName)) {
                 ChocoPy.error(function.name, String.format("missing 'self' param in method: '%s'", functionName), "SyntaxError");
-                return;
+                function.resolverStage = ERROR;
+//                return;
             }
         }
         
@@ -827,20 +873,28 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
         for (Stmt.Var param : function.params) {
             if (classes.containsKey(param.name.lexeme)) {
-                ChocoPy.error(param.name, String.format("cannot shadow class name: '%s'", param.name.lexeme), "SyntaxError"); 
+                ChocoPy.error(param.name, String.format("cannot shadow class name: '%s'", param.name.lexeme), "SyntaxError");
+                function.resolverStage = ERROR;
                 continue;
             } else if (scopes.peek().containsKey(param.name.lexeme)) {
                 ChocoPy.error(param.name, String.format("duplicate declaration of identifier: '%s'", param.name.lexeme), "SyntaxError");
+                function.resolverStage = ERROR;
                 continue;
             }
             if (!isTypeDefined(param.type)) {
                 ChocoPy.error(param.name, String.format("unknown type: '%s'", param.type), "TypeError");
+                function.resolverStage = ERROR;
             }
             declare(param.name);
             define(param.name, param.type);
             param.inferredType = param.type;
         }
-        resolve(function.body);
+        for (Stmt statement : function.body) {
+            resolve(statement);
+        }
+        for (Stmt statement : function.body) {
+            resolve(statement);
+        }
         
         boolean hasReturn = false;
         for (Stmt s : function.body) {
@@ -851,6 +905,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         }
         if (!hasReturn && !canAssign(new NoneType(), scopes.peek().get("expectedReturnType"))) {
             ChocoPy.error(function.name, "expected return statement of type '" + scopes.peek().get("expectedReturnType") + "'", "TypeError");
+            function.resolverStage = ERROR;
         }
         scopes.peek().put("expectedReturnType", null);
         endScope();
@@ -859,10 +914,31 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitIfStmt(Stmt.If stmt) {
+        if (stmt.resolverStage == DECLARATIONS) {
+            stmt.resolverStage = STATEMENTS;
+            return null;
+        }
+        
         resolve(stmt.condition);
         if (!(stmt.condition.inferredType instanceof BoolType)) {
             ChocoPy.error(stmt.condition.line,"expected type 'bool', got type '" + stmt.condition.inferredType + "'", "TypeError");
+            stmt.resolverStage = ERROR;
             return null;
+        }
+        
+        if (stmt.thenBranch instanceof Stmt.Block) {
+            for (Stmt statement : ((Stmt.Block) stmt.thenBranch).statements) {
+                statement.resolverStage = stmt.resolverStage;
+            }
+        } else if (stmt.thenBranch instanceof Stmt.If) {
+            stmt.thenBranch.resolverStage = stmt.resolverStage;
+        }
+        if (stmt.elseBranch instanceof Stmt.Block) {
+            for (Stmt statement : ((Stmt.Block) stmt.elseBranch).statements) {
+                statement.resolverStage = stmt.resolverStage;
+            }
+        } else if (stmt.elseBranch instanceof Stmt.If) {
+            stmt.elseBranch.resolverStage = stmt.resolverStage;
         }
         
         resolve(stmt.thenBranch);
@@ -890,6 +966,11 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitReturnStmt(Stmt.Return stmt) {
         if (currentFunction == FunctionType.NONE) {
             ChocoPy.error(stmt.keyword, "'return' outside function", "SyntaxError");
+            stmt.resolverStage = ERROR;
+            return null;
+        }
+        if (stmt.resolverStage == DECLARATIONS) {
+            stmt.resolverStage = STATEMENTS;
             return null;
         }
 
@@ -899,10 +980,12 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
             if (!canAssign(stmt.value.inferredType, scopes.peek().get("expectedReturnType"))) {
                 ChocoPy.error(stmt.keyword, String.format("expected type '%s', got type '%s'", scopes.peek().get("expectedReturnType"), stmt.value.inferredType), "TypeError");
+                stmt.resolverStage = ERROR;
             }
         } else {
             if (!canAssign(new NoneType(), scopes.peek().get("expectedReturnType"))) {
                 ChocoPy.error(stmt.keyword, String.format("expected type '%s', got type '<None>'", scopes.peek().get("expectedReturnType")), "TypeError");
+                stmt.resolverStage = ERROR;
             }
         }
 
@@ -926,14 +1009,20 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitVarStmt(Stmt.Var stmt) {
+        if (stmt.resolverStage > DECLARATIONS) return null;
+        stmt.resolverStage = STATEMENTS;
+        
         String varName = stmt.name.lexeme;
         if (classes.containsKey(varName)) {
             ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", varName), "SyntaxError");
+            stmt.resolverStage = ERROR;
         } else if (scopes.peek().containsKey(varName)) {
             ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", varName), "SyntaxError");
+            stmt.resolverStage = ERROR;
         }
         if (!isTypeDefined(stmt.type)) {
             ChocoPy.error(stmt.name, String.format("unknown type: '%s'", stmt.type), "TypeError");
+            stmt.resolverStage = ERROR;
         }
         
         declare(stmt.name);
@@ -943,6 +1032,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             if (!canAssign(stmt.initializer.inferredType, stmt.type)) {
                 ChocoPy.error(stmt.name, String.format("expected type '%s', got type '%s'",
                         stmt.type, stmt.initializer.inferredType), "TypeError");
+                stmt.resolverStage = ERROR;
             }
         }
         define(stmt.name, stmt.type);
@@ -967,11 +1057,20 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitWhileStmt(Stmt.While stmt) {
+        if (stmt.resolverStage == DECLARATIONS) {
+            stmt.resolverStage = STATEMENTS;
+            return null;
+        }
+        
         resolve(stmt.condition);
+        for (Stmt statement : ((Stmt.Block) stmt.body).statements) {
+            statement.resolverStage = stmt.resolverStage;
+        }
         resolve(stmt.body);
         
         if (!(stmt.condition.inferredType instanceof BoolType)) {
             ChocoPy.error(stmt.condition.line, "expected type 'bool', got type '" + stmt.condition.inferredType + "'", "TypeError");
+            stmt.resolverStage = ERROR;
             return null;
         }
         
@@ -988,8 +1087,16 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitForStmt(Stmt.For stmt) {
+        if (stmt.resolverStage == DECLARATIONS) {
+            stmt.resolverStage = STATEMENTS;
+            return null;
+        }
+        
         resolve(stmt.identifier);
         resolve(stmt.iterable);
+        for (Stmt statement : ((Stmt.Block) stmt.body).statements) {
+            statement.resolverStage = stmt.resolverStage;
+        }
         resolve(stmt.body);
         
         ValueType iterableType = stmt.iterable.inferredType;
@@ -999,6 +1106,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 ChocoPy.error(stmt.identifier.line, 
                         String.format("expected type '%s', got type '%s'", elementType, stmt.identifier.inferredType), 
                         "TypeError");
+                stmt.resolverStage = ERROR;
                 return null;
             }
         } else if (iterableType instanceof StrType) {
@@ -1006,12 +1114,14 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 ChocoPy.error(stmt.identifier.line, 
                         String.format("expected type 'str', got type '%s'", stmt.identifier.inferredType), 
                         "TypeError");
+                stmt.resolverStage = ERROR;
                 return null;
             }
         } else {
             ChocoPy.error(stmt.identifier.line, 
                     String.format("expected type 'list' or 'str', got type '%s'", stmt.iterable.inferredType), 
                     "TypeError");
+            stmt.resolverStage = ERROR;
             return null;
         }
         
@@ -1034,19 +1144,26 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitGlobalStmt(Stmt.Global stmt) {
         if (currentFunction == FunctionType.NONE) {
             ChocoPy.error(stmt.name, "'global' outside function", "SyntaxError");
+            stmt.resolverStage = ERROR;
             return null;
         }
+        if (stmt.resolverStage > DECLARATIONS) return null;
+        stmt.resolverStage = STATEMENTS;
+        
         if (classes.containsKey(stmt.name.lexeme)) {
             ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", stmt.name.lexeme), "SyntaxError");
+            stmt.resolverStage = ERROR;
             return null;
         } else if (scopes.peek().containsKey(stmt.name.lexeme)) {
             ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", stmt.name.lexeme), "SyntaxError");
+            stmt.resolverStage = ERROR;
             return null;
         }
         
         ValueType type = getGlobalType(stmt.name.lexeme);
         if (type == null || type instanceof FuncType) {
             ChocoPy.error(stmt.name, "no binding for global '" + stmt.name.lexeme + "' found", "SyntaxError");
+            stmt.resolverStage = ERROR;
             return null;
         } else {
             addGlobalVarToCurrentScope(stmt.name.lexeme);
@@ -1093,19 +1210,26 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitNonlocalStmt(Stmt.Nonlocal stmt) {
         if (currentFunction == FunctionType.NONE) {
             ChocoPy.error(stmt.name, "'nonlocal' outside function", "SyntaxError");
+            stmt.resolverStage = ERROR;
             return null;
         }
+        if (stmt.resolverStage > DECLARATIONS) return null;
+        stmt.resolverStage = STATEMENTS;
+        
         if (classes.containsKey(stmt.name.lexeme)) {
             ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", stmt.name.lexeme), "SyntaxError");
+            stmt.resolverStage = ERROR;
             return null;
         } else if (scopes.peek().containsKey(stmt.name.lexeme)) {
             ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", stmt.name.lexeme), "SyntaxError");
+            stmt.resolverStage = ERROR;
             return null;
         }
         
         ValueType type = getNonLocalType(stmt.name.lexeme);
         if (type == null || type instanceof FuncType) {
             ChocoPy.error(stmt.name, "no binding for nonlocal '" + stmt.name.lexeme + "' found", "SyntaxError");
+            stmt.resolverStage = ERROR;
             return null;
         } else {
             addNonlocalVarToCurrentScope(stmt.name.lexeme);

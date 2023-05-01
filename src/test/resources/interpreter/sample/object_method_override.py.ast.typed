@@ -87,7 +87,7 @@ statements:
                     inferredType: int
                     callee:
                       class: Expr.Get
-                      inferredType: [A, object] -> int
+                      inferredType: [B, object] -> int
                       object:
                         name: self
                         inferredType: B

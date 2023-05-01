@@ -6,6 +6,7 @@ abstract class Stmt {
     protected ValueType inferredType;
     protected int line;
     protected boolean isReturn;
+    protected int resolverStage;
     
     interface Visitor<R> {
         R visitBlockStmt(Block stmt);

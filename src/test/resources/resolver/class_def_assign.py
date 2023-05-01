@@ -14,5 +14,5 @@ c:C = None
 
 a = A()
 a = B()
-c = None
 b = a = c = C()
+c = None

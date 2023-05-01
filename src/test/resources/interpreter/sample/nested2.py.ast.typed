@@ -28,23 +28,6 @@ statements:
               value: 2
         - statement:
             class: Stmt.Function
-            name: qux
-            params:
-              - param:
-                  class: Stmt.Var
-                  name: p
-                  type: int
-                  initializer: None
-            returnType: int
-            body:
-              - statement:
-                  class: Stmt.Return
-                  value:
-                    class: Expr.Variable
-                    inferredType: int
-                    name: p
-        - statement:
-            class: Stmt.Function
             name: bar
             params: []
             returnType: int
@@ -87,6 +70,23 @@ statements:
                       inferredType: [] -> int
                       name: baz
                     arguments: []
+        - statement:
+            class: Stmt.Function
+            name: qux
+            params:
+              - param:
+                  class: Stmt.Var
+                  name: p
+                  type: int
+                  initializer: None
+            returnType: int
+            body:
+              - statement:
+                  class: Stmt.Return
+                  value:
+                    class: Expr.Variable
+                    inferredType: int
+                    name: p
         - statement:
             class: Stmt.Return
             value:

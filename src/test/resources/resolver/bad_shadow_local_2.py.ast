@@ -1,17 +1,5 @@
 statements:
   - statement:
-      class: Stmt.Class
-      name: A
-      superClass: object
-      members:
-        - member:
-            class: Stmt.Var
-            name: x
-            type: int
-            initializer:
-              class: Expr.Literal
-              value: 1
-  - statement:
       class: Stmt.Function
       name: foo
       params:
@@ -31,5 +19,17 @@ statements:
               value: 5
         - statement:
             class: Stmt.Pass
+  - statement:
+      class: Stmt.Class
+      name: A
+      superClass: object
+      members:
+        - member:
+            class: Stmt.Var
+            name: x
+            type: int
+            initializer:
+              class: Expr.Literal
+              value: 1
   - statement:
       class: Stmt.Pass

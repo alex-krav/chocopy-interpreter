@@ -1,60 +1,6 @@
 statements:
   - statement:
       class: Stmt.Function
-      name: h
-      params: []
-      returnType: object
-      body:
-        - statement:
-            class: Stmt.Expression
-            expr:
-              class: Expr.Print
-              expr:
-                class: Expr.Literal
-                inferredType: str
-                value: "start h"
-        - statement:
-            class: Stmt.Expression
-            expr:
-              class: Expr.Print
-              expr:
-                class: Expr.Literal
-                inferredType: str
-                value: "end h"
-  - statement:
-      class: Stmt.Function
-      name: g
-      params: []
-      returnType: object
-      body:
-        - statement:
-            class: Stmt.Expression
-            expr:
-              class: Expr.Print
-              expr:
-                class: Expr.Literal
-                inferredType: str
-                value: "start g"
-        - statement:
-            class: Stmt.Expression
-            expr:
-              class: Expr.Call
-              inferredType: object
-              callee:
-                class: Expr.Variable
-                inferredType: [] -> object
-                name: h
-              arguments: []
-        - statement:
-            class: Stmt.Expression
-            expr:
-              class: Expr.Print
-              expr:
-                class: Expr.Literal
-                inferredType: str
-                value: "end g"
-  - statement:
-      class: Stmt.Function
       name: f
       params: []
       returnType: int
@@ -91,6 +37,60 @@ statements:
               class: Expr.Literal
               inferredType: int
               value: 42
+  - statement:
+      class: Stmt.Function
+      name: g
+      params: []
+      returnType: object
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "start g"
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Call
+              inferredType: object
+              callee:
+                class: Expr.Variable
+                inferredType: [] -> object
+                name: h
+              arguments: []
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "end g"
+  - statement:
+      class: Stmt.Function
+      name: h
+      params: []
+      returnType: object
+      body:
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "start h"
+        - statement:
+            class: Stmt.Expression
+            expr:
+              class: Expr.Print
+              expr:
+                class: Expr.Literal
+                inferredType: str
+                value: "end h"
   - statement:
       class: Stmt.Expression
       expr:

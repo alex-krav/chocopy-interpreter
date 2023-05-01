@@ -105,18 +105,6 @@ statements:
         class: Expr.Assign
         target:
           class: Expr.Variable
-          inferredType: C
-          name: c
-        value:
-          class: Expr.Literal
-          inferredType: <None>
-          value: None
-  - statement:
-      class: Stmt.Expression
-      expr:
-        class: Expr.Assign
-        target:
-          class: Expr.Variable
           inferredType: B
           name: b
         value:
@@ -159,3 +147,15 @@ statements:
             inferredType: [B] -> <None>
             name: C
           arguments: []
+  - statement:
+      class: Stmt.Expression
+      expr:
+        class: Expr.Assign
+        target:
+          class: Expr.Variable
+          inferredType: C
+          name: c
+        value:
+          class: Expr.Literal
+          inferredType: <None>
+          value: None
