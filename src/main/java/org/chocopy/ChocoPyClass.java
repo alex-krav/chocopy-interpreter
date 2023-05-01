@@ -1,5 +1,6 @@
 package org.chocopy;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,9 @@ class ChocoPyClass implements ChocoPyCallable {
             case("int"): return 0;
             case("str"): return "";
             case("bool"): return false;
-            case("object"): return null;
+            case("object"): return new ChocoPyInstance(
+                    new ChocoPyClass("object", null, Collections.emptyMap(), Collections.emptyMap())
+            );
         }
         ChocoPyInstance instance = new ChocoPyInstance(this);
         ChocoPyFunction initializer = findMethod("__init__");

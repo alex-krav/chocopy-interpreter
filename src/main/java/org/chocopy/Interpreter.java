@@ -139,7 +139,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 if (left == null || right == null) {
                     ChocoPy.exitCode = 4;
                     throw new RuntimeError(expr.operator, 
-                            String.format("unsupported operand type(s) for +: '%s' and '%s'", expr.left.inferredType, expr.right.inferredType), 
+                            String.format("unsupported operand type(s) for +: '%s' and '%s'", 
+                                    left == null ? "<None>" : expr.left.inferredType, 
+                                    right == null ? "<None>" : expr.right.inferredType), 
                             "TypeError");
                 }
                 
