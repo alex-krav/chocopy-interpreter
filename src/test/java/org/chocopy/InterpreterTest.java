@@ -2,6 +2,7 @@ package org.chocopy;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -61,10 +62,11 @@ public class InterpreterTest {
         test(inputPath);
     }
 
+    @Disabled
     @Test
-    public void testOneFile() throws IOException {
-        Path resourcesPath = Paths.get("src","test/resources/interpreter/sample".split("/"));
-        Path inputPath = resourcesPath.resolve("call.py");
+    public void testTree() throws IOException {
+        Path resourcesPath = Paths.get("src","test/resources/interpreter/benchmark/tree".split("/"));
+        Path inputPath = resourcesPath.resolve("tree.py");
 
         test(inputPath);
     }

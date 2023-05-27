@@ -19,7 +19,7 @@ public class ChocoPy {
         if (args.length == 1) {
             runFile(args[0]);
         } else {
-            System.out.println("Usage: chocopy [script]");
+            System.out.println("Usage: java -jar chocopy.jar [script]");
             System.exit(64);
         }
     }
