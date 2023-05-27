@@ -25,7 +25,7 @@ public class ChocoPy {
                 System.exit(64);
             }
         } else {
-            System.out.println("Usage: java -jar chocopy.jar [script.py]");
+            System.out.println("Usage: java -jar chocopy.jar FILE.py");
             System.exit(64);
         }
     }
