@@ -112,7 +112,7 @@ statements:
                         elseBranch: []
               - statement:
                   class: Stmt.For
-                  identifier:
+                  id:
                     class: Expr.Variable
                     name: x
                   iterable:

@@ -519,7 +519,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
         level += 2;
         line(builder, "class", "Stmt.For");
-        lineSeparate(builder, "identifier", stmt.identifier.accept(this));
+        lineSeparate(builder, "id", stmt.id.accept(this));
         lineSeparate(builder, "iterable", stmt.iterable.accept(this));
         lineSeparate(builder, "body", stmt.body.accept(this));
         level -= 2;

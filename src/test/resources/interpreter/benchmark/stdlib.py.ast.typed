@@ -273,7 +273,7 @@ statements:
               value: true
         - statement:
             class: Stmt.For
-            identifier:
+            id:
               class: Expr.Variable
               inferredType: str
               name: char

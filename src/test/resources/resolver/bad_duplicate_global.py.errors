@@ -1,3 +1,3 @@
-[line 7] SyntaxError: duplicate declaration of identifier: 'foo'
-[line 11] SyntaxError: duplicate declaration of identifier: 'print'
-[line 15] SyntaxError: duplicate declaration of identifier: 'x'
+[line 7] SyntaxError: duplicate declaration of id: 'foo'
+[line 11] SyntaxError: duplicate declaration of id: 'print'
+[line 15] SyntaxError: duplicate declaration of id: 'x'

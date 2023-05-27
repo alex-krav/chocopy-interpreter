@@ -1,4 +1,4 @@
-[line 4] SyntaxError: unexpected token for function parameter identifier
+[line 4] SyntaxError: unexpected token for function parameter id
 [line 5] SyntaxError: expected expression
 [line 7] SyntaxError: expect 'newline' after simple statement
 [line 9] SyntaxError: expect function name

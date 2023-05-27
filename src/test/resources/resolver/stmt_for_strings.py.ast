@@ -8,7 +8,7 @@ statements:
         value: "Hello"
   - statement:
       class: Stmt.For
-      identifier:
+      id:
         class: Expr.Variable
         name: s
       iterable:

@@ -1,4 +1,4 @@
-[line 7] SyntaxError: duplicate declaration of identifier: 'x'
-[line 9] SyntaxError: duplicate declaration of identifier: 'y'
-[line 11] SyntaxError: duplicate declaration of identifier: 'x'
-[line 16] SyntaxError: duplicate declaration of identifier: 'x'
+[line 7] SyntaxError: duplicate declaration of id: 'x'
+[line 9] SyntaxError: duplicate declaration of id: 'y'
+[line 11] SyntaxError: duplicate declaration of id: 'x'
+[line 16] SyntaxError: duplicate declaration of id: 'x'

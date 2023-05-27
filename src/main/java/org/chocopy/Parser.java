@@ -194,7 +194,7 @@ class Parser {
             return self;
         }
 
-        if (match(IDENTIFIER)) {
+        if (match(ID)) {
             Expr.Variable variable = new Expr.Variable(previous());
             variable.line = previous().line;
             return variable;
@@ -376,7 +376,7 @@ class Parser {
                 expr = finishCall(expr);
                 expr.line = line;
             } else if (match(DOT)) {
-                Token name = consume(IDENTIFIER,
+                Token name = consume(ID,
                         "expect property name after '.'");
                 expr = new Expr.Get(expr, name);
                 expr.line = name.line;
@@ -399,7 +399,7 @@ class Parser {
         if (match(SELF)) {
             expr = new Expr.Self(previous());
             expr.line = previous().line;
-        } else if (match(IDENTIFIER)) {
+        } else if (match(ID)) {
             expr = new Expr.Variable(previous());
             expr.line = previous().line;
         }
@@ -409,7 +409,7 @@ class Parser {
 
     private Stmt declaration() {
         try {
-            if (checkTwo(IDENTIFIER, COLON)) return varDefinition("global variable");
+            if (checkTwo(ID, COLON)) return varDefinition("global variable");
             if (match(DEF)) return function("function");
             if (match(CLASS)) return classDefinition();
 
@@ -421,11 +421,11 @@ class Parser {
     }
 
     private Stmt classDefinition() {
-        Token name = consume(IDENTIFIER, "expect class name");
+        Token name = consume(ID, "expect class name");
         consume(LEFT_PAREN, "expect '(' after " + name.lexeme + " class name");
         Token superclass;
 
-        if (check(IDENTIFIER, OBJECT_TYPE)) {
+        if (check(ID, OBJECT_TYPE)) {
             superclass = consume(peek().type, "expect superclass name");
         } else {
             throw error(peek(), "expect superclass name", "SyntaxError");
@@ -456,7 +456,7 @@ class Parser {
             }
             return new Stmt.Pass(new Token(PASS, "pass", null, previous().line));
         }
-        if (check(IDENTIFIER)) return varDefinition("class field");
+        if (check(ID)) return varDefinition("class field");
         if (match(DEF)) return function("method");
 
         throw error(peek(), "unexpected token in " + className + " class body", "SyntaxError");
@@ -475,7 +475,7 @@ class Parser {
     }
     
     private Stmt.Var typedVarDeclaration(String kind) {
-        if (check(IDENTIFIER, SELF)) {
+        if (check(ID, SELF)) {
             Token name = consume(peek().type, "expect " + kind + " name");
             consume(COLON, "expect ':' after " + kind + " name");
             ValueType type = varType(kind);
@@ -484,11 +484,11 @@ class Parser {
             return var;
         }
 
-        throw error(peek(), "unexpected token for " + kind + " identifier", "SyntaxError");
+        throw error(peek(), "unexpected token for " + kind + " id", "SyntaxError");
     }
     
     private ValueType varType(String kind) {
-        if (check(IDENTIFIER, BOOL_TYPE, STR_TYPE, INT_TYPE, OBJECT_TYPE, IDSTRING)) {
+        if (check(ID, BOOL_TYPE, STR_TYPE, INT_TYPE, OBJECT_TYPE, IDSTRING)) {
             Token token = consume(peek().type, "expect " + kind + " type name");
             String type = token.lexeme.replaceAll("^\"|\"$", "");
             return switch (type) {
@@ -553,7 +553,7 @@ class Parser {
         try {
             if (match(GLOBAL)) return globalDeclaration();
             if (match(NONLOCAL)) return nonlocalDeclaration();
-            if (checkTwo(IDENTIFIER, COLON)) return varDefinition("function local variable");
+            if (checkTwo(ID, COLON)) return varDefinition("function local variable");
             if (match(DEF)) return function("inner function");
 
             return statement();
@@ -564,7 +564,7 @@ class Parser {
     }
 
     private Stmt globalDeclaration() {
-        Token name = consume(IDENTIFIER, "expect variable name");
+        Token name = consume(ID, "expect variable name");
         Stmt.Global global = new Stmt.Global(name);
         global.line = name.line;
         if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
@@ -574,7 +574,7 @@ class Parser {
     }
 
     private Stmt nonlocalDeclaration() {
-        Token name = consume(IDENTIFIER, "expect variable name");
+        Token name = consume(ID, "expect variable name");
         Stmt.Nonlocal nonlocal = new Stmt.Nonlocal(name);
         nonlocal.line = name.line;
         if (!isAtEnd() && !checkTwo(DEDENT, EOF) && !checkTwo(DEDENT, DEDENT)) {
@@ -657,14 +657,14 @@ class Parser {
     }
 
     private Stmt forStatement() {
-        Token identifier = consume(IDENTIFIER, "expect element name");
-        consume(IN, "expect 'in' after " + identifier.lexeme + " identifier");
+        Token id = consume(ID, "expect element name");
+        consume(IN, "expect 'in' after " + id.lexeme + " id");
         Expr iterable = expression();
         consume(COLON, "expect ':' after iterable");
         Stmt.Block body = block();
         
-        Stmt.For stmtFor = new Stmt.For(new Expr.Variable(identifier), iterable, body);
-        stmtFor.line = identifier.line;
+        Stmt.For stmtFor = new Stmt.For(new Expr.Variable(id), iterable, body);
+        stmtFor.line = id.line;
         return stmtFor;
     }
 
@@ -677,7 +677,7 @@ class Parser {
                 expr = finishCall(expr);
                 expr.line = line;
             } else if (match(DOT)) {
-                Token name = consume(IDENTIFIER,
+                Token name = consume(ID,
                         "expect property name after '.'");
                 expr = new Expr.Get(expr, name);
                 expr.line = name.line;
@@ -713,7 +713,7 @@ class Parser {
 
     private Stmt.Function function(String kind) {
         Token name;
-        if (check(IDENTIFIER, INPUT_NATIVE_FUN, LEN_NATIVE_FUN, PRINT_NATIVE_FUN)) {
+        if (check(ID, INPUT_NATIVE_FUN, LEN_NATIVE_FUN, PRINT_NATIVE_FUN)) {
             name = consume(peek().type, "expect " + kind + " name");
         } else {
             throw error(peek(), "expect " + kind + " name", "SyntaxError");

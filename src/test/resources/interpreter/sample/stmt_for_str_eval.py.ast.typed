@@ -17,7 +17,7 @@ statements:
         value: "abc"
   - statement:
       class: Stmt.For
-      identifier:
+      id:
         class: Expr.Variable
         inferredType: str
         name: x

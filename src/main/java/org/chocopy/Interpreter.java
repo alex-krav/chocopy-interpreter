@@ -614,13 +614,13 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         if (iterableObject instanceof List) {
             List list = (List) iterableObject;
             for (Object value : list) {
-                updateVariable(stmt.identifier.name, value);
+                updateVariable(stmt.id.name, value);
                 stmt.body.accept(this);
             }
         } else if (iterableObject instanceof String) {
             String str = (String) iterableObject;
             for (int i = 0; i < str.length(); i++) {
-                updateVariable(stmt.identifier.name, String.valueOf(str.charAt(i)));
+                updateVariable(stmt.id.name, String.valueOf(str.charAt(i)));
                 stmt.body.accept(this);
             }
         }

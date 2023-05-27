@@ -157,8 +157,8 @@ abstract class Stmt {
     }
 
     static class For extends Stmt {
-        For(Expr.Variable identifier, Expr iterable, Stmt body) {
-            this.identifier = identifier;
+        For(Expr.Variable id, Expr iterable, Stmt body) {
+            this.id = id;
             this.iterable = iterable;
             this.body = body;
         }
@@ -168,7 +168,7 @@ abstract class Stmt {
             return visitor.visitForStmt(this);
         }
 
-        final Expr.Variable identifier;
+        final Expr.Variable id;
         final Expr iterable;
         final Stmt body;
     }

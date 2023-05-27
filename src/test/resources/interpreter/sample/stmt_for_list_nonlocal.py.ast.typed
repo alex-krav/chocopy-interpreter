@@ -40,7 +40,7 @@ statements:
                   name: z
               - statement:
                   class: Stmt.For
-                  identifier:
+                  id:
                     class: Expr.Variable
                     inferredType: [int]
                     name: z
@@ -63,7 +63,7 @@ statements:
               arguments: []
         - statement:
             class: Stmt.For
-            identifier:
+            id:
               class: Expr.Variable
               inferredType: int
               name: x

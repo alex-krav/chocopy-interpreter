@@ -39,7 +39,7 @@ class Token {
             case LESS -> LESS + " <";
             case LESS_EQUAL -> LESS_EQUAL + " <=";
             case ARROW -> ARROW + " ->";
-            case IDENTIFIER -> IDENTIFIER + " " + lexeme;
+            case ID -> ID + " " + lexeme;
             case NUMBER -> NUMBER + " " + lexeme;
             case STRING -> STRING + " \"" + literal + "\"";
             case IDSTRING -> IDSTRING + " \"" + literal + "\"";

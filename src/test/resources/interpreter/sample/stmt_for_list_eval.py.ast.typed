@@ -42,7 +42,7 @@ statements:
                 value: 3
   - statement:
       class: Stmt.For
-      identifier:
+      id:
         class: Expr.Variable
         inferredType: int
         name: x

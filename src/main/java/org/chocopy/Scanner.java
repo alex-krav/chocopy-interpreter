@@ -172,7 +172,7 @@ class Scanner {
                 if (isDigit(c)) {
                     number();
                 } else if (isAlpha(c)) {
-                    identifier();
+                    id();
                 } else {
                     ChocoPy.error(line, "invalid syntax", "SyntaxError");
                 }
@@ -350,7 +350,7 @@ class Scanner {
         return source.charAt(current + 1);
     }
 
-    private void identifier() {
+    private void id() {
         while (isAlphaNumeric(peek())) advance();
 
         String text = source.substring(start, current);
@@ -361,7 +361,7 @@ class Scanner {
                     ChocoPy.error(line, String.format("'%s' keyword is reserved", text), "SyntaxError");
                 }
             }
-            type = IDENTIFIER;
+            type = ID;
         }
         addToken(type);
     }

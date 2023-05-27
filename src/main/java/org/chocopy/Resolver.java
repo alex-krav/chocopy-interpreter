@@ -558,7 +558,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", className), "SyntaxError");
                 stmt.resolverStage = ERROR;
             } else if (scopes.peek().containsKey(className)) {
-                ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", stmt.name.lexeme), "SyntaxError");
+                ChocoPy.error(stmt.name, String.format("duplicate declaration of id: '%s'", stmt.name.lexeme), "SyntaxError");
                 stmt.resolverStage = ERROR;
             }
 
@@ -600,7 +600,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                     if (classes.containsKey(className)
                             && (classes.get(className).methods.containsKey(methodName)
                             || classes.get(className).attrs.containsKey(methodName))) {
-                        ChocoPy.error(method.name, String.format("duplicate declaration of identifier: '%s'", methodName), "SyntaxError");
+                        ChocoPy.error(method.name, String.format("duplicate declaration of id: '%s'", methodName), "SyntaxError");
                         method.resolverStage = ERROR;
                         continue;
                     }
@@ -751,7 +751,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         return scopes.get(0).get(var);
     }
     
-    // get the type of an identifier outside the current scope, or None if not found
+    // get the type of an id outside the current scope, or None if not found
     // ignore global variables
     private ValueType getNonLocalType(String var) {
         int scopesLen = scopes.size();
@@ -822,7 +822,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 stmt.resolverStage = ERROR;
                 return null;
             } else if (definedInCurrentScope(functionName)) {
-                ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", functionName), "SyntaxError");
+                ChocoPy.error(stmt.name, String.format("duplicate declaration of id: '%s'", functionName), "SyntaxError");
                 stmt.resolverStage = ERROR;
                 return null;
             }
@@ -851,7 +851,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 function.resolverStage = ERROR;
 //                return;
             } else if (definedInCurrentScope(functionName)) {
-                ChocoPy.error(function.name, "duplicate declaration of identifier " + functionName, "SyntaxError");
+                ChocoPy.error(function.name, "duplicate declaration of id " + functionName, "SyntaxError");
                 function.resolverStage = ERROR;
 //                return;
             }
@@ -875,7 +875,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                 function.resolverStage = ERROR;
                 continue;
             } else if (scopes.peek().containsKey(param.name.lexeme)) {
-                ChocoPy.error(param.name, String.format("duplicate declaration of identifier: '%s'", param.name.lexeme), "SyntaxError");
+                ChocoPy.error(param.name, String.format("duplicate declaration of id: '%s'", param.name.lexeme), "SyntaxError");
                 function.resolverStage = ERROR;
                 continue;
             }
@@ -1051,7 +1051,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             ChocoPy.error(stmt.name, String.format("cannot shadow class name: '%s'", varName), "SyntaxError");
             stmt.resolverStage = ERROR;
         } else if (scopes.peek().containsKey(varName)) {
-            ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", varName), "SyntaxError");
+            ChocoPy.error(stmt.name, String.format("duplicate declaration of id: '%s'", varName), "SyntaxError");
             stmt.resolverStage = ERROR;
         }
         if (!isTypeDefined(stmt.type)) {
@@ -1126,7 +1126,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             return null;
         }
         
-        resolve(stmt.identifier);
+        resolve(stmt.id);
         resolve(stmt.iterable);
         for (Stmt statement : ((Stmt.Block) stmt.body).statements) {
             statement.resolverStage = stmt.resolverStage;
@@ -1136,23 +1136,23 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         ValueType iterableType = stmt.iterable.inferredType;
         if (iterableType instanceof ListValueType) {
             ValueType elementType = ((ListValueType) iterableType).getElementType();
-            if (!canAssign(elementType, stmt.identifier.inferredType)) {
-                ChocoPy.error(stmt.identifier.line, 
-                        String.format("expected type '%s', got type '%s'", elementType, stmt.identifier.inferredType), 
+            if (!canAssign(elementType, stmt.id.inferredType)) {
+                ChocoPy.error(stmt.id.line, 
+                        String.format("expected type '%s', got type '%s'", elementType, stmt.id.inferredType), 
                         "TypeError");
                 stmt.resolverStage = ERROR;
                 return null;
             }
         } else if (iterableType instanceof StrType) {
-            if (!canAssign(iterableType, stmt.identifier.inferredType)) {
-                ChocoPy.error(stmt.identifier.line, 
-                        String.format("expected type 'str', got type '%s'", stmt.identifier.inferredType), 
+            if (!canAssign(iterableType, stmt.id.inferredType)) {
+                ChocoPy.error(stmt.id.line, 
+                        String.format("expected type 'str', got type '%s'", stmt.id.inferredType), 
                         "TypeError");
                 stmt.resolverStage = ERROR;
                 return null;
             }
         } else {
-            ChocoPy.error(stmt.identifier.line, 
+            ChocoPy.error(stmt.id.line, 
                     String.format("expected type 'list' or 'str', got type '%s'", stmt.iterable.inferredType), 
                     "TypeError");
             stmt.resolverStage = ERROR;
@@ -1189,7 +1189,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             stmt.resolverStage = ERROR;
             return null;
         } else if (scopes.peek().containsKey(stmt.name.lexeme)) {
-            ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", stmt.name.lexeme), "SyntaxError");
+            ChocoPy.error(stmt.name, String.format("duplicate declaration of id: '%s'", stmt.name.lexeme), "SyntaxError");
             stmt.resolverStage = ERROR;
             return null;
         }
@@ -1255,7 +1255,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             stmt.resolverStage = ERROR;
             return null;
         } else if (scopes.peek().containsKey(stmt.name.lexeme)) {
-            ChocoPy.error(stmt.name, String.format("duplicate declaration of identifier: '%s'", stmt.name.lexeme), "SyntaxError");
+            ChocoPy.error(stmt.name, String.format("duplicate declaration of id: '%s'", stmt.name.lexeme), "SyntaxError");
             stmt.resolverStage = ERROR;
             return null;
         }

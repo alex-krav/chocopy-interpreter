@@ -839,7 +839,7 @@ statements:
           name: size
   - statement:
       class: Stmt.For
-      identifier:
+      id:
         class: Expr.Variable
         inferredType: int
         name: i

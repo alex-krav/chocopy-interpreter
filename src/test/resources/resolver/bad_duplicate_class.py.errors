@@ -1,2 +1,2 @@
 [line 7] SyntaxError: cannot shadow class name: 'A'
-[line 11] SyntaxError: duplicate declaration of identifier: 'z'
+[line 11] SyntaxError: duplicate declaration of id: 'z'

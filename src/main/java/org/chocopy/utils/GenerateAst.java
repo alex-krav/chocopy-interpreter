@@ -44,7 +44,7 @@ public class GenerateAst {
                 "Return     : Token keyword, Expr value, ValueType expectedType",
                 "Var        : Token name, ValueType type, Expr initializer",
                 "While      : Expr condition, Stmt body",
-                "For        : Expr.Variable identifier, Expr iterable, Stmt body",
+                "For        : Expr.Variable id, Expr iterable, Stmt body",
                 "Pass       : Token keyword",
                 "Global     : Token name",
                 "Nonlocal   : Token name"
