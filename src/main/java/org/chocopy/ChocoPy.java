@@ -17,9 +17,15 @@ public class ChocoPy {
 
     public static void main(String[] args) throws IOException {
         if (args.length == 1) {
-            runFile(args[0]);
+            String filename = args[0];
+            if (filename.endsWith(".py")) {
+                runFile(filename);
+            } else {
+                System.out.println("Only .py files allowed as arguments");
+                System.exit(64);
+            }
         } else {
-            System.out.println("Usage: java -jar chocopy.jar [script]");
+            System.out.println("Usage: java -jar chocopy.jar [script.py]");
             System.exit(64);
         }
     }
