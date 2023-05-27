@@ -119,7 +119,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         switch (expr.operator.type) {
             case BANG_EQUAL: return !isEqual(left, right);
             case EQUAL_EQUAL: return isEqual(left, right);
-            case IS: return isEqual(left, right);
+            case IS: return left == right;
             case GREATER:
                 checkNumberOperands(expr, left, right);
                 return (int)left > (int)right;
