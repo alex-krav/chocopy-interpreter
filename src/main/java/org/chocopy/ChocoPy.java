@@ -34,7 +34,6 @@ public class ChocoPy {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
         run(new String(bytes, Charset.defaultCharset()));
 
-        // Indicate an error in the exit code.
         if (hadError) {
             errors.forEach(System.err::println);
             System.exit(exitCode != null ? exitCode : 65);
@@ -52,13 +51,11 @@ public class ChocoPy {
         Parser parser = new Parser(tokens);
         List<Stmt> statements = parser.parse();
 
-        // Stop if there was a syntax error.
         if (hadError) return;
 
         Resolver resolver = new Resolver();
         resolver.resolveScript(statements);
 
-        // Stop if there was a resolution error.
         if (hadError) return;
 
         interpreter.interpret(statements);

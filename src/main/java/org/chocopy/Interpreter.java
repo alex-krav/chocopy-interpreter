@@ -101,9 +101,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         ChocoPyFunction strConstructor = new ChocoPyFunction(strInitFunction, environment, true);
         ChocoPyClass strClass = new ChocoPyClass("str", objectClass, Collections.singletonMap("__init__", strConstructor), Collections.emptyMap());
         globals.define("str", strClass);
-        
-//        globals.define("<None>", new ClassInfo("<None>", "object"));
-//        globals.define("<Empty>", new ClassInfo("<Empty>", "object"));
     }
 
     @Override
@@ -183,7 +180,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 return (int)left * (int)right;
         }
 
-        // Unreachable.
         return null;
     }
 
@@ -363,7 +359,6 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
             return !(boolean) right;
         }
 
-        // Unreachable.
         return null;
     }
 

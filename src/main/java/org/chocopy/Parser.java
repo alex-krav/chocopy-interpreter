@@ -10,8 +10,6 @@ class Parser {
 
     private final List<Token> tokens;
     private int current = 0;
-    private int tokenBeforeAssignment = 0;
-    private int tokenBeforeRightValue = 0;
 
     Parser(List<Token> tokens) {
         this.tokens = tokens;
@@ -332,14 +330,14 @@ class Parser {
     private Stmt assignment() {
         List<Expr> targets = new ArrayList<>();
 
-        tokenBeforeAssignment = current;
+        int tokenBeforeAssignment = current;
         Expr target = target();
         if (target != null) {
             if (match(EQUAL)) {
                 Token equals = previous();
                 targets.add(target);
                 
-                tokenBeforeRightValue = current;
+                int tokenBeforeRightValue = current;
                 target = target();
                 while (target != null) {
                     if (match(EQUAL)) {

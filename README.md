@@ -1,12 +1,12 @@
 # chocopy-interpreter
 
-An interpreter for [Chocopy](https://chocopy.org/), a subset of Python 3.6 with type annotations and static type checking. This project is just for fun 😂
+An interpreter for [ChocoPy](https://chocopy.org/), a Python 3.6 subset with static type checking and type annotations.
 
 ## Features
 
 Source code is analyzed in a single-pass. However, semantic analysis has two passes over AST: first for definitions and second for statements.
 
-## Requirements
+## Prerequisites
 - Java 17
 - Maven 3
 

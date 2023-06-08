@@ -14,10 +14,6 @@ class RuntimeError extends RuntimeException {
         this.errorType = errorType;
     }
 
-    RuntimeError(int line, String message) {
-        this(line, message, "RuntimeError");
-    }
-
     RuntimeError(int line, String message, String errorType) {
         super(message);
         this.line = line;

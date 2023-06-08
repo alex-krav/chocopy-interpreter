@@ -63,7 +63,6 @@ class Scanner {
 
     List<Token> scanTokens() {
         while (!isAtEnd()) {
-            // We are at the beginning of the next lexeme.
             start = current;
             scanToken();
         }
@@ -144,7 +143,6 @@ class Scanner {
             case ' ':
             case '\t':
                 if (!lineStart) {
-                    // ignore not leading spaces
                     break;
                 }
                 if (c == ' ') {
@@ -284,10 +282,8 @@ class Scanner {
             return;
         }
 
-        // The closing \".
         advance();
 
-        // Trim the surrounding quotes.
         String value = source.substring(start + 1, current - 1);
         value = value.replace("\\\\", "\\");
         value = value.replace("\\n", "\n");

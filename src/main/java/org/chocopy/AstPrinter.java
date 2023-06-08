@@ -7,22 +7,6 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
     private final String TAB = "  ";
     private int level = 0;
 
-    public static void main(String[] args) {
-        Expr expression = new Expr.Binary(
-                new Expr.Unary(
-                        new Token(TokenType.MINUS, "-", null, 1),
-                        new Expr.Literal(123)),
-                new Token(TokenType.STAR, "*", null, 1),
-                new Expr.Grouping(
-                        new Expr.Literal(45.67)));
-
-        System.out.println(new AstPrinter().print(expression));
-    }
-
-    String print(Expr expr) {
-        return expr.accept(this);
-    }
-
     @Override
     public String visitAssignExpr(Expr.Assign expr) {
         return expr.target.accept(this) + "\n";
@@ -276,25 +260,6 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         return builder.toString();
     }
 
-    private void transform(StringBuilder builder, Object... parts) {
-        for (Object part : parts) {
-            builder.append(" ");
-            if (part instanceof Expr) {
-                builder.append(((Expr)part).accept(this));
-//> Statements and State omit
-            } else if (part instanceof Stmt) {
-                builder.append(((Stmt) part).accept(this));
-//< Statements and State omit
-            } else if (part instanceof Token) {
-                builder.append(((Token) part).lexeme);
-            } else if (part instanceof List) {
-                transform(builder, ((List) part).toArray());
-            } else {
-                builder.append(part);
-            }
-        }
-    }
-
     @Override
     public String visitBlockStmt(Stmt.Block stmt) {
         StringBuilder builder = new StringBuilder();
@@ -302,7 +267,6 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
         level += 1;
         for (Stmt statement : stmt.statements) {
             builder.append(print(statement));
-//            builder.append(tabs()); builder.append(statement.accept(this)); builder.append("\n");
         }
         level -= 1;
 
@@ -350,7 +314,6 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
             level += 1;
         }
 
-//        level += 2;
         if (stmt instanceof Stmt.Block) {
             for (Stmt statement : ((Stmt.Block) stmt).statements) {
                 builder.append(print(statement));

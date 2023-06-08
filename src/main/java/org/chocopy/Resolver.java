@@ -9,12 +9,12 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private final Stack<Map<String, ValueType>> scopes = new Stack<>();
     private final Map<String, ClassInfo> classes = new HashMap<>();
     private FunctionType currentFunction = FunctionType.NONE;
-    private Set<Integer> targetCounters = new HashSet<>();
+    private final Set<Integer> targetCounters = new HashSet<>();
     private int targetCounter = 1;
 
-    private static int DECLARATIONS = 0;
-    private static int STATEMENTS = 1;
-    private static int ERROR = 2;
+    private static final int DECLARATIONS = 0;
+    private static final int STATEMENTS = 1;
+    private static final int ERROR = 2;
 
     Resolver() {}
 
@@ -357,10 +357,8 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         }
         
         if (expr.listing.inferredType instanceof StrType) {
-            // indexing into a string returns a new string
             expr.inferredType = new StrType();
         } else if (expr.listing.inferredType instanceof ListValueType) {
-            // indexing into a list of type T returns a value of type T
             ListValueType listingType = (ListValueType) expr.listing.inferredType;
             expr.inferredType = listingType.getElementType();
         } else {
@@ -592,11 +590,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                     String methodName = method.name.lexeme;
                     FuncType methodType = getSignature(method);
 
-//                    FunctionType declaration = FunctionType.METHOD;
-//                    if (methodName.equals("__init__")) {
-//                        declaration = FunctionType.INITIALIZER;
-//                    }
-
                     if (classes.containsKey(className)
                             && (classes.get(className).methods.containsKey(methodName)
                             || classes.get(className).attrs.containsKey(methodName))) {
@@ -622,7 +615,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                     classes.get(className).methods.put(methodName, methodType);
                     declare(method.name);
                     define(method.name, methodType);
-//                    resolveFunction(method, declaration);
                 } else if (member instanceof Stmt.Var) {
                     Stmt.Var attr = (Stmt.Var)member;
                     String attrName = attr.name.lexeme;
@@ -723,8 +715,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         }
     }
     
-    // returns type of attribute or method
-    // requires className to be the name of a valid class
     private ValueType getAttrOrMethod(String className, String name) {
         if (classes.containsKey(className)) {
             if (classes.get(className).methods.containsKey(name)) {
@@ -742,7 +732,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         }
     }
     
-    // return if the name was defined in the current scope
     private boolean definedInCurrentScope(String var) {
         return scopes.peek().get(var) != null;
     }
@@ -751,8 +740,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         return scopes.get(0).get(var);
     }
     
-    // get the type of an id outside the current scope, or None if not found
-    // ignore global variables
     private ValueType getNonLocalType(String var) {
         int scopesLen = scopes.size();
         if (scopesLen < 3) {
@@ -849,11 +836,9 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             if (classExists(functionName)) {
                 ChocoPy.error(function.name, "functions can't shadow classes: " + functionName, "SyntaxError");
                 function.resolverStage = ERROR;
-//                return;
             } else if (definedInCurrentScope(functionName)) {
                 ChocoPy.error(function.name, "duplicate declaration of id " + functionName, "SyntaxError");
                 function.resolverStage = ERROR;
-//                return;
             }
         } else if (type == FunctionType.METHOD || type == FunctionType.INITIALIZER) {
             if (function.params.size() == 0 
@@ -862,7 +847,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
                     || !((ClassValueType) funcType.getParameters().get(0)).getClassName().equals(currentClassName)) {
                 ChocoPy.error(function.name, String.format("missing 'self' param in method: '%s'", functionName), "SyntaxError");
                 function.resolverStage = ERROR;
-//                return;
             }
         }
         
@@ -942,8 +926,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(stmt.thenBranch);
         if (stmt.elseBranch != null) resolve(stmt.elseBranch);
         
-        // isReturn=True if there's >=1 statement in BOTH branches that have isReturn=True
-        // if a branch is empty, isReturn=False
         stmt.isReturn = stmt.thenBranch.isReturn && (stmt.elseBranch != null && stmt.elseBranch.isReturn);
         return null;
     }
@@ -1274,7 +1256,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         return null;
     }
     
-    // return if value of type a can be assigned/passed to type b (ex: b = a)
     private boolean canAssign(ValueType a, ValueType b) {
         if (isSubtype(a, b)) {
             return true;
@@ -1295,7 +1276,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         return false;
     }
     
-    // return if a is subtype of b
     private boolean isSubtype(ValueType a, ValueType b) {
         if (b instanceof ObjectType) {
             return true;
@@ -1308,8 +1288,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         return a.equals(b);
     }
 
-    // requires a and b to be the names of valid classes
-    // return if a is the same class or subclass of b
     private boolean isSubClass(String a, String  b) {
         String current = a;
         while (current != null && !current.equals("<None>")) {
@@ -1322,7 +1300,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         return false;
     }
 
-    // return closest mutual ancestor on typing tree
     private ValueType join(ValueType a, ValueType b) {
         if (canAssign(a, b)) {
             return b;
@@ -1335,13 +1312,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             ValueType bElementType = ((ListValueType) b).getElementType();
             return new ListValueType(join(bElementType, aElementType));
         }
-        // if only 1 of the types is a list then the closest ancestor is object
         if (b instanceof ListValueType || a instanceof ListValueType) {
             return new ObjectType();
         }
         
-        // for 2 classes that aren't related by subtyping
-        // find paths from A & B to root of typing tree
         String aClassName = ((ClassValueType) a).getClassName();
         String bClassName = ((ClassValueType) b).getClassName();
         List<String> aAncestors = new ArrayList<>();
@@ -1365,7 +1339,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             bClassName = superclass;
         }
                     
-        // reverse lists to find the lowest common ancestor
         Collections.reverse(aAncestors);
         Collections.reverse(bAncestors);
         
@@ -1375,12 +1348,9 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
             }
         }
         
-        // this really shouldn't be returned
-        return new ObjectType();    
+        return new ObjectType();
     }
     
-    // returns type of attribute
-    // requires className to be the name of a valid class
     private ValueType getAttr(String className, String attrName) {
         if (classes.containsKey(className)) {
             if (!classes.get(className).attrs.containsKey(attrName)) {
